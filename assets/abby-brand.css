@@ -1,0 +1,132 @@
+/* ==========================================================
+   Abby 陪你簡單用 AI｜品牌 CSS（2026-10-23 定稿）
+   用法：<link rel="stylesheet" href="abby-brand.css">
+   字型另外載入：
+   https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Lexend:wght@400;600;700&display=swap
+   ========================================================== */
+
+:root{
+  /* 色彩 */
+  --abby-indigo:#3B3486;        /* 主色：Logo、標題、主要按鈕 */
+  --abby-indigo-hover:#2E2870;
+  --abby-ink:#1C1F33;           /* 文字 */
+  --abby-muted:#5B5E73;         /* 次要文字 */
+  --abby-line:#E3E3EC;          /* 分隔線、框線 */
+  --abby-bg:#FFFFFF;            /* 底色 */
+  --abby-bg-alt:#FAFAFC;        /* 區塊交替底色 */
+  --abby-lav:#B9B3E3;           /* 薰衣草：Logo 小人、插圖 */
+  --abby-lav-soft:#E6E3F7;      /* 淡薰衣草：卡片、提示框底色 */
+  --abby-apricot:#F4B48C;       /* 杏桃：重點，只放墨藍字 */
+  --abby-apricot-strong:#E39A6E;/* 杏桃按鈕底色（2026-10-23 定案，墨藍字對比 7.1） */
+  --abby-apricot-soft:#FDE9DC;  /* 淡杏桃：標記底色 */
+  --abby-apricot-ink:#A4552A;   /* 杏桃色的字（白底上用） */
+  --abby-success:#2F7D5B;
+  --abby-error:#B3261E;
+  --abby-on-primary:#FFFFFF;
+
+  /* 字型 */
+  --abby-font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --abby-font-num:"Lexend","Noto Sans TC",sans-serif;   /* 數字、英文標題 */
+
+  /* 字級（px／行高） */
+  --abby-h1:clamp(30px,4.6vw,44px);
+  --abby-h2:clamp(24px,3.4vw,30px);
+  --abby-h3:20px;
+  --abby-body:16px;
+  --abby-small:14px;
+  --abby-caption:13px;
+
+  /* 間距（4 的倍數） */
+  --abby-s1:4px;--abby-s2:8px;--abby-s3:12px;--abby-s4:16px;--abby-s5:24px;--abby-s6:32px;--abby-s7:48px;--abby-s8:64px;
+
+  /* 圓角與陰影 */
+  --abby-r-sm:8px;--abby-r-md:12px;--abby-r-lg:16px;--abby-r-pill:999px;
+  --abby-shadow-1:0 1px 2px rgba(28,31,51,.06),0 2px 8px rgba(28,31,51,.05);
+  --abby-shadow-2:0 8px 24px rgba(28,31,51,.10);
+
+  color-scheme:light;
+}
+
+/* 深色模式：主色改用薰衣草，按鈕文字改深色 */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --abby-indigo:#B9B3E3;--abby-indigo-hover:#CFCAEE;--abby-on-primary:#14162A;
+    --abby-ink:#ECECF4;--abby-muted:#A9ABC0;--abby-line:#2C3048;
+    --abby-bg:#14162A;--abby-bg-alt:#1C1F33;--abby-lav-soft:#26294A;
+    --abby-apricot-soft:#3A2B2A;--abby-apricot-ink:#F4B48C;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --abby-indigo:#B9B3E3;--abby-indigo-hover:#CFCAEE;--abby-on-primary:#14162A;
+  --abby-ink:#ECECF4;--abby-muted:#A9ABC0;--abby-line:#2C3048;
+  --abby-bg:#14162A;--abby-bg-alt:#1C1F33;--abby-lav-soft:#26294A;
+  --abby-apricot-soft:#3A2B2A;--abby-apricot-ink:#F4B48C;
+  color-scheme:dark;
+}
+
+/* ---------- 基礎 ---------- */
+.abby{font-family:var(--abby-font);font-size:var(--abby-body);line-height:1.75;color:var(--abby-ink);background:var(--abby-bg);-webkit-text-size-adjust:100%}
+.abby *,.abby *::before,.abby *::after{box-sizing:border-box}
+.abby ::selection{background:var(--abby-lav-soft);color:var(--abby-ink)}
+/* 基礎樣式用 :where() 降低優先順序，元件與自訂樣式一定蓋得過 */
+:where(.abby) :where(h1,h2,h3){color:var(--abby-ink);text-wrap:balance;margin:0}
+:where(.abby) :where(h1){font-size:var(--abby-h1);font-weight:900;line-height:1.25}
+:where(.abby) :where(h2){font-size:var(--abby-h2);font-weight:900;line-height:1.3}
+:where(.abby) :where(h3){font-size:var(--abby-h3);font-weight:700;line-height:1.4}
+:where(.abby) :where(p){margin:0 0 1em;max-width:68ch}
+:where(.abby) :where(a){color:var(--abby-indigo);text-underline-offset:4px;text-decoration-thickness:1.5px}
+.abby :focus-visible{outline:2px solid var(--abby-indigo);outline-offset:3px}
+.abby .num{font-family:var(--abby-font-num);font-variant-numeric:tabular-nums}
+.abby .hl{color:var(--abby-indigo)}
+.abby .mark{background:linear-gradient(transparent 60%,var(--abby-apricot-soft) 60%);padding:0 .1em}
+
+/* ---------- 按鈕 ---------- */
+.abby-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;font-size:15px;line-height:1.2;text-decoration:none;border:1.5px solid transparent;border-radius:var(--abby-r-sm);padding:11px 22px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.abby-btn-primary{background:var(--abby-indigo);color:var(--abby-on-primary)}
+.abby-btn-primary:hover{background:var(--abby-indigo-hover)}
+.abby-btn-secondary{background:transparent;color:var(--abby-indigo);border-color:var(--abby-indigo)}
+.abby-btn-secondary:hover{background:var(--abby-lav-soft)}
+.abby-btn-accent{background:var(--abby-apricot-strong);color:#1C1F33}   /* 杏桃按鈕：一頁最多一個 */
+.abby-btn-accent:hover{background:#D98C5C}
+.abby-btn:disabled,.abby-btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+
+/* ---------- 卡片、標籤、提示 ---------- */
+.abby-card{background:var(--abby-bg);border:1px solid var(--abby-line);border-radius:var(--abby-r-md);padding:var(--abby-s5);box-shadow:var(--abby-shadow-1)}
+.abby-tag{display:inline-block;font-size:var(--abby-caption);font-weight:500;line-height:1.4;padding:2px 10px;border-radius:var(--abby-r-pill);background:var(--abby-lav-soft);color:var(--abby-indigo)}
+.abby-tag-warm{background:var(--abby-apricot-soft);color:var(--abby-apricot-ink)}
+.abby-callout{background:var(--abby-lav-soft);border-radius:var(--abby-r-md);padding:var(--abby-s4) var(--abby-s5)}
+.abby-callout > b:first-child{display:block;color:var(--abby-indigo);margin-bottom:4px}
+
+/* Abby 小提醒（IP 人物出場的唯一固定位置之一） */
+.abby-tip{display:flex;gap:var(--abby-s4);align-items:flex-end;background:var(--abby-lav-soft);border-radius:var(--abby-r-lg);padding:var(--abby-s4) var(--abby-s5) 0}
+.abby-tip img{width:72px;height:auto;flex:none;display:block}
+.abby-tip > div{padding-bottom:var(--abby-s4)}
+.abby-tip b{display:block;color:var(--abby-indigo)}
+
+/* ---------- 步驟 ---------- */
+.abby-steps{list-style:none;margin:0;padding:0;counter-reset:s;display:grid;gap:var(--abby-s4)}
+.abby-steps li{counter-increment:s;display:grid;grid-template-columns:36px 1fr;gap:var(--abby-s3);align-items:start}
+.abby-steps li::before{content:counter(s);display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--abby-apricot);color:#1C1F33;font-family:var(--abby-font-num);font-weight:700}
+
+/* ---------- 表格 ---------- */
+.abby-table{border-collapse:collapse;width:100%;font-size:15px}
+.abby-table th,.abby-table td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--abby-line)}
+.abby-table th{font-size:var(--abby-caption);font-weight:500;color:var(--abby-muted);background:var(--abby-bg-alt)}
+.abby-table td.num{text-align:right}
+
+/* ---------- 署名卡（教材、網頁結尾） ---------- */
+.abby-signature{display:flex;align-items:center;justify-content:space-between;gap:var(--abby-s5);background:var(--abby-bg-alt);border:1px solid var(--abby-line);border-radius:var(--abby-r-lg);padding:var(--abby-s5)}
+.abby-signature .lk{display:flex;align-items:center;gap:var(--abby-s3)}
+.abby-signature .lk img{width:48px;height:48px;flex:none}
+.abby-signature .n1{font-weight:900;font-size:18px;line-height:1.25}
+.abby-signature .n2{font-size:var(--abby-small);color:var(--abby-muted)}
+.abby-signature .tagline{font-weight:700;color:var(--abby-indigo);font-size:15px}
+.abby-signature .side{display:flex;align-items:center;gap:6px}
+.abby-fb{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--abby-indigo);transition:background .2s}
+.abby-fb:hover{background:var(--abby-lav-soft)}
+.abby-fb svg{width:24px;height:24px;fill:currentColor}
+
+@media (max-width:640px){.abby-signature{flex-direction:column;align-items:flex-start}}
+
+@media (prefers-reduced-motion:reduce){.abby *{transition:none!important;animation:none!important}}

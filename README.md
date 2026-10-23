@@ -1,6 +1,6 @@
-# Abby AI 教學研習
+# Abby 陪你簡單用 AI
 
-曹乃心 Abby｜AI 教學應用研習講師的個人網站：課程清單、計畫書範本、研習邀請表單與常見問題。
+曹乃心 Abby｜AI 教學應用研習講師的個人網站：教學卡點、帶法、已開設的研習、專業服務、常見問題與研習需求表單。
 
 網站：https://abbyleme-dev.github.io/abby-ai-simple/
 
