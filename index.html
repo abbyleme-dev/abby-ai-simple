@@ -139,8 +139,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .pain .go{margin-top:auto;font-size:14px;font-weight:700;color:var(--abby-indigo)}
 .note{margin:0;color:var(--abby-muted);font-size:15px;line-height:1.9}
 .note b{color:var(--abby-ink)}
-.note-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
-.pain-ask{display:inline-flex;align-items:center;font-weight:700;font-size:14px;color:var(--abby-indigo);background:var(--abby-bg);border:1.5px solid var(--abby-indigo);border-radius:var(--abby-r-pill);padding:7px 16px;text-decoration:none;transition:background .2s,color .2s}
+.note .nq{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.pain-ask{display:inline-flex;align-items:center;font-weight:700;font-size:13px;line-height:1.4;color:var(--abby-indigo);background:var(--abby-bg);border:1px solid var(--abby-indigo);border-radius:var(--abby-r-pill);padding:2px 10px;text-decoration:none;transition:background .2s,color .2s}
 .pain-ask:hover{background:var(--abby-indigo);color:var(--abby-on-primary)}
 .pains-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;margin-top:28px}
 .pains-foot .tools-note{margin:0 0 0 auto;flex-direction:column;align-items:flex-end;gap:6px;color:var(--abby-muted);text-align:right}
@@ -406,10 +406,7 @@ dialog[open]::backdrop{animation:dim-in .2s ease}
         <button type="button" class="pain" data-open="08"><span class="q"><span class="ph">「通知、紀錄、成果報告，</span><span class="ph">每次都從頭寫起。」</span></span><span class="get"><b>帶走：</b>一個幫你處理重複工作的 AI 助手</span><span class="now"><span class="tl">Gemini</span><span class="tl">Claude</span><span class="tl">ChatGPT</span></span><span class="go">教師 AI 助手 →</span></button>
       </div>
       <div class="pains-foot">
-        <div class="note-wrap">
-          <p class="note"><b>沒看到你的卡點？</b><br>在研習需求裡告訴我，一起規劃。</p>
-          <a class="pain-ask" href="https://docs.google.com/forms/d/e/1FAIpQLSelDSIhn2wkbEswcqYZicAkv9hQ6z6HVSE5LNysUL6bOfQlZg/viewform" target="_blank" rel="noopener">告訴我你的困擾 →</a>
-        </div>
+        <p class="note"><span class="nq"><b>沒看到你的卡點？</b><a class="pain-ask" href="https://docs.google.com/forms/d/e/1FAIpQLSelDSIhn2wkbEswcqYZicAkv9hQ6z6HVSE5LNysUL6bOfQlZg/viewform" target="_blank" rel="noopener">告訴我你的困擾 →</a></span><br>也可以在研習需求裡告訴我，一起規劃。</p>
         <p class="tools-note"><span class="upd">工具清單・2026 年 10 月</span>卡片上的軟體會隨時更新、與時俱進。</p>
       </div>
     </div>
