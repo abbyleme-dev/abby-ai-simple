@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>什麼是 MCP？用 Kahoot 出題秒懂 AI 界的萬用轉接頭｜Abby 陪你簡單用 AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --indigo: #3B3486;
+      --ink: #1C1F33;
+      --apricot: #F4B48C;
+      --apricot-btn: #E39A6E;
+      --apricot-deep: #A4552A;
+      --lavender: #B9B3E3;
+      --lavender-soft: #E6E3F7;
+      --white: #FFFFFF;
+      --muted: #5B5E73;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body.abby {
+      font-family: 'Noto Sans TC', sans-serif;
+      color: var(--ink);
+      background-color: var(--white);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .en-num {
+      font-family: 'Lexend', 'Noto Sans TC', sans-serif;
+    }
+
+    /* Top Presenter Bar */
+    .presenter-bar {
+      background: var(--white);
+      border-bottom: 2px solid var(--lavender-soft);
+      padding: 10px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      z-index: 30;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-left svg {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--indigo);
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .mode-tabs {
+      display: flex;
+      align-items: center;
+      background: var(--lavender-soft);
+      padding: 5px;
+      border-radius: 999px;
+      gap: 6px;
+    }
+
+    .mode-tab {
+      border: none;
+      background: transparent;
+      color: var(--ink);
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 7px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode-tab .key-hint {
+      font-family: 'Lexend', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--white);
+      color: var(--indigo);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mode-tab.active {
+      background: var(--indigo);
+      color: var(--white);
+    }
+
+    .mode-tab.active .key-hint {
+      background: var(--lavender-soft);
+      color: var(--indigo);
+    }
+
+    .presenter-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tool-btn {
+      border: 2px solid var(--lavender);
+      background: var(--white);
+      color: var(--indigo);
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .tool-btn:hover {
+      background: var(--lavender-soft);
+      border-color: var(--indigo);
+    }
+
+    /* Main Stage Container */
+    .stage-wrap {
+      flex: 1;
+      max-width: 1540px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px 30px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* Clean Hero Header */
+    .hero-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: nowrap;
+      border-bottom: 2.5px solid var(--lavender-soft);
+      padding-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--indigo);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-status-pill {
+      padding: 10px 22px;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .hero-status-pill.status-before {
+      background: var(--lavender-soft);
+      color: var(--ink);
+      border: 2px solid var(--lavender);
+    }
+
+    /* In AFTER state, this pill uses the single allowed Apricot highlight (#F4B48C) with dark ink text (#1C1F33) */
+    .hero-status-pill.status-after {
+      background: var(--apricot);
+      color: var(--ink);
+      border: 2px solid var(--apricot-deep);
+    }
+
+    /* ==========================================
+       PAGE 1: What is MCP? (Big Hero One-Liner)
+       ========================================== */
+    .summary-section {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .summary-section.active {
+      display: flex;
+    }
+
+    .abby-hero-tip {
+      background: var(--lavender-soft);
+      border: 3px solid var(--indigo);
+      border-radius: 28px;
+      padding: 42px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      min-height: 540px;
+    }
+
+    .abby-hero-tip-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .apricot-key-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--apricot);
+      color: var(--ink);
+      border: 2.5px solid var(--ink);
+      font-size: 24px;
+      font-weight: 900;
+      padding: 12px 24px;
+      border-radius: 16px;
+      align-self: flex-start;
+    }
+
+    .abby-hero-quote {
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+    }
+
+    .abby-hero-quote .indigo-em {
+      color: var(--indigo);
+    }
+
+    .mini-plug-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .mini-plug-card {
+      background: var(--white);
+      border: 2px solid var(--lavender);
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mini-plug-card .plug-head {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--indigo);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mini-plug-card .plug-desc {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .next-step-btn {
+      align-self: flex-start;
+      background: var(--indigo);
+      color: var(--white);
+      border: none;
+      border-radius: 16px;
+      padding: 16px 28px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.18s ease;
+    }
+
+    .next-step-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .abby-hero-tip img.ip-char-large {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================
+       PAGE 2 & 3: Enlarged 3-Column Diagram
+       ========================================== */
+    #interactive-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .diagram-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr 1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .panel-card {
+      background: var(--white);
+      border: 3px solid var(--lavender);
+      border-radius: 24px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all 0.35s ease;
+    }
+
+    /* Before state: ChatGPT is locked in a dashed glass room */
+    .panel-card.glass-room-locked {
+      border: 3.5px dashed var(--indigo);
+      background: var(--white);
+    }
+
+    .panel-card.connected-active {
+      border: 3.5px solid var(--indigo);
+      background: var(--white);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--lavender-soft);
+    }
+
+    .panel-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--lavender-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-circle svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--indigo);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .panel-name {
+      font-size: 23px;
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .panel-role {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--indigo);
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .state-tag {
+      font-size: 14px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--lavender-soft);
+      color: var(--indigo);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Left Panel Content: ChatGPT */
+    .chat-window {
+      background: var(--lavender-soft);
+      border-radius: 18px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .chat-bubble-teacher {
+      align-self: flex-end;
+      background: var(--indigo);
+      color: var(--white);
+      padding: 11px 16px;
+      border-radius: 14px 14px 4px 14px;
+      font-size: 16px;
+      font-weight: 700;
+      max-width: 96%;
+    }
+
+    .chat-bubble-ai {
+      align-self: flex-start;
+      background: var(--white);
+      color: var(--ink);
+      border: 2px solid var(--lavender);
+      padding: 14px 16px;
+      border-radius: 14px 14px 14px 4px;
+      font-size: 15.5px;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .chat-bubble-ai .quiz-preview-line {
+      padding: 7px 10px;
+      background: var(--lavender-soft);
+      border-radius: 8px;
+      margin-top: 7px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .panel-footer-note {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--lavender-soft);
+      color: var(--ink);
+      font-size: 15.5px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Center Bridge Column */
+    .bridge-card {
+      background: var(--lavender-soft);
+      border: 3px solid var(--lavender);
+      border-radius: 24px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bridge-card.bridge-connected {
+      border: 3.5px solid var(--indigo);
+      background: var(--lavender-soft);
+    }
+
+    .bridge-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--indigo);
+      margin-bottom: 4px;
+    }
+
+    .bridge-subtitle {
+      font-size: 13.8px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    /* Manual Copy-Paste Loop (Before) */
+    .manual-steps-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .manual-step-item {
+      background: var(--white);
+      border: 2px solid var(--lavender);
+      border-radius: 12px;
+      padding: 9px 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .manual-step-item .step-badge {
+      background: var(--lavender-soft);
+      color: var(--indigo);
+      font-size: 13.5px;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .time-cost-box {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--white);
+      border: 2.5px solid var(--indigo);
+      font-size: 16.5px;
+      font-weight: 900;
+      color: var(--indigo);
+      margin-bottom: 10px;
+    }
+
+    /* Primary Interactive CTA Button (Apricot Button #E39A6E + Dark Ink #1C1F33, max 1 per screen) */
+    .abby-btn-accent {
+      width: 100%;
+      background: var(--apricot-btn);
+      color: var(--ink);
+      border: 2.5px solid var(--ink);
+      border-radius: 16px;
+      padding: 13px 16px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 18.5px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: transform 0.18s ease, background-color 0.18s ease;
+    }
+
+    .abby-btn-accent:hover {
+      transform: translateY(-2px);
+    }
+
+    .abby-btn-secondary {
+      width: 100%;
+      background: var(--white);
+      color: var(--indigo);
+      border: 2.5px solid var(--indigo);
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.18s ease;
+    }
+
+    .abby-btn-secondary:hover {
+      background: var(--indigo);
+      color: var(--white);
+    }
+
+    /* MCP Cable Pipe Animation (After) */
+    .mcp-cable-stage {
+      width: 100%;
+      background: var(--white);
+      border: 2.5px solid var(--indigo);
+      border-radius: 18px;
+      padding: 14px 14px;
+      margin-bottom: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cable-plug-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .usb-plug {
+      background: var(--indigo);
+      color: var(--white);
+      font-family: 'Lexend', 'Noto Sans TC', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .cable-track {
+      flex: 1;
+      height: 12px;
+      background: var(--lavender-soft);
+      border: 2px solid var(--indigo);
+      border-radius: 999px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cable-flow-bar {
+      position: absolute;
+      top: 0;
+      left: -40%;
+      width: 40%;
+      height: 100%;
+      background: var(--indigo);
+      border-radius: 999px;
+      animation: flowMove 1.4s infinite linear;
+    }
+
+    @keyframes flowMove {
+      0% { left: -40%; }
+      100% { left: 100%; }
+    }
+
+    /* Flying Quiz Cards inside the MCP pipeline */
+    .flying-packets {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .packet-item {
+      background: var(--lavender-soft);
+      border: 2px solid var(--indigo);
+      border-radius: 11px;
+      padding: 9px 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      text-align: left;
+      opacity: 0;
+      transform: translateX(-28px);
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .packet-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .packet-status {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: var(--indigo);
+      background: var(--white);
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Right Panel: Kahoot Backend */
+    .kahoot-workspace {
+      background: var(--lavender-soft);
+      border-radius: 18px;
+      padding: 16px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .kahoot-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--indigo);
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--lavender);
+    }
+
+    .quiz-slot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .quiz-slot {
+      background: var(--white);
+      border: 2px dashed var(--lavender);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 15px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: all 0.35s ease;
+    }
+
+    .quiz-slot.filled {
+      border: 2.5px solid var(--indigo);
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .quiz-slot .slot-meta {
+      font-size: 13.5px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--lavender-soft);
+      color: var(--indigo);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Universal Adapter Switcher Bar (Bottom of Stage) */
+    .universal-switcher-bar {
+      background: var(--lavender-soft);
+      border: 2px solid var(--lavender);
+      border-radius: 14px;
+      padding: 9px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .switcher-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--indigo);
+    }
+
+    .plug-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .plug-pill {
+      border: 2px solid var(--indigo);
+      background: var(--white);
+      color: var(--indigo);
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .plug-pill.active {
+      background: var(--indigo);
+      color: var(--white);
+    }
+
+    /* Standard Brand Signature Footer */
+    .abby-signature {
+      background: var(--lavender-soft);
+      border-radius: 14px;
+      padding: 10px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .abby-signature .lk {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .abby-signature .lk img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .abby-signature .n1 {
+      font-size: 16.5px;
+      font-weight: 900;
+      color: var(--indigo);
+      line-height: 1.2;
+    }
+
+    .abby-signature .n2 {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .abby-signature .side {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .abby-signature .tagline {
+      font-size: 15.5px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .abby-signature .abby-fb {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--indigo);
+      color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .abby-signature .abby-fb svg {
+      width: 17px;
+      height: 17px;
+      fill: currentColor;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1024px) {
+      .diagram-grid {
+        grid-template-columns: 1fr;
+      }
+      .abby-hero-tip {
+        flex-direction: column;
+        padding: 28px;
+      }
+      .mini-plug-cards {
+        grid-template-columns: 1fr;
+      }
+      .hero-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body class="abby">
+
+  <!-- Top Presenter Control Bar -->
+  <header class="presenter-bar">
+    <div class="brand-left">
+      <svg viewBox="0 0 64 64" width="36" height="36" role="img" aria-label="Abby 陪你簡單用 AI">
+        <circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/>
+        <path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/>
+        <path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/>
+        <path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-title-wrap">
+        <div class="brand-name">Abby 陪你簡單用 AI</div>
+        <div class="brand-sub">Kahoot 教學實戰｜1 分鐘秒懂什麼是「ChatGPT 裝了 MCP」</div>
+      </div>
+    </div>
+
+    <nav class="mode-tabs" aria-label="互動切換模式">
+      <button class="mode-tab active" id="tab-summary" onclick="setMode('summary')">
+        <span class="key-hint">1</span> 什麼是 MCP？（一句話秒懂）
+      </button>
+      <button class="mode-tab" id="tab-before" onclick="setMode('before')">
+        <span class="key-hint">2</span> 沒裝 MCP 的 ChatGPT
+      </button>
+      <button class="mode-tab" id="tab-after" onclick="setMode('after')">
+        <span class="key-hint">3</span> 裝了 MCP 的 ChatGPT
+      </button>
+    </nav>
+
+    <div class="presenter-actions">
+      <button class="tool-btn" onclick="toggleFullscreen()" title="全螢幕投影 (快捷鍵 F)">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="#3B3486" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+        </svg>
+        全螢幕投影
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Stage -->
+  <main class="stage-wrap">
+
+    <!-- Clean Hero Header -->
+    <section class="hero-header">
+      <h1 class="hero-title" id="hero-title">什麼是 MCP？</h1>
+      <div class="hero-status-pill status-before" id="hero-badge">
+        從「只會動嘴的網友」升級成「幫你進後台做事的助教」
+      </div>
+    </section>
+
+    <!-- View 1 (Default): Clean Giant One-Liner Card (Table Removed!) -->
+    <section class="summary-section active" id="summary-stage">
+      <div class="abby-hero-tip">
+        <div class="abby-hero-tip-left">
+          <div class="apricot-key-banner">
+            <span>🔌 AI 界的 Type-C 萬用轉接頭 ＝ 你發給 AI 的「軟體後台通行證」</span>
+          </div>
+
+          <div class="abby-hero-quote">
+            「<span class="indigo-em">MCP 就是 AI 界的 Type-C 萬用轉接頭</span>，也是你發給 AI 的『<span class="indigo-em">軟體後台通行證</span>』——插上哪個軟體，AI 就能直接幫你操作哪個軟體，<span class="indigo-em">從此不用再當複製貼上的搬運工！</span>」
+          </div>
+
+          <div class="mini-plug-cards">
+            <div class="mini-plug-card">
+              <div class="plug-head">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="#3B3486" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                插上 Kahoot MCP
+              </div>
+              <div class="plug-desc">AI 直接進後台幫你建好 10 題測驗題庫、選項與秒數！</div>
+            </div>
+
+            <div class="mini-plug-card">
+              <div class="plug-head">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="#3B3486" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                </svg>
+                插上 Canva MCP
+              </div>
+              <div class="plug-desc">AI 直接把想好的標語排進海報模板，免手動拉文字框！</div>
+            </div>
+
+            <div class="mini-plug-card">
+              <div class="plug-head">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="#3B3486" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                插上 Google 日曆 MCP
+              </div>
+              <div class="plug-desc">AI 直接把段考複習進度寫進你的行事曆並設好提醒！</div>
+            </div>
+          </div>
+
+          <button class="next-step-btn" onclick="setMode('before')">
+            <span>👉 點擊看 Kahoot 出題實例：沒裝 MCP vs. 裝了 MCP 差多少？（或按空白鍵）</span>
+          </button>
+        </div>
+
+        <img class="ip-char-large" src="assets/ip.webp" alt="Abby IP 助教小提醒" />
+      </div>
+    </section>
+
+    <!-- View 2 & View 3: Enlarged 3-Column Interactive Before / After Stage -->
+    <section id="interactive-stage" class="hidden">
+      <div class="diagram-grid">
+
+        <!-- Left Column: ChatGPT -->
+        <div class="panel-card glass-room-locked" id="left-panel">
+          <div style="display: flex; flex-direction: column; flex: 1;">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <div class="icon-circle" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="panel-name">ChatGPT 出題大腦</div>
+                  <div class="panel-role" id="chatgpt-role">被關在玻璃房裡的代課老師</div>
+                </div>
+              </div>
+              <span class="state-tag" id="chatgpt-tag">只有嘴巴・沒有手</span>
+            </div>
+
+            <div class="chat-window">
+              <div class="chat-bubble-teacher" id="teacher-prompt">
+                「幫我用四年級自然課文，出 10 題 Kahoot 選擇題！」
+              </div>
+              <div class="chat-bubble-ai" id="ai-response-box">
+                <div>
+                  <div style="font-weight: 900; color: var(--indigo); margin-bottom: 6px; font-size: 16px;" id="ai-reply-title">
+                    好的！以下為您設計 10 題文字稿：
+                  </div>
+                  <div class="quiz-preview-line">Q1. 光在空氣中是如何傳播的？ (A) 直線 (B) 曲線...</div>
+                  <div class="quiz-preview-line">Q2. 下列哪種物體會產生最清楚的影子？...</div>
+                  <div class="quiz-preview-line" id="q3-preview">Q3. 關於反射定律，入射角與反射角關係為何？</div>
+                </div>
+                <div style="font-size: 13.5px; font-weight: 700; color: var(--muted); margin-top: 8px;" id="ai-reply-sub">
+                  （共 10 題文字已顯示於聊天室，請老師自行複製搬運）
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer-note" id="left-footer-note">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="#3B3486" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span id="left-footer-text">隔離房間沒開門：AI 碰不到你的 Kahoot 帳號</span>
+          </div>
+        </div>
+
+        <!-- Center Column: Manual Labor vs. MCP Universal Adapter -->
+        <div class="bridge-card" id="center-bridge">
+
+          <!-- BEFORE CONTENT: Manual Copy-Paste Loop -->
+          <div id="bridge-before-content" style="width: 100%; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+            <div>
+              <div class="bridge-title">老師本人的「苦命搬運工迴圈」</div>
+              <div class="bridge-subtitle">因為 AI 沒有手，中間這段苦工全部要老師自己做：</div>
+
+              <div class="manual-steps-list">
+                <div class="manual-step-item">
+                  <span>1. 在 ChatGPT 選取並複製第 1 題題幹</span>
+                  <span class="step-badge">Ctrl + C</span>
+                </div>
+                <div class="manual-step-item">
+                  <span>2. 切換視窗到 Kahoot 點「新增題目」貼上</span>
+                  <span class="step-badge">Ctrl + V</span>
+                </div>
+                <div class="manual-step-item">
+                  <span>3. 來回複製 A、B、C、D 四個選項與打勾解答</span>
+                  <span class="step-badge">重複 50 次</span>
+                </div>
+                <div class="manual-step-item">
+                  <span>4. 或匯出 Excel 再匯入，欄位跑掉自己修半天</span>
+                  <span class="step-badge">格式常報錯</span>
+                </div>
+              </div>
+
+              <div class="time-cost-box">
+                痛點：光搬完 10 題就要 15 分鐘，手痠眼花！
+              </div>
+            </div>
+
+            <!-- The ONE Apricot Accent Button on the BEFORE screen -->
+            <button class="abby-btn-accent" onclick="setMode('after')">
+              <span>🔌 插上 Kahoot MCP 轉接頭（點我接通！）</span>
+            </button>
+          </div>
+
+          <!-- AFTER CONTENT: MCP Universal Type-C Pipeline -->
+          <div id="bridge-after-content" class="hidden" style="width: 100%; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+            <div>
+              <div class="bridge-title" id="mcp-bridge-title">插上 Kahoot MCP 萬用轉接頭</div>
+              <div class="bridge-subtitle" id="mcp-bridge-sub">給 ChatGPT 一把 Kahoot 後台鑰匙，直接伸手幫你建好題庫！</div>
+
+              <div class="mcp-cable-stage">
+                <div class="cable-plug-row">
+                  <span class="usb-plug">ChatGPT 端</span>
+                  <div class="cable-track">
+                    <div class="cable-flow-bar"></div>
+                  </div>
+                  <span class="usb-plug" id="target-plug-name">Kahoot MCP</span>
+                </div>
+
+                <div class="flying-packets" id="packet-container">
+                  <div class="packet-item" id="pkt-1">
+                    <span>自動建立題庫：《四年級自然：光的奧秘》</span>
+                    <span class="packet-status">已直達後台</span>
+                  </div>
+                  <div class="packet-item" id="pkt-2">
+                    <span>自動填入 Q1～Q10 題幹＋四個選項</span>
+                    <span class="packet-status">免複製貼上</span>
+                  </div>
+                  <div class="packet-item" id="pkt-3">
+                    <span>自動勾選正確答案＋設定每題 20 秒</span>
+                    <span class="packet-status">100% 完成</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 9px; width: 100%;">
+              <button class="abby-btn-secondary" id="live-edit-btn" onclick="triggerLiveEdit()">
+                💬 點擊示範追問：「第 3 題太難改簡單＋全改 30 秒」
+              </button>
+              <button class="tool-btn" style="justify-content: center; width: 100%; padding: 9px; font-size: 15px;" onclick="setMode('before')">
+                ← 切回「沒裝 MCP 的 ChatGPT」對比看看
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Target App (Kahoot / Canva / Google Calendar) -->
+        <div class="panel-card" id="right-panel">
+          <div style="display: flex; flex-direction: column; flex: 1;">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <div class="icon-circle" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="panel-name" id="target-app-name">Kahoot! 教室題庫後台</div>
+                  <div class="panel-role" id="target-app-role">你的個人 Kahoot 帳號</div>
+                </div>
+              </div>
+              <span class="state-tag" id="kahoot-count-tag">0 / 10 題（空題庫）</span>
+            </div>
+
+            <div class="kahoot-workspace">
+              <div class="kahoot-top-bar">
+                <span id="workspace-title">題庫名稱：（尚未建立）</span>
+                <span id="workspace-timer" class="en-num">等待人工輸入...</span>
+              </div>
+
+              <div class="quiz-slot-list" id="slot-list">
+                <div class="quiz-slot" id="slot-1">
+                  <span>第 1 題：（等待老師複製貼上題幹與選項...）</span>
+                  <span class="slot-meta">未填入</span>
+                </div>
+                <div class="quiz-slot" id="slot-2">
+                  <span>第 2 題：（等待老師複製貼上題幹與選項...）</span>
+                  <span class="slot-meta">未填入</span>
+                </div>
+                <div class="quiz-slot" id="slot-3">
+                  <span>第 3 題：（等待老師複製貼上題幹與選項...）</span>
+                  <span class="slot-meta">未填入</span>
+                </div>
+                <div class="quiz-slot" id="slot-4">
+                  <span>第 4～10 題：（還有 35 次複製貼上在等你...）</span>
+                  <span class="slot-meta">未填入</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-footer-note" id="right-footer-note">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="#3B3486" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span id="right-footer-text">結果：課還沒開始備，老師已經貼到眼花了</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Universal Type-C Switcher Bar -->
+      <div class="universal-switcher-bar">
+        <div class="switcher-label">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="#3B3486" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v6m0 8v6M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M2 12h6m8 0h6M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24"/>
+          </svg>
+          <span>為什麼叫「AI 界的 Type-C 萬用轉接頭」？點點看換插別的軟體：</span>
+        </div>
+        <div class="plug-pills">
+          <button class="plug-pill active" id="pill-kahoot" onclick="switchPlugExample('kahoot')">
+            插上 Kahoot MCP（自動建測驗題庫）
+          </button>
+          <button class="plug-pill" id="pill-canva" onclick="switchPlugExample('canva')">
+            插上 Canva MCP（自動把字排進海報）
+          </button>
+          <button class="plug-pill" id="pill-calendar" onclick="switchPlugExample('calendar')">
+            插上 Google 日曆 MCP（自動寫入複習進度）
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Official Brand Signature Footer -->
+    <footer class="abby-signature">
+      <div class="lk">
+        <img src="assets/abby-mark.svg" alt="Abby 陪你簡單用 AI Logo" />
+        <div>
+          <div class="n1">Abby 陪你簡單用 AI</div>
+          <div class="n2">教師數位增能研習｜公部門 AI 培訓｜補習班數位教學陪跑</div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="tagline">一堂課，帶走明天就能用的 AI</div>
+        <a class="abby-fb" href="https://www.facebook.com/abby.ai.simple" target="_blank" rel="noopener" aria-label="前往 Abby 陪你簡單用 AI 的 Facebook 粉專">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.5-3.92 3.77-3.92 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V22c4.78-.79 8.45-4.94 8.45-9.94Z"/>
+          </svg>
+        </a>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    let currentMode = 'summary';
+    let currentPlug = 'kahoot';
+
+    const plugData = {
+      kahoot: {
+        plugName: 'Kahoot MCP',
+        bridgeTitle: '插上 Kahoot MCP 萬用轉接頭',
+        bridgeSub: '給 ChatGPT 一把 Kahoot 後台鑰匙，直接伸手幫你建好題庫！',
+        teacherPrompt: '「幫我用四年級自然課文出 10 題 Kahoot 選擇題，直接建到我的 Kahoot 裡！」',
+        aiReplyTitle: '已透過 Kahoot MCP 為您直接建立題庫：',
+        q3Text: 'Q3. 鏡子能照出影像是因為光的什麼現象？（20 秒）',
+        aiReplySub: '（已透過 MCP 自動同步寫入您的 Kahoot 帳號！）',
+        appName: 'Kahoot! 教室題庫後台',
+        appRole: '你的個人 Kahoot 帳號',
+        countTag: '10 / 10 題（已自動建好！）',
+        wsTitle: '題庫：《四年級自然：光的奧秘》',
+        wsTimer: '每題 20 秒｜含標準解答',
+        packets: [
+          ['自動建立題庫：《四年級自然：光的奧秘》', '已直達後台'],
+          ['自動填入 Q1～Q10 題幹＋四個選項', '免複製貼上'],
+          ['自動勾選正確答案＋設定每題 20 秒', '100% 完成']
+        ],
+        slots: [
+          ['第 1 題：光在空氣中是如何傳播的？（4 選項＋解答）', '20 秒・已建好'],
+          ['第 2 題：下列哪種物體會產生最清楚的影子？', '20 秒・已建好'],
+          ['第 3 題：鏡子能照出影像是因為光的什麼現象？', '20 秒・已建好'],
+          ['第 4～10 題：全數自動填入完成，打開直接玩！', '一鍵 Host 開玩']
+        ],
+        rightFooter: '結果：30 秒搞定！點開 Kahoot 就能直接給學生玩',
+        showLiveEdit: true
+      },
+      canva: {
+        plugName: 'Canva MCP',
+        bridgeTitle: '換插 Canva MCP 轉接頭（同一套原理！）',
+        bridgeSub: '不用自己複製標語去排版，ChatGPT 直接伸手進 Canva 幫你做海報！',
+        teacherPrompt: '「幫我想 3 個班親會海報標題，直接用 Canva MCP 幫我排成校園海報！」',
+        aiReplyTitle: '已透過 Canva MCP 為您生成海報設計：',
+        q3Text: '主標題：親師同行，陪孩子探索新學期',
+        aiReplySub: '（已直接於您的 Canva 帳號建立可編輯設計檔！）',
+        appName: 'Canva 設計工作區',
+        appRole: '你的個人 Canva 帳號',
+        countTag: '海報已自動排好！',
+        wsTitle: '設計檔：《四年級班親會邀請海報》',
+        wsTimer: 'A4 直式｜已套用字型',
+        packets: [
+          ['自動在 Canva 開啟校園班親會海報模板', '已直達後台'],
+          ['自動將主標題、時間、地點填入對應文字框', '免手動排版'],
+          ['自動產出預覽圖與 Canva 編輯連結', '一鍵微調印出']
+        ],
+        slots: [
+          ['區塊 1：主標題「親師同行，陪孩子探索新學期」', '已自動排版'],
+          ['區塊 2：活動日期、教室位置與流程表', '已自動對齊'],
+          ['區塊 3：溫馨插圖與學校班級字樣', '已自動套用'],
+          ['狀態：點開連結即可直接下載 PDF 或微調！', 'Canva 已就緒']
+        ],
+        rightFooter: '結果：不用自己拉文字框，Canva 海報已經排好等你！',
+        showLiveEdit: false
+      },
+      calendar: {
+        plugName: 'Google 日曆 MCP',
+        bridgeTitle: '換插 Google 日曆 MCP 轉接頭（同一套原理！）',
+        bridgeSub: '不用自己一格一格填行事曆，ChatGPT 直接幫你把進度寫進日曆！',
+        teacherPrompt: '「幫我排好段考前兩週的自然科複習進度，直接加進我的 Google 行事曆！」',
+        aiReplyTitle: '已透過 Google 日曆 MCP 為您寫入 6 筆行程：',
+        q3Text: '週三 10:10｜第 3 單元實驗總複習＋Kahoot 小考',
+        aiReplySub: '（已直接寫入您的 Google Calendar 並設好課前提醒！）',
+        appName: 'Google 行事曆後台',
+        appRole: '你的個人 Google 帳號',
+        countTag: '6 筆行程已自動寫入！',
+        wsTitle: '行事曆：《自然科段考複習排程》',
+        wsTimer: '含課前 15 分鐘通知',
+        packets: [
+          ['自動讀取下兩週空堂與自然課時段', '已直達後台'],
+          ['自動建立 6 堂複習進度與小考行程', '免手動輸入'],
+          ['自動設定課前提醒通知與講義備註', '100% 同步']
+        ],
+        slots: [
+          ['11/03 (一) 09:20｜第 1 單元：光的折射重點複習', '已寫入日曆'],
+          ['11/05 (三) 10:10｜第 2 單元：月相變化觀測整理', '已寫入日曆'],
+          ['11/07 (五) 14:00｜第 3 單元：Kahoot 總複習競賽', '已寫入日曆'],
+          ['狀態：手機與電腦行事曆已同步跳出行程！', 'Calendar 已就緒']
+        ],
+        rightFooter: '結果：不用自己一格一格敲日曆，行程已經全部排好了！',
+        showLiveEdit: false
+      }
+    };
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById('tab-summary').classList.toggle('active', mode === 'summary');
+      document.getElementById('tab-before').classList.toggle('active', mode === 'before');
+      document.getElementById('tab-after').classList.toggle('active', mode === 'after');
+
+      const interactiveStage = document.getElementById('interactive-stage');
+      const summaryStage = document.getElementById('summary-stage');
+      const heroTitle = document.getElementById('hero-title');
+      const heroBadge = document.getElementById('hero-badge');
+
+      if (mode === 'summary') {
+        interactiveStage.classList.add('hidden');
+        summaryStage.classList.add('active');
+        heroTitle.textContent = '什麼是 MCP？';
+        heroBadge.className = 'hero-status-pill status-before';
+        heroBadge.textContent = '從「只會動嘴的網友」升級成「幫你進後台做事的助教」';
+        return;
+      }
+
+      interactiveStage.classList.remove('hidden');
+      summaryStage.classList.remove('active');
+
+      const leftPanel = document.getElementById('left-panel');
+      const centerBridge = document.getElementById('center-bridge');
+      const rightPanel = document.getElementById('right-panel');
+      const beforeContent = document.getElementById('bridge-before-content');
+      const afterContent = document.getElementById('bridge-after-content');
+
+      if (mode === 'before') {
+        heroTitle.textContent = '沒裝 MCP 的 ChatGPT';
+        heroBadge.className = 'hero-status-pill status-before';
+        heroBadge.textContent = '耗時 15～20 分鐘｜老師自己複製貼上 50 次';
+
+        leftPanel.className = 'panel-card glass-room-locked';
+        centerBridge.className = 'bridge-card';
+        rightPanel.className = 'panel-card';
+
+        beforeContent.classList.remove('hidden');
+        afterContent.classList.add('hidden');
+
+        document.getElementById('chatgpt-role').textContent = '被關在玻璃房裡的代課老師';
+        document.getElementById('chatgpt-tag').textContent = '只有嘴巴・沒有手';
+        document.getElementById('teacher-prompt').textContent = '「幫我用四年級自然課文，出 10 題 Kahoot 選擇題！」';
+        document.getElementById('ai-reply-title').textContent = '好的！以下為您設計 10 題文字稿：';
+        document.getElementById('q3-preview').textContent = 'Q3. 關於反射定律，入射角與反射角關係為何？';
+        document.getElementById('ai-reply-sub').textContent = '（共 10 題文字已顯示於聊天室，請老師自行複製搬運）';
+        document.getElementById('left-footer-text').textContent = '隔離房間沒開門：AI 碰不到你的 Kahoot 帳號';
+
+        document.getElementById('target-app-name').textContent = 'Kahoot! 教室題庫後台';
+        document.getElementById('target-app-role').textContent = '你的個人 Kahoot 帳號';
+        document.getElementById('kahoot-count-tag').textContent = '0 / 10 題（空題庫）';
+        document.getElementById('workspace-title').textContent = '題庫名稱：（尚未建立）';
+        document.getElementById('workspace-timer').textContent = '等待人工輸入...';
+
+        const emptySlots = [
+          ['第 1 題：（等待老師複製貼上題幹與選項...）', '未填入'],
+          ['第 2 題：（等待老師複製貼上題幹與選項...）', '未填入'],
+          ['第 3 題：（等待老師複製貼上題幹與選項...）', '未填入'],
+          ['第 4～10 題：（還有 35 次複製貼上在等你...）', '未填入']
+        ];
+        emptySlots.forEach((item, idx) => {
+          const el = document.getElementById('slot-' + (idx + 1));
+          el.className = 'quiz-slot';
+          el.innerHTML = '<span>' + item[0] + '</span><span class="slot-meta">' + item[1] + '</span>';
+        });
+
+        document.getElementById('right-footer-text').textContent = '結果：課還沒開始備，老師已經貼到眼花了';
+      } else if (mode === 'after') {
+        heroTitle.textContent = '裝了 MCP 的 ChatGPT';
+        heroBadge.className = 'hero-status-pill status-after';
+        heroBadge.textContent = '30 秒自動搞定｜免複製貼上、免轉 Excel！';
+
+        leftPanel.className = 'panel-card connected-active';
+        centerBridge.className = 'bridge-card bridge-connected';
+        rightPanel.className = 'panel-card connected-active';
+
+        beforeContent.classList.add('hidden');
+        afterContent.classList.remove('hidden');
+
+        document.getElementById('chatgpt-role').textContent = '已插上 MCP 轉接頭的 AI 助教';
+        document.getElementById('chatgpt-tag').textContent = '有大腦＋有雙手';
+        document.getElementById('left-footer-text').textContent = '已授權接通：AI 可直接將成果存進你的後台';
+
+        renderPlugState(currentPlug);
+      }
+    }
+
+    function switchPlugExample(plugKey) {
+      currentPlug = plugKey;
+      document.getElementById('pill-kahoot').classList.toggle('active', plugKey === 'kahoot');
+      document.getElementById('pill-canva').classList.toggle('active', plugKey === 'canva');
+      document.getElementById('pill-calendar').classList.toggle('active', plugKey === 'calendar');
+
+      if (currentMode !== 'after') {
+        setMode('after');
+      } else {
+        renderPlugState(plugKey);
+      }
+    }
+
+    function renderPlugState(plugKey) {
+      const data = plugData[plugKey];
+      document.getElementById('target-plug-name').textContent = data.plugName;
+      document.getElementById('mcp-bridge-title').textContent = data.bridgeTitle;
+      document.getElementById('mcp-bridge-sub').textContent = data.bridgeSub;
+
+      document.getElementById('teacher-prompt').textContent = data.teacherPrompt;
+      document.getElementById('ai-reply-title').textContent = data.aiReplyTitle;
+      document.getElementById('q3-preview').textContent = data.q3Text;
+      document.getElementById('ai-reply-sub').textContent = data.aiReplySub;
+
+      document.getElementById('target-app-name').textContent = data.appName;
+      document.getElementById('target-app-role').textContent = data.appRole;
+      document.getElementById('kahoot-count-tag').textContent = data.countTag;
+      document.getElementById('workspace-title').textContent = data.wsTitle;
+      document.getElementById('workspace-timer').textContent = data.wsTimer;
+      document.getElementById('right-footer-text').textContent = data.rightFooter;
+
+      const liveEditBtn = document.getElementById('live-edit-btn');
+      if (data.showLiveEdit) {
+        liveEditBtn.classList.remove('hidden');
+        liveEditBtn.textContent = '💬 點擊示範追問：「第 3 題太難改簡單＋全改 30 秒」';
+      } else {
+        liveEditBtn.classList.add('hidden');
+      }
+
+      // Reset and animate packets & slots sequentially
+      for (let i = 0; i < 3; i++) {
+        const pkt = document.getElementById('pkt-' + (i + 1));
+        pkt.classList.remove('visible');
+        pkt.innerHTML = '<span>' + data.packets[i][0] + '</span><span class="packet-status">' + data.packets[i][1] + '</span>';
+      }
+
+      for (let i = 0; i < 4; i++) {
+        const slot = document.getElementById('slot-' + (i + 1));
+        slot.className = 'quiz-slot';
+        slot.innerHTML = '<span>同步傳送中...</span><span class="slot-meta">MCP 寫入中</span>';
+      }
+
+      setTimeout(() => {
+        document.getElementById('pkt-1').classList.add('visible');
+        setSlotFilled(1, data.slots[0]);
+      }, 120);
+
+      setTimeout(() => {
+        document.getElementById('pkt-2').classList.add('visible');
+        setSlotFilled(2, data.slots[1]);
+        setSlotFilled(3, data.slots[2]);
+      }, 320);
+
+      setTimeout(() => {
+        document.getElementById('pkt-3').classList.add('visible');
+        setSlotFilled(4, data.slots[3]);
+      }, 520);
+    }
+
+    function setSlotFilled(index, slotArr) {
+      const slot = document.getElementById('slot-' + index);
+      if (!slot) return;
+      slot.className = 'quiz-slot filled';
+      slot.innerHTML = '<span>' + slotArr[0] + '</span><span class="slot-meta">' + slotArr[1] + '</span>';
+    }
+
+    function triggerLiveEdit() {
+      document.getElementById('teacher-prompt').textContent = '「第 3 題對四年級太難了，幫我換成生活題，而且全部改成 30 秒！」';
+      document.getElementById('q3-preview').textContent = 'Q3. 手電筒照鏡子，光會往哪裡跑？（已改為生活題・30 秒）';
+      document.getElementById('workspace-timer').textContent = '每題 30 秒｜已即時更新！';
+
+      const slot1 = document.getElementById('slot-1');
+      const slot2 = document.getElementById('slot-2');
+      const slot3 = document.getElementById('slot-3');
+      slot1.innerHTML = '<span>第 1 題：光在空氣中是如何傳播的？（4 選項＋解答）</span><span class="slot-meta">30 秒・已更新</span>';
+      slot2.innerHTML = '<span>第 2 題：下列哪種物體會產生最清楚的影子？</span><span class="slot-meta">30 秒・已更新</span>';
+      slot3.innerHTML = '<span>第 3 題：手電筒照鏡子，光會往哪裡跑？（已換簡單！）</span><span class="slot-meta">30 秒・已秒改</span>';
+
+      const btn = document.getElementById('live-edit-btn');
+      btn.textContent = '✅ 已透過 MCP 直接在 Kahoot 後台改好第 3 題與秒數！';
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    // Keyboard navigation for classroom presenter clicker / keyboard
+    // Order: 1 (summary) -> 2 (before) -> 3 (after)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '1') {
+        setMode('summary');
+      } else if (e.key === '2') {
+        setMode('before');
+      } else if (e.key === '3') {
+        setMode('after');
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      } else if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        if (currentMode === 'summary') setMode('before');
+        else if (currentMode === 'before') setMode('after');
+        else setMode('summary');
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (currentMode === 'after') setMode('before');
+        else if (currentMode === 'before') setMode('summary');
+      }
+    });
+
+    // Support URL query parameter ?mode=summary|before|after for direct slide export
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const initMode = params.get('mode');
+      const initPlug = params.get('plug');
+      if (initPlug && plugData[initPlug]) {
+        currentPlug = initPlug;
+      }
+      if (initMode === 'after' || initMode === 'summary' || initMode === 'before') {
+        setMode(initMode);
+      }
+    });
+  </script>
+</body>
+</html>
