@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>課後限定抽獎機｜Abby 陪你簡單用 AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Lexend:wght@500;700;800&display=swap">
+<style>
+  :root {
+    --indigo: #3B3486;
+    --ink: #1C1F33;
+    --peach: #F4B48C;
+    --peach-deep: #E39A6E;
+    --lilac: #B9B3E3;
+    --lav: #E6E3F7;
+    --white: #FFFFFF;
+    --slate: #5B5E73;
+    --line: #E6E3F7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", "Lexend", sans-serif;
+    background: #F7F6FC;
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    --l: #3B3486;
+    --r: #B9B3E3;
+    --b: #F4B48C;
+  }
+  header {
+    background: var(--white);
+    border-bottom: 2px solid var(--lav);
+    padding: 18px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--ink);
+  }
+  .tag {
+    background: var(--lav);
+    color: var(--indigo);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 6px 18px;
+    border-radius: 999px;
+  }
+  main {
+    max-width: 1180px;
+    width: 100%;
+    margin: 32px auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 28px;
+    flex: 1;
+  }
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(28, 31, 51, 0.06);
+    border: 2px solid var(--lav);
+    display: flex;
+    flex-direction: column;
+  }
+  .card h2 {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--indigo);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hint {
+    font-size: 14px;
+    color: var(--slate);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  textarea {
+    width: 100%;
+    flex: 1;
+    min-height: 280px;
+    border: 2px solid var(--lilac);
+    border-radius: 16px;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-family: inherit;
+    line-height: 1.6;
+    color: var(--ink);
+    background: #FBFBFF;
+    resize: vertical;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--indigo);
+    background: var(--white);
+  }
+  .count-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--slate);
+  }
+  .count-pill {
+    background: var(--lav);
+    color: var(--indigo);
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .stage-card {
+    background: var(--indigo);
+    color: var(--white);
+    border-radius: 28px;
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 18px 44px rgba(59, 52, 134, 0.22);
+  }
+  .prize-pill {
+    background: rgba(255, 255, 255, 0.14);
+    color: var(--peach);
+    font-weight: 700;
+    font-size: 18px;
+    padding: 8px 24px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+    letter-spacing: 0.03em;
+  }
+  .stage-title {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.25;
+    margin-bottom: 28px;
+  }
+  .slot-box {
+    width: 100%;
+    max-width: 600px;
+    min-height: 180px;
+    background: var(--white);
+    color: var(--ink);
+    border-radius: 24px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 0 4px var(--peach);
+    margin-bottom: 30px;
+    transition: transform 0.2s;
+  }
+  .slot-school {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--indigo);
+    margin-bottom: 6px;
+  }
+  .slot-name {
+    font-size: 46px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .slot-fb {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--slate);
+    margin-top: 10px;
+    background: var(--lav);
+    padding: 6px 18px;
+    border-radius: 999px;
+  }
+  .btn-draw {
+    background: var(--peach);
+    color: var(--ink);
+    border: none;
+    border-radius: 999px;
+    padding: 18px 48px;
+    font-size: 24px;
+    font-weight: 900;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+    transition: transform 0.15s, background 0.15s;
+  }
+  .btn-draw:hover {
+    background: var(--peach-deep);
+    transform: translateY(-2px);
+  }
+  .btn-draw:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .verify-tip {
+    margin-top: 22px;
+    font-size: 15px;
+    color: #E6E3F7;
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mk" viewBox="0 0 64 64">
+    <circle cx="26.5" cy="10.5" r="6.2" style="fill:var(--l)"/>
+    <path d="M27.5 24L15 55" style="stroke:var(--l)" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="40.8" cy="16.5" r="4.6" style="fill:var(--r)"/>
+    <path d="M39.9 27.8L49.5 55" style="stroke:var(--r)" stroke-width="7.4" stroke-linecap="round"/>
+    <path d="M20.4 41.5H44.7" style="stroke:var(--b)" stroke-width="5" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="brand">
+    <svg width="38" height="38" viewBox="0 0 64 64"><use href="#mk"/></svg>
+    <span>Abby 陪你簡單用 AI</span>
+  </div>
+  <span class="tag">線上研習・課後抽獎開獎機</span>
+</header>
+
+<main>
+  <section class="card">
+    <h2>📋 貼上 Google 表單回覆名單</h2>
+    <p class="hint">
+      從 Google 表單試算表直接複製「姓名、學校、FB 名稱」三欄貼在下方（一行一位老師）：
+    </p>
+    <textarea id="listInput" placeholder="王小明	快樂國小	FB: Ming Wang&#10;陳美玲	陽光國中	FB: Mei Chen&#10;林雅婷	希望高中	FB: Ting Lin"></textarea>
+    <div class="count-bar">
+      <span>目前參加人數</span>
+      <span class="count-pill" id="countBadge">0 位老師</span>
+    </div>
+  </section>
+
+  <section class="stage-card">
+    <div class="prize-pill">🎁 抽出 1 名獨得獎項</div>
+    <h1 class="stage-title">軟體一年份免費帳號</h1>
+
+    <div class="slot-box" id="slotBox">
+      <div class="slot-school" id="slotSchool">準備開獎</div>
+      <div class="slot-name" id="slotName">等待抽出幸運老師</div>
+      <div class="slot-fb" id="slotFb">請在左側貼上表單名單後點擊抽獎</div>
+    </div>
+
+    <button class="btn-draw" id="drawBtn" onclick="startDraw()">🎉 抽出 1 位得獎老師</button>
+    <p class="verify-tip">💡 抽出後現場核對粉專貼文下的「上課心得留言」即可領獎！</p>
+  </section>
+</main>
+
+<script>
+  const inputEl = document.getElementById('listInput');
+  const countBadge = document.getElementById('countBadge');
+  const slotSchool = document.getElementById('slotSchool');
+  const slotName = document.getElementById('slotName');
+  const slotFb = document.getElementById('slotFb');
+  const drawBtn = document.getElementById('drawBtn');
+
+  function getEntries() {
+    return inputEl.value
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line.length > 0 && !line.includes('您的姓名') && !line.includes('時間戳記'));
+  }
+
+  function parseEntry(raw) {
+    // 支援 Tab 分隔（試算表直接複製）或空格／逗號分隔
+    const parts = raw.split(/\t|,|，/).map(s => s.trim()).filter(Boolean);
+    if (parts.length >= 3) {
+      return { name: parts[0], school: parts[1], fb: 'FB 留言名稱：' + parts[2] };
+    } else if (parts.length === 2) {
+      return { name: parts[0], school: parts[1], fb: '請核對 FB 貼文心得留言' };
+    }
+    return { name: raw, school: '參加研習老師', fb: '請核對 FB 貼文心得留言' };
+  }
+
+  inputEl.addEventListener('input', () => {
+    const entries = getEntries();
+    countBadge.textContent = entries.length + ' 位老師';
+  });
+
+  function startDraw() {
+    const entries = getEntries();
+    if (entries.length === 0) {
+      alert('請先在左側貼上 Google 表單回覆的老師名單喔！');
+      return;
+    }
+    drawBtn.disabled = true;
+    let ticks = 0;
+    const totalTicks = 28;
+    const timer = setInterval(() => {
+      const rand = entries[Math.floor(Math.random() * entries.length)];
+      const parsed = parseEntry(rand);
+      slotSchool.textContent = parsed.school;
+      slotName.textContent = parsed.name;
+      slotFb.textContent = parsed.fb;
+      ticks++;
+      if (ticks >= totalTicks) {
+        clearInterval(timer);
+        const winnerRaw = entries[Math.floor(Math.random() * entries.length)];
+        const winner = parseEntry(winnerRaw);
+        slotSchool.textContent = '🎊 恭喜得獎｜' + winner.school;
+        slotName.textContent = winner.name + ' 老師';
+        slotFb.textContent = '✅ ' + winner.fb;
+        drawBtn.disabled = false;
+        drawBtn.textContent = '🔄 重新抽一位（若未完成留言）';
+      }
+    }, 75);
+  }
+</script>
+</body>
+</html>
