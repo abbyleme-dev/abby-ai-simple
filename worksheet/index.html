@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>幼兒學習單產生器</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Lexend:wght@400;600;700&display=swap">
+<style>
+/* 版面概念：左邊是一排操作抽屜（選對象、主題、類型、難度），右邊是一張 A4 紙，設定一改紙就重畫。學習單本身只用黑灰色，方便黑白列印；介面用品牌靛紫。固定淺色，因為學習單永遠是白紙。 */
+:root{
+  color-scheme:light;
+  --indigo:#3B3486; --ink:#1C1F33; --apricot:#F4B48C; --apricot-btn:#E39A6E; --apricot-ink:#A4552A;
+  --lav:#B9B3E3; --lav-pale:#E6E3F7; --white:#FFFFFF; --muted:#5B5E73; --line:#DCD9EE; --desk:#F6F5FB;
+  --f-zh:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-num:"Lexend","Noto Sans TC",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--desk);color:var(--ink);font-family:var(--f-zh);font-size:15px;line-height:1.7}
+.wrap{max-width:1200px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.top h1{margin:0;font-size:clamp(22px,3.4vw,30px);font-weight:900;color:var(--indigo);line-height:1.3;text-wrap:balance}
+.top p{margin:0;color:var(--muted);font-size:14px;flex-basis:100%}
+.app{display:grid;grid-template-columns:minmax(0,370px) minmax(0,1fr);gap:22px;margin-top:18px;align-items:start}
+@media (max-width:860px){.app{grid-template-columns:1fr}}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.grp{display:flex;flex-direction:column;gap:6px;min-width:0}
+.grp>label,.grp>.lb{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+select,input[type=text]{width:100%;font:inherit;color:var(--ink);background:var(--white);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:999px;padding:4px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--indigo);border-color:var(--indigo);color:var(--white);font-weight:700}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.types button{font:inherit;text-align:left;border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:10px;padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:0;min-width:0}
+.types button b{font-size:15px}
+.types button small{font-size:12px;color:var(--muted);line-height:1.5}
+.types button[aria-pressed="true"]{border-color:var(--indigo);box-shadow:inset 0 0 0 1px var(--indigo);background:var(--lav-pale)}
+.lv button{font-family:var(--f-num);letter-spacing:.05em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font:inherit;font-size:13px;border:1px dashed var(--lav);background:var(--white);color:var(--indigo);border-radius:6px;padding:1px 9px;cursor:pointer}
+.check{display:flex;gap:8px;align-items:center;font-size:14px}
+.hint{background:var(--lav-pale);border-radius:10px;padding:10px 12px;font-size:14px}
+.hint b{color:var(--indigo)}
+.hint button{margin-top:6px}
+.prompt{background:var(--desk);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;font-weight:700;border-radius:999px;padding:8px 18px;cursor:pointer;border:1px solid var(--indigo);background:var(--white);color:var(--indigo)}
+.btn.primary{background:var(--indigo);color:var(--white)}
+.btn.accent{background:var(--apricot-btn);border-color:var(--apricot-btn);color:var(--ink)}
+.btn.small{padding:3px 12px;font-size:13px}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--apricot-ink);outline-offset:2px}
+.note{font-size:13px;color:var(--muted)}
+.preview{display:flex;flex-direction:column;gap:12px;align-items:center;min-width:0}
+.paper{width:100%;max-width:640px;background:#fff;border-radius:4px;box-shadow:0 1px 2px rgba(28,31,51,.08),0 8px 24px rgba(59,52,134,.10)}
+.paper svg{display:block;width:100%;height:auto}
+.out{width:100%;max-width:640px;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.out img{width:100%;border:1px solid var(--line)}
+.sig{margin-top:36px;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.sig .lk{display:flex;gap:12px;align-items:center;min-width:0}
+.sig .n1{font-weight:900;color:var(--indigo)}
+.sig .n2{font-size:13px;color:var(--muted)}
+.sig .side{display:flex;align-items:center;gap:12px}
+.sig .tagline{font-weight:700}
+.sig a{display:inline-flex;width:28px;height:28px;color:#1877F2}
+.sig a svg{width:28px;height:28px;fill:currentColor}
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff}
+  .top,.panel,.out,.sig,.note{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .app{display:block;margin:0}
+  .paper{max-width:none;box-shadow:none;border-radius:0}
+  .paper svg{width:210mm;height:297mm}
+}
+@media (prefers-reduced-motion:no-preference){.paper svg{transition:opacity .15s}}
+</style>
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <svg viewBox="0 0 64 64" width="40" height="40" role="img" aria-label="Abby 陪你簡單用 AI"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg>
+    <h1>幼兒學習單產生器</h1>
+    <p>選對象、主題、類型和難度，右邊的 A4 學習單會馬上更新。不需要 AI，也不用寫提示詞。</p>
+  </header>
+
+  <main class="app">
+    <section class="panel" aria-label="學習單設定">
+      <div class="grp">
+        <label for="aud">對象</label>
+        <select id="aud">
+          <option>小班</option><option selected>中班</option><option>大班</option><option>國小一年級</option><option>國小二年級</option>
+        </select>
+      </div>
+
+      <div class="grp">
+        <span class="lb">主題</span>
+        <div class="seg" id="themes"></div>
+      </div>
+
+      <div class="grp">
+        <span class="lb">學習單類型</span>
+        <div class="types" id="types"></div>
+      </div>
+
+      <div class="grp">
+        <span class="lb">難度</span>
+        <div class="seg lv" id="levels">
+          <button type="button" data-lv="1">★ 易</button>
+          <button type="button" data-lv="2">★★ 中</button>
+          <button type="button" data-lv="3">★★★ 難</button>
+        </div>
+      </div>
+
+      <div class="grp" id="opt-trace" hidden>
+        <label for="traceText">要描寫的內容</label>
+        <input type="text" id="traceText" value="123" maxlength="12">
+        <div class="chips" data-for="traceText"><button type="button">123</button><button type="button">一二三</button><button type="button">ㄅㄆㄇ</button><button type="button">ABC</button><button type="button">abc</button></div>
+        <span class="note">可以輸入孩子的名字，最多 12 個字。</span>
+      </div>
+
+      <div class="grp" id="opt-find" hidden>
+        <label for="findTarget">要找的符號（一個字）</label>
+        <input type="text" id="findTarget" value="ㄆ" maxlength="1">
+        <div class="chips" data-for="findTarget"><button type="button">ㄆ</button><button type="button">ㄅ</button><button type="button">b</button><button type="button">A</button><button type="button">6</button><button type="button">大</button></div>
+        <span class="note">難度越高，混進越多長得像的符號（例如ㄆ和ㄅ、b 和 d）。</span>
+      </div>
+
+      <div class="grp" id="opt-color" hidden>
+        <label for="colorItem">著色主角</label>
+        <select id="colorItem"></select>
+        <label for="colorFile" style="margin-top:6px">上傳黑白線稿</label>
+        <input type="file" id="colorFile" accept="image/*">
+        <span class="lb" style="margin-top:6px">還沒有線稿？複製這段給 ChatGPT 或 Gemini 畫：</span>
+        <div class="prompt" id="colorPrompt"></div>
+        <div class="btns"><button type="button" class="btn small" id="copyPrompt">複製提示詞</button><span class="note" id="copyMsg" role="status"></span></div>
+      </div>
+
+      <div class="hint" id="kgHint" hidden>
+        <b>小提醒：</b>幼兒園課綱不做注音、英文字母的筆順描寫。建議改用「找一找」認識符號，或用「運筆描線」練前書寫。
+        <div><button type="button" class="btn small" id="toFind">改成找一找</button></div>
+      </div>
+
+      <div class="grp">
+        <label for="title">標題（可修改）</label>
+        <input type="text" id="title" maxlength="16">
+      </div>
+      <div class="grp">
+        <label for="instr">指示語（可修改，老師唸給孩子聽）</label>
+        <input type="text" id="instr" maxlength="24">
+      </div>
+      <label class="check"><input type="checkbox" id="showName" checked> 頁首放「名字」欄</label>
+      <label class="check"><input type="checkbox" id="showFoot" checked> 頁尾放署名</label>
+
+      <div class="btns">
+        <button type="button" class="btn" id="regen">重新產生一張</button>
+        <button type="button" class="btn primary" id="toPng">存成圖片</button>
+        <button type="button" class="btn accent" id="doPrint" hidden>列印</button>
+      </div>
+      <p class="note" id="printNote">要列印時，先按「存成圖片」，再把圖片另存到電腦印出來。用下載的網頁檔打開，可以直接按「列印」。</p>
+    </section>
+
+    <section class="preview" aria-label="學習單預覽">
+      <div class="paper" id="paper"></div>
+      <div class="out" id="out" hidden>
+        <b>圖片已產生</b>
+        <span class="note">電腦：在圖片上按右鍵 →「另存圖片」。手機或平板：長按圖片 →「儲存圖片」。再用 A4 列印。</span>
+        <img id="outImg" alt="學習單圖片">
+      </div>
+    </section>
+  </main>
+
+  <footer class="sig">
+    <div class="lk">
+      <svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg>
+      <div><div class="n1">Abby 陪你簡單用 AI</div><div class="n2">教師數位增能研習｜公部門 AI 培訓｜補習班數位教學陪跑</div></div>
+    </div>
+    <div class="side"><div class="tagline">一堂課，帶走明天就能用的 AI</div>
+      <a href="https://www.facebook.com/abby.ai.simple" target="_blank" rel="noopener" aria-label="前往 Abby 陪你簡單用 AI 的 Facebook 粉專"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.5-3.92 3.77-3.92 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V22c4.78-.79 8.45-4.94 8.45-9.94Z"/></svg></a></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+const W=794,H=1123,M=56,TOP=215,BOT=1050;
+const ZH="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif";
+const EMO="'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif";
+const THEMES={
+  fruit:{name:'水果',end:'🧺',items:[['🍎','蘋果'],['🍌','香蕉'],['🍇','葡萄'],['🍓','草莓'],['🍊','橘子'],['🍉','西瓜'],['🍐','梨子'],['🍒','櫻桃']]},
+  animal:{name:'動物',end:'🏠',items:[['🐶','小狗'],['🐱','小貓'],['🐰','兔子'],['🐻','小熊'],['🐼','貓熊'],['🐸','青蛙'],['🐷','小豬'],['🐘','大象']]},
+  car:{name:'交通工具',end:'🏁',items:[['🚗','汽車'],['🚌','公車'],['🚲','腳踏車'],['✈️','飛機'],['🚂','火車'],['🚢','輪船'],['🚒','消防車'],['🚀','火箭']]},
+  veg:{name:'蔬菜',end:'🧺',items:[['🥕','紅蘿蔔'],['🌽','玉米'],['🥦','花椰菜'],['🍆','茄子'],['🥔','馬鈴薯'],['🍅','番茄'],['🥒','小黃瓜'],['🧅','洋蔥']]},
+  sea:{name:'海洋',end:'🏝️',items:[['🐟','小魚'],['🐙','章魚'],['🐳','鯨魚'],['🦀','螃蟹'],['🐢','海龜'],['🐬','海豚'],['🦈','鯊魚'],['🐚','貝殼']]}
+};
+const TYPES=[
+  ['lines','運筆描線','前書寫，幼兒園適用'],
+  ['trace','描寫','數字、注音、字母、名字'],
+  ['count','數與量','數一數、比多少'],
+  ['sil','剪影配對','看形狀、連一連'],
+  ['find','找一找','認識符號'],
+  ['color','著色','放入 AI 畫的線稿']
+];
+const KG=['小班','中班','大班'];
+const S={type:'count',theme:'fruit',lv:2,aud:'中班',titleEdited:false,instrEdited:false,img:null,data:null};
+const $=id=>document.getElementById(id);
+
+/* ---------- 隨機工具 ---------- */
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const theme=()=>THEMES[S.theme];
+
+/* ---------- 找一找的混淆字 ---------- */
+const ZY='ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ';
+const CONF={'ㄅ':'ㄆㄉㄌㄗ','ㄆ':'ㄅㄉㄠㄨ','ㄇ':'ㄈㄩㄢ','ㄈ':'ㄇㄩㄝ','ㄉ':'ㄅㄌㄆ','ㄊ':'ㄠㄙㄜ','ㄋ':'ㄌㄢㄚ','ㄌ':'ㄋㄉㄅ','ㄍ':'ㄎㄑㄅ','ㄎ':'ㄍㄑㄢ','ㄏ':'ㄕㄗㄊ','ㄐ':'ㄑㄒㄨ','ㄑ':'ㄐㄍㄎ','ㄒ':'ㄐㄧㄙ','ㄓ':'ㄗㄔㄕ','ㄔ':'ㄓㄘㄐ','ㄕ':'ㄏㄙㄗ','ㄖ':'ㄗㄛㄜ','ㄗ':'ㄓㄘㄅ','ㄘ':'ㄔㄗㄙ','ㄙ':'ㄕㄒㄊ','ㄚ':'ㄛㄢㄋ','ㄛ':'ㄚㄜㄡ','ㄜ':'ㄛㄝㄖ','ㄝ':'ㄜㄈㄟ','ㄞ':'ㄟㄠㄢ','ㄟ':'ㄞㄝㄡ','ㄠ':'ㄡㄞㄆ','ㄡ':'ㄠㄛㄟ','ㄢ':'ㄣㄤㄚ','ㄣ':'ㄢㄥㄋ','ㄤ':'ㄢㄥㄦ','ㄥ':'ㄣㄤㄦ','ㄦ':'ㄥㄤㄧ','ㄧ':'ㄨㄦㄒ','ㄨ':'ㄧㄩㄐ','ㄩ':'ㄨㄇㄈ',
+ b:'dpq',d:'bpq',p:'qbd',q:'pdb',m:'nwu',n:'mhu',u:'nvw',v:'uwy',w:'mvu',h:'nkb',i:'jlt',j:'ig',l:'ijt',a:'oe',e:'ca',c:'eo',o:'ca',
+ A:'HVR',B:'PRD',C:'GOQ',D:'OBP',E:'FB',F:'EP',G:'CQ',H:'AN',M:'NW',N:'MH',O:'QCD',P:'RBF',Q:'OG',R:'PB',U:'VJ',V:'UY',W:'MV',
+ '0':'869','1':'74','2':'573','3':'852','4':'19','5':'263','6':'908','7':'14','8':'036','9':'680',
+ '大':'太犬天','太':'大犬天','天':'大夫太','人':'入八','入':'人八','木':'本未禾','日':'目田白','目':'日自且','上':'下土止','王':'玉主土'};
+function pool(t){
+  if(ZY.includes(t))return ZY.split('');
+  if(/[a-z]/.test(t))return 'abcdefghijklmnopqrstuvwxyz'.split('');
+  if(/[A-Z]/.test(t))return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  if(/[0-9]/.test(t))return '0123456789'.split('');
+  return '大太天人入八木本未日目田上下土王玉山水火'.split('');
+}
+
+/* ---------- 產生題目資料 ---------- */
+function gen(){
+  const T=theme(),lv=S.lv;
+  if(S.type==='lines'){
+    S.data={kinds:{1:['straight','straight','bump'],2:['wave','zigzag','bump','castle'],3:['zigzag','wave','castle','loop','bump']}[lv],
+      icons:shuffle(T.items).map(x=>x[0])};
+  }else if(S.type==='count'){
+    const max={1:3,2:5,3:10}[lv];const qs=[];
+    for(let i=0;i<4;i++){
+      if(lv===3&&i===3){let a=ri(3,8),b;do{b=ri(3,8)}while(b===a);qs.push({cmp:true,a,b,icon:T.items[ri(0,7)][0]});continue}
+      let n;do{n=ri(1,max)}while(qs.some(q=>q.n===n)&&max>4);
+      const opts=new Set([n]);const lo=1,hi=Math.max(3,max);
+      while(opts.size<3){opts.add(ri(lo,hi))}
+      qs.push({n,opts:shuffle([...opts]),icon:T.items[(i+ri(0,7))%8][0]});
+    }
+    S.data={qs};
+  }else if(S.type==='sil'){
+    const P={1:2,2:4,3:6}[lv];const items=shuffle(T.items).slice(0,P).map(x=>x[0]);
+    let right=shuffle(items);let guard=0;while(P>1&&right.join()===items.join()&&guard++<20)right=shuffle(items);
+    S.data={left:items,right};
+  }else if(S.type==='find'){
+    const t=(($('findTarget').value||'ㄆ').trim()[0])||'ㄆ';
+    const n={1:3,2:4,3:5}[lv],k={1:3,2:5,3:7}[lv];
+    const conf=(CONF[t]||'').split('').filter(c=>c!==t);
+    const far=pool(t).filter(c=>c!==t&&!conf.includes(c));
+    const cells=[];for(let i=0;i<k;i++)cells.push(t);
+    const nd=n*n-k;
+    for(let i=0;i<nd;i++){
+      let useConf=conf.length&&(lv===3?Math.random()<.8:lv===2?Math.random()<.5:false);
+      const src=useConf?conf:(far.length?far:conf);
+      cells.push(src[ri(0,src.length-1)]);
+    }
+    S.data={t,n,cells:shuffle(cells)};
+  }else{S.data={}}
+}
+
+/* ---------- 運筆路徑 ---------- */
+function linePath(kind,x0,x1,y,a){
+  const L=x1-x0,P=[];
+  if(kind==='straight')return `M${x0} ${y}H${x1}`;
+  if(kind==='zigzag'){const s=8;let d=`M${x0} ${y}`;for(let i=1;i<=s;i++){d+=`L${(x0+L*i/s).toFixed(1)} ${(i===s?y:y+(i%2?-a:a)).toFixed(1)}`}return d}
+  if(kind==='castle'){const s=6,w=L/(s*2);let d=`M${x0} ${y+a*.6}`,x=x0;for(let i=0;i<s;i++){d+=`H${(x+w).toFixed(1)}V${(y-a*.6).toFixed(1)}H${(x+2*w).toFixed(1)}V${(y+a*.6).toFixed(1)}`;x+=2*w}return d}
+  if(kind==='loop'){const k=6,c=L/(2*Math.PI*k),dd=Math.min(c*1.7,a);for(let i=0;i<=360;i++){const u=2*Math.PI*k*i/360;P.push([x0+c*u-dd*Math.sin(u),y+dd*Math.cos(u)-dd])}}
+  else{for(let i=0;i<=240;i++){const t=i/240;let yy=y;
+    if(kind==='wave')yy=y+a*Math.sin(t*Math.PI*2*3);
+    if(kind==='bump')yy=y-a*Math.abs(Math.sin(t*Math.PI*5))+a*.4;
+    P.push([x0+L*t,yy])}}
+  return 'M'+P.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L');
+}
+
+/* ---------- 自動標題與指示語 ---------- */
+function autoTitle(){const T=theme();return {lines:T.name+'運筆練習',trace:'描一描',count:T.name+'數一數',sil:T.name+'找影子',find:'找一找',color:(T.items[+$('colorItem').value||0]||T.items[0])[1]+'著色'}[S.type]}
+function autoInstr(){
+  const t=(($('findTarget').value||'ㄆ').trim()[0])||'ㄆ';
+  return {lines:'沿著虛線，從左邊畫到右邊',trace:S.lv<3?'先看黑色的字，再沿著虛線描一描':'看著第一個字，在格子裡寫寫看',
+    count:'數一數，圈出正確的數字',sil:'把每個圖和它的影子連起來',find:`找出所有的「${t}」，圈起來`,color:'選你喜歡的顏色，把圖塗滿'}[S.type];
+}
+
+/* ---------- 畫出 A4 ---------- */
+const emo=(x,y,size,ch,extra='')=>`<text x="${x}" y="${y}" font-size="${size}" text-anchor="middle" dominant-baseline="central" font-family="${EMO}" ${extra}>${ch}</text>`;
+function render(){
+  const lv=S.lv,T=theme();
+  const title=$('title').value||autoTitle(),instr=$('instr').value||autoInstr();
+  let g='';
+  // 頁首
+  g+=`<text x="${M}" y="96" font-family="${ZH}" font-size="40" font-weight="900" fill="#1C1F33">${esc(title)}</text>`;
+  if($('showName').checked){g+=`<text x="${W-M-200}" y="94" font-family="${ZH}" font-size="19" fill="#5B5E73" text-anchor="end">名字</text><line x1="${W-M-190}" y1="98" x2="${W-M}" y2="98" stroke="#9A9DB0" stroke-width="1.5"/>`}
+  g+=`<rect x="${M}" y="128" width="${W-2*M}" height="58" rx="14" fill="#F2F1F8"/>`;
+  g+=`<text x="${M+20}" y="157" font-family="${ZH}" font-size="23" font-weight="700" fill="#1C1F33" dominant-baseline="central">${esc(instr)}</text>`;
+  g+=`<text x="${W-M-20}" y="157" font-family="${ZH}" font-size="20" fill="#5B5E73" text-anchor="end" dominant-baseline="central">${'★'.repeat(lv)}${'☆'.repeat(3-lv)}</text>`;
+  const D=S.data||{};
+  const area=BOT-TOP;
+
+  if(S.type==='lines'){
+    const ks=D.kinds,R=ks.length,rh=area/R,a=Math.min(rh*.28,42);
+    const sw={1:7,2:5,3:3.5}[lv],dash={1:'0.1 15',2:'0.1 12',3:'0.1 9'}[lv];
+    ks.forEach((k,i)=>{
+      const y=TOP+rh*(i+.5),x0=M+78,x1=W-M-78;
+      g+=emo(M+32,y,50,D.icons[i%D.icons.length]);
+      g+=emo(W-M-32,y,50,T.end);
+      g+=`<path d="${linePath(k,x0,x1,y,a)}" fill="none" stroke="#7E8296" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${dash}"/>`;
+      const sy=(k==='castle')?y+a*.6:(k==='bump'?y+a*.4:y);
+      g+=`<circle cx="${x0}" cy="${sy}" r="7" fill="#1C1F33"/>`;
+      if(lv===1)g+=`<path d="M${x0+14} ${sy-18}l14 6-14 6z" fill="#1C1F33"/>`;
+    });
+  }
+
+  if(S.type==='trace'){
+    let chars=Array.from(($('traceText').value||'123').replace(/\s/g,'')).slice(0,12);if(!chars.length)chars=['1'];
+    const cell={1:118,2:100,3:88}[lv],gap=14,cols=Math.floor((W-2*M+gap)/(cell+gap));
+    const totalRows=Math.max(1,Math.floor((area+gap)/(cell+gap)));
+    const nC=Math.min(chars.length,totalRows),base=Math.max(1,Math.floor(totalRows/nC)),extra=totalRows-base*nC;
+    const sx=(W-(cols*cell+(cols-1)*gap))/2;let row=0;
+    const sw={1:2.6,2:2,3:2}[lv],dash={1:'5 4',2:'4 4',3:'4 4'}[lv];
+    for(let c=0;c<nC;c++){const per=base+(c<extra?1:0);for(let r=0;r<per;r++){
+      const y=TOP+row*(cell+gap);
+      for(let k=0;k<cols;k++){
+        const x=sx+k*(cell+gap),cx=x+cell/2,cy=y+cell/2;
+        g+=`<rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="6" fill="#fff" stroke="#C9CCD8" stroke-width="1.5"/>`;
+        g+=`<path d="M${x+6} ${cy}H${x+cell-6}M${cx} ${y+6}V${y+cell-6}" stroke="#E3E4EC" stroke-width="1.2" stroke-dasharray="4 4"/>`;
+        const first=(r===0&&k===0);
+        if(first)g+=`<text x="${cx}" y="${cy}" font-family="${ZH}" font-size="${cell*.74}" font-weight="500" fill="#1C1F33" text-anchor="middle" dominant-baseline="central">${esc(chars[c])}</text>`;
+        else if(lv<3)g+=`<text x="${cx}" y="${cy}" font-family="${ZH}" font-size="${cell*.74}" font-weight="500" fill="none" stroke="#8E92A6" stroke-width="${sw}" stroke-dasharray="${dash}" stroke-linejoin="round" text-anchor="middle" dominant-baseline="central">${esc(chars[c])}</text>`;
+      }
+      row++;
+    }}
+  }
+
+  if(S.type==='count'){
+    const rh=area/4;
+    D.qs.forEach((q,i)=>{
+      const y=TOP+rh*i,h=rh-24,cy=y+h/2;
+      g+=`<text x="${M}" y="${y+26}" font-family="${ZH}" font-size="22" font-weight="700" fill="#5B5E73">${i+1}.</text>`;
+      const drawIcons=(n,bx,bw,top,bh,icon)=>{
+        const per=n<=5?n:Math.ceil(n/2),lines=Math.ceil(n/per);
+        const sz=Math.min(58,(bw-36)/per/1.22,(bh-20)/lines/1.22),st=sz*1.22;let s='';
+        for(let j=0;j<n;j++){const r=Math.floor(j/per),c=j%per,cnt=Math.min(per,n-r*per);
+          const x=bx+bw/2+(c-(cnt-1)/2)*st,yy=top+bh/2+(r-(lines-1)/2)*st;s+=emo(x.toFixed(1),yy.toFixed(1),sz.toFixed(1),icon)}
+        return s;
+      };
+      if(q.cmp){
+        g+=`<text x="${M+34}" y="${y+26}" font-family="${ZH}" font-size="19" fill="#5B5E73">哪一邊比較多？圈起來</text>`;
+        const bt=y+40,bh=h-40;
+        g+=`<rect x="${M+34}" y="${bt}" width="318" height="${bh}" rx="14" fill="none" stroke="#C9CCD8" stroke-width="1.5"/>`;
+        g+=`<rect x="${M+372}" y="${bt}" width="310" height="${bh}" rx="14" fill="none" stroke="#C9CCD8" stroke-width="1.5"/>`;
+        g+=drawIcons(q.a,M+34,318,bt,bh,q.icon)+drawIcons(q.b,M+372,310,bt,bh,q.icon);
+        return;
+      }
+      g+=`<rect x="${M+34}" y="${y}" width="400" height="${h}" rx="14" fill="none" stroke="#C9CCD8" stroke-width="1.5"/>`;
+      g+=drawIcons(q.n,M+34,400,y,h,q.icon);
+      [542,621,700].forEach((ox,j)=>{const v=q.opts[j];
+        g+=`<circle cx="${ox}" cy="${cy}" r="31" fill="#fff" stroke="#9A9DB0" stroke-width="1.5"/>`;
+        g+=`<text x="${ox}" y="${cy}" font-family="Lexend,${ZH}" font-size="34" font-weight="600" fill="#1C1F33" text-anchor="middle" dominant-baseline="central">${v}</text>`;
+        if(lv===1){for(let d=0;d<v;d++)g+=`<circle cx="${ox+(d-(v-1)/2)*12}" cy="${cy+46}" r="4" fill="#5B5E73"/>`}
+      });
+    });
+  }
+
+  if(S.type==='sil'){
+    const P=D.left.length,rh=area/P,sz=Math.min(110,rh*.62);
+    D.left.forEach((ch,i)=>{const y=TOP+rh*(i+.5);
+      g+=emo(M+110,y,sz,ch)+`<circle cx="${M+200}" cy="${y}" r="8" fill="#1C1F33"/>`;
+      g+=emo(W-M-110,y,sz,D.right[i],'filter="url(#sil)"')+`<circle cx="${W-M-200}" cy="${y}" r="8" fill="#1C1F33"/>`;
+    });
+  }
+
+  if(S.type==='find'){
+    g+=`<rect x="${M}" y="${TOP}" width="${W-2*M}" height="118" rx="16" fill="none" stroke="#C9CCD8" stroke-width="1.5"/>`;
+    g+=`<text x="${M+30}" y="${TOP+59}" font-family="${ZH}" font-size="26" font-weight="700" fill="#1C1F33" dominant-baseline="central">要找的是</text>`;
+    g+=`<text x="${M+230}" y="${TOP+59}" font-family="${ZH}" font-size="78" font-weight="700" fill="#1C1F33" text-anchor="middle" dominant-baseline="central">${esc(D.t)}</text>`;
+    g+=emo(W-M-70,TOP+59,60,T.items[0][0]);
+    const gt=TOP+150,side=Math.min(W-2*M,BOT-gt),cs=side/D.n,gx=(W-side)/2;
+    D.cells.forEach((c,i)=>{const r=Math.floor(i/D.n),k=i%D.n,cx=gx+cs*(k+.5),cy=gt+cs*(r+.5);
+      g+=`<circle cx="${cx}" cy="${cy}" r="${cs*.4}" fill="#fff" stroke="#D3D5E0" stroke-width="1.5"/>`;
+      g+=`<text x="${cx}" y="${cy}" font-family="${ZH}" font-size="${cs*.42}" font-weight="500" fill="#1C1F33" text-anchor="middle" dominant-baseline="central">${esc(c)}</text>`;
+    });
+  }
+
+  if(S.type==='color'){
+    if(S.img){g+=`<image href="${S.img}" x="${M}" y="${TOP}" width="${W-2*M}" height="${area}" preserveAspectRatio="xMidYMid meet"/>`}
+    else{
+      const it=T.items[+$('colorItem').value||0];
+      g+=`<rect x="${M}" y="${TOP}" width="${W-2*M}" height="${area}" rx="18" fill="none" stroke="#C9CCD8" stroke-width="2" stroke-dasharray="10 8"/>`;
+      g+=emo(W/2,TOP+area/2-60,160,it[0],'opacity="0.35"');
+      g+=`<text x="${W/2}" y="${TOP+area/2+90}" font-family="${ZH}" font-size="24" font-weight="700" fill="#5B5E73" text-anchor="middle">這裡放黑白線稿</text>`;
+      g+=`<text x="${W/2}" y="${TOP+area/2+128}" font-family="${ZH}" font-size="18" fill="#7E8296" text-anchor="middle">在左邊上傳圖片，或複製提示詞請 AI 畫一張</text>`;
+    }
+  }
+
+  if($('showFoot').checked)g+=`<text x="${W/2}" y="${H-28}" font-family="${ZH}" font-size="13" fill="#9A9DB0" text-anchor="middle">Abby 陪你簡單用 AI｜@abby.ai.simple</text>`;
+
+  $('paper').innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(title)}"><defs><filter id="sil"><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/></filter></defs><rect width="${W}" height="${H}" fill="#fff"/>${g}</svg>`;
+  $('out').hidden=true;
+}
+
+/* ---------- 介面 ---------- */
+function syncUI(){
+  document.querySelectorAll('#themes button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===S.theme));
+  document.querySelectorAll('#types button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===S.type));
+  document.querySelectorAll('#levels button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.lv===S.lv));
+  $('opt-trace').hidden=S.type!=='trace';$('opt-find').hidden=S.type!=='find';$('opt-color').hidden=S.type!=='color';
+  const txt=$('traceText').value;
+  $('kgHint').hidden=!(S.type==='trace'&&KG.includes(S.aud)&&/[ㄅ-ㄩA-Za-z]/.test(txt));
+  if(!S.titleEdited)$('title').value=autoTitle();
+  if(!S.instrEdited)$('instr').value=autoInstr();
+  const T=theme(),it=T.items[+$('colorItem').value||0];
+  const det={1:'只有一個大圖案、細節很少',2:'一個主角加上簡單的背景',3:'主角加上背景，細節多一些'}[S.lv];
+  const age=KG.includes(S.aud)?{小班:'3–4 歲',中班:'4–5 歲',大班:'5–6 歲'}[S.aud]+'幼兒':S.aud+'學生';
+  $('colorPrompt').textContent=`請畫一張「${it[1]}」的著色圖：黑白線稿、線條粗而清楚、${det}、白色背景、沒有任何文字、適合${age}塗色、可以印在直式 A4 紙上。`;
+}
+function fillColorItems(){const s=$('colorItem'),v=s.value;s.innerHTML=theme().items.map((x,i)=>`<option value="${i}">${x[0]} ${x[1]}</option>`).join('');s.value=v||'0'}
+function update(regen){if(regen)gen();syncUI();render()}
+
+$('themes').innerHTML=Object.entries(THEMES).map(([k,v])=>`<button type="button" data-k="${k}">${v.items[0][0]} ${v.name}</button>`).join('');
+$('types').innerHTML=TYPES.map(t=>`<button type="button" data-k="${t[0]}"><b>${t[1]}</b><small>${t[2]}</small></button>`).join('');
+$('themes').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.theme=b.dataset.k;fillColorItems();update(true)};
+$('types').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.type=b.dataset.k;S.titleEdited=false;S.instrEdited=false;update(true)};
+$('levels').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.lv=+b.dataset.lv;if(!S.instrEdited)$('instr').value='';update(true)};
+$('aud').onchange=e=>{S.aud=e.target.value;update(false)};
+document.querySelectorAll('.chips').forEach(c=>c.onclick=e=>{const b=e.target.closest('button');if(!b)return;$(c.dataset.for).value=b.textContent;S.instrEdited=false;update(true)});
+$('traceText').oninput=()=>update(false);
+$('findTarget').oninput=()=>{S.instrEdited=false;update(true)};
+$('colorItem').onchange=()=>{S.titleEdited=false;update(false)};
+$('title').oninput=()=>{S.titleEdited=true;render()};
+$('instr').oninput=()=>{S.instrEdited=true;render()};
+$('showName').onchange=render;$('showFoot').onchange=render;
+$('regen').onclick=()=>update(true);
+$('toFind').onclick=()=>{S.type='find';S.titleEdited=false;S.instrEdited=false;update(true)};
+$('colorFile').onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{S.img=r.result;render()};r.readAsDataURL(f)};
+$('copyPrompt').onclick=()=>{const t=$('colorPrompt').textContent;const done=()=>{$('copyMsg').textContent='已複製'};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,()=>{selectText();$('copyMsg').textContent='請按 Ctrl+C 複製'})}else{selectText();$('copyMsg').textContent='請按 Ctrl+C 複製'}};
+function selectText(){const r=document.createRange();r.selectNodeContents($('colorPrompt'));const s=getSelection();s.removeAllRanges();s.addRange(r)}
+$('toPng').onclick=()=>{
+  const svg=$('paper').querySelector('svg');const str=new XMLSerializer().serializeToString(svg);
+  const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=W*2.5;c.height=H*2.5;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);
+    try{$('outImg').src=c.toDataURL('image/png');$('out').hidden=false;$('out').scrollIntoView({behavior:'smooth',block:'start'})}catch(err){$('out').hidden=false;$('outImg').alt='這個瀏覽器無法產生圖片，請改用下載的網頁檔列印'}};
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(str);
+};
+let top=false;try{top=window.self===window.top}catch(e){top=false}
+if(top){$('doPrint').hidden=false;$('printNote').textContent='按「列印」會只印出 A4 學習單。列印設定請選 A4、邊界「無」。';$('doPrint').onclick=()=>window.print()}
+fillColorItems();update(true);
+})();
+</script>
+
+</body>
+</html>
