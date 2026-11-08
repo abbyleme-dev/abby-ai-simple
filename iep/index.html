@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IEP 表單工具箱</title>
+<style>
+/* 版面：上方安全說明與代號設定；中間六個 IEP 時間點分頁；每頁左邊是表單與紀錄，右邊是統計與「複製給 AI」。
+   不載入任何外部資源；資料只存在這台電腦的瀏覽器。 */
+:root{
+  color-scheme:light;
+  --indigo:#3B3486; --ink:#1C1F33; --muted:#5B5E73; --lav:#B9B3E3; --lav-pale:#E6E3F7;
+  --apricot:#F4B48C; --apricot-ink:#A4552A; --white:#FFFFFF; --desk:#F6F5FB; --line:#DCD9EE;
+  --ok:#2F6B4F; --ok-bg:#E4F2EA; --flag:#FFE7B8;
+  --f:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Heiti TC",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.7}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 16px 48px}
+h1{margin:0;font-size:clamp(22px,3.4vw,30px);font-weight:900;color:var(--indigo);line-height:1.3}
+.sub{margin:4px 0 0;color:var(--muted);font-size:14px}
+.safe{margin-top:14px;background:var(--ok-bg);border:1px solid #BFDCCB;border-radius:12px;padding:10px 14px;font-size:14px}
+.safe b{color:var(--ok)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.btn{font:inherit;font-weight:700;border-radius:999px;padding:6px 16px;cursor:pointer;border:1px solid var(--indigo);background:var(--white);color:var(--indigo)}
+.btn.primary{background:var(--indigo);color:#fff}
+.btn.small{padding:2px 12px;font-size:13px}
+.btn.warn{border-color:var(--apricot-ink);color:var(--apricot-ink)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--apricot-ink);outline-offset:2px}
+details.set{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:10px 16px;margin-top:14px}
+details.set summary{cursor:pointer;font-weight:700;color:var(--indigo)}
+.setgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:10px}
+label.lb{display:block;font-weight:700;font-size:14px}
+.hint{font-size:13px;color:var(--muted)}
+textarea,input[type=text],input[type=date],select{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--white);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+textarea{resize:vertical;min-height:64px;line-height:1.7}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.tab{font:inherit;font-size:14px;font-weight:700;border:1px solid var(--line);background:var(--white);color:var(--muted);border-radius:12px;padding:8px 14px;cursor:pointer;text-align:left;line-height:1.35}
+.tab small{display:block;font-weight:400;font-size:12px}
+.tab[aria-selected=true]{background:var(--indigo);color:#fff;border-color:var(--indigo)}
+.stage{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;margin-top:14px;align-items:start}
+@media (max-width:900px){.stage{grid-template-columns:1fr}}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel h2{margin:0;font-size:18px;color:var(--indigo)}
+.panel h3{margin:0;font-size:15px}
+.why{background:var(--lav-pale);border-radius:10px;padding:10px 12px;font-size:14px}
+.forms{display:flex;flex-direction:column;gap:8px}
+.fcard{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.fcard b{color:var(--indigo)}
+.fcard p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.tag{display:inline-block;font-size:12px;border-radius:999px;padding:0 8px;background:var(--desk);color:var(--muted);margin-left:6px;font-weight:400}
+.rec{border-top:1px solid var(--line);padding:8px 0;display:flex;gap:8px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.rec:first-child{border-top:none}
+.rec .t{font-size:14px;min-width:0;flex:1}
+.rec .t b{color:var(--ink)}
+.rec .t span{color:var(--muted);font-size:13px}
+.stats{display:flex;flex-direction:column;gap:10px}
+.stat{background:var(--desk);border-radius:10px;padding:10px 12px;font-size:14px}
+.stat h4{margin:0 0 4px;font-size:14px;color:var(--indigo)}
+.barrow{display:grid;grid-template-columns:minmax(90px,38%) 1fr 34px;gap:8px;align-items:center;font-size:13px;margin:3px 0}
+.barbg{background:var(--white);border-radius:4px;height:12px;overflow:hidden}
+.barfg{background:var(--indigo);height:100%}
+.ai{border:2px solid var(--apricot);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.ai b{color:var(--apricot-ink)}
+.out{white-space:pre-wrap;word-break:break-word;background:var(--desk);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px;max-height:320px;overflow:auto;line-height:1.7}
+.msg{font-size:13px;color:var(--ok);min-height:1.4em}
+.flagline{font-size:13px;background:#FFF4E8;border:1px solid #F1D2B5;border-radius:8px;padding:6px 10px}
+.empty{color:var(--muted);font-size:14px}
+/* 表單編輯 */
+dialog{border:none;border-radius:16px;padding:0;width:min(860px,96vw);max-height:92vh}
+dialog::backdrop{background:rgba(28,31,51,.45)}
+.dhead{position:sticky;top:0;background:var(--indigo);color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:8px;z-index:1}
+.dhead h2{margin:0;font-size:18px}
+.dbody{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.dfoot{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--line);padding:10px 18px;display:flex;gap:8px;justify-content:flex-end}
+.sec{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.sec>h3{margin:0;font-size:15px;color:var(--indigo)}
+.fld{display:flex;flex-direction:column;gap:4px}
+.chks{display:flex;flex-wrap:wrap;gap:4px 14px}
+.chks label{font-size:14px;display:flex;gap:5px;align-items:center}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+table.g{border-collapse:collapse;width:100%;font-size:13px}
+table.g th,table.g td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:middle}
+table.g th{background:var(--desk);font-weight:700}
+table.g td.c{text-align:center;width:44px}
+.tw{overflow-x:auto}
+.foot{margin-top:28px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}
+.foot a{color:var(--indigo)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>IEP 表單工具箱</h1>
+  <p class="sub">平常用表單記錄 → 工具自動去識別化、自動統計 → 一鍵帶著提示詞交給 AI。AI 寫的是草稿，IEP 由團隊與家長一起決定。</p>
+  <div class="safe"><b>資料只在你這台電腦。</b>本頁不連網、不載入外部資源；紀錄只存在這個瀏覽器（換電腦或清除瀏覽資料就會不見，請用「匯出備份」）。<b>共用電腦請勿使用，或用完按「全部清除」。</b>交給 AI 的只有「複製給 AI」框裡已經去識別化的文字。</div>
+  <div class="bar">
+    <button class="btn" id="bSample">載入示範資料（虛構幼兒）</button>
+    <button class="btn" id="bExport">匯出備份</button>
+    <label class="btn" for="fImport" style="display:inline-block">匯入備份</label>
+    <input type="file" id="fImport" accept=".json,application/json" hidden>
+    <button class="btn warn" id="bClear">全部清除</button>
+    <span class="msg" id="topMsg"></span>
+  </div>
+
+  <details class="set" id="setBox">
+    <summary>代號設定與去識別化（交給 AI 前自動套用）</summary>
+    <div class="setgrid">
+      <div class="fld">
+        <label class="lb" for="names">姓名對照（一行一個人）</label>
+        <textarea id="names" placeholder="王小樹、小樹 → 幼兒A"></textarea>
+        <span class="hint">格式：真名、小名 → 代號。對照表只留在這台電腦，不會被複製給 AI。</span>
+      </div>
+      <div class="fld">
+        <label class="lb" for="drops">要直接刪掉的詞（一行一個）</label>
+        <textarea id="drops" placeholder="園所、班級、醫院、家長姓名……"></textarea>
+        <span class="hint">刪掉後會留下「○○」。</span>
+      </div>
+      <div class="fld">
+        <label class="lb" for="dateMode">日期怎麼處理</label>
+        <select id="dateMode">
+          <option value="month">只留月份（10 月）— 建議</option>
+          <option value="hide">全部改成「某日」</option>
+          <option value="keep">保留月日（10/30）</option>
+        </select>
+        <span class="hint">電話、身分證字號、Email 一律自動遮蔽。</span>
+      </div>
+    </div>
+  </details>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="stageBox"></div>
+
+  <div class="foot">
+    <span>Abby 陪你簡單用 AI｜@abby.ai.simple</span>
+    <span>表單內容改作自「幼教老師不加班」社團素儀老師的免費表單，經作者同意製作線上版。<a href="https://www.facebook.com/groups/1121639707211389" rel="noopener" target="_blank">到社團下載原始表單</a>　示範資料為虛構</span>
+  </div>
+</div>
+
+<dialog id="dlg">
+  <div class="dhead"><h2 id="dTitle">紀錄</h2><button class="btn small" id="dClose" style="background:#fff">關閉</button></div>
+  <form class="dbody" id="dForm" onsubmit="return false"></form>
+  <div class="dfoot"><button class="btn" id="dCancel">取消</button><button class="btn primary" id="dSave">儲存</button></div>
+</dialog>
+
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const reEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const KEY='iep-toolbox-v1';
+
+/* ---------- 表單定義 ---------- */
+const MARK4=['○','△','◇','－'];
+const T=(k,label,extra)=>Object.assign({k,label,type:'text'},extra||{});
+const TA=(k,label,extra)=>Object.assign({k,label,type:'textarea'},extra||{});
+const CK=(k,label,options,extra)=>Object.assign({k,label,type:'checks',options},extra||{});
+const RD=(k,label,options)=>({k,label,type:'radio',options});
+const D=(k,label)=>({k,label:label||'日期',type:'date'});
+const CHILD=T('child','幼兒姓名');
+
+const FORMS={
+  general:{name:'通用觀察紀錄卡',short:'通用紀錄',purpose:'沒有專屬表單時用。只寫看得到的事實：情境、孩子做了什麼、次數、老師怎麼回應、後來怎樣。',
+    sections:[{fields:[CHILD,D('date'),{k:'ref',label:'對應的社團表單',type:'select',options:['（不指定）','幼兒學習區觀察紀錄表','幼兒學習區選擇與參與偏好分析單','表單18 幼兒團體活動參與觀察表','表單19 幼兒同儕合作能力觀察表','幼兒求助方式觀察與支持單','幼兒表達拒絕與界線觀察單','幼兒自主解決問題觀察單','表單05 幼兒同儕衝突觀察紀錄表','表單07 幼兒活動轉換觀察紀錄表','表單14 幼兒挫折反應與問題解決觀察表','幼兒園突發狀況處理與交接紀錄單','表單10 幼兒任務完成追蹤表','幼兒學習困難原因分析與教學調整單','表單17 學習區材料難度分層規劃表','表單20 幼兒收拾整理能力觀察表','表單21 幼兒選擇與做決定觀察表']},
+      T('scene','情境（在做什麼、在哪裡）'),TA('did','孩子做了什麼（只寫看到的動作）'),T('times','次數或持續多久'),TA('words','孩子說的話（照原句）'),TA('resp','老師怎麼回應'),TA('after','孩子後來怎樣')]}]},
+
+  f11:{name:'表單11 幼兒語言表達觀察紀錄表',short:'語言表達',purpose:'先留下孩子現在怎麼表達，尤其是孩子的原話。能力現況「語文」最好的證據。',
+    sections:[
+      {fields:[CHILD,D('date'),T('scene','觀察情境')]},
+      {title:'01 孩子會主動表達嗎？',fields:[CK('initiate','',['主動說出需求','主動分享經驗','主動提出問題','通常等待成人詢問','以動作或指向代替語言','需要成人協助表達','在熟悉的人面前較願意說'],{other:true})]},
+      {title:'02 孩子目前可以表達哪些內容？',fields:[CK('content','',['說出自己想要什麼','說出不想要什麼','描述正在發生的事情','說明自己的感受','說明原因','分享過去的經驗','說出自己的想法','提出問題','與同儕進行簡單對話']),TA('content_obs','我觀察到的實際情況')]},
+      {title:'03 孩子怎麼回答問題？',fields:[CK('answer','',['能直接回答','需要再問一次','需要提供選項','回答內容很短','容易答非所問','需要圖片或情境提示','會用動作代替回答','不知道時會說不知道'],{other:true})]},
+      {title:'04 把孩子的原話留下來',fields:[TA('q1','情境一　孩子說'),TA('q2','情境二　孩子說'),TA('q3','情境三　孩子說')]},
+      {title:'05 和同儕說話時',fields:[CK('peer','',['主動加入對話','能輪流說話','能回應同儕','能說出自己的意見','能拒絕或表達不同意','發生衝突時能嘗試用語言處理','常需要成人代替表達','容易離開對話'],{other:true})]},
+      {title:'06 說不出來時，孩子怎麼辦？',fields:[CK('stuck','',['換一種說法','用動作表示','指給別人看','找成人幫忙','重複同一句話','放棄表達','出現情緒反應','等成人幫他說完'],{other:true}),TA('stuck_obs','我觀察到的例子')]},
+      {title:'07 老師目前提供哪些語言支持？',fields:[CK('support','',['給孩子多一點等待時間','示範完整句子','幫孩子補充詞彙','用問題協助孩子整理想法','提供選項','使用圖片或實物提示','重述孩子的話再延伸','鼓勵孩子自己再說一次'],{other:true}),T('best','哪一種支持目前最有幫助？')]},
+      {title:'08 下一步想支持什麼？',fields:[CK('next','',['更主動表達需求','增加詞彙','把句子說得更完整','說明事情經過','表達情緒與原因','回答問題','與同儕對話','發生衝突時使用語言','主動提問']),TA('next_plan','下一次，我可以先這樣支持')]}]},
+
+  f02:{name:'表單02 幼兒生活自理能力觀察表',short:'生活自理',purpose:'○ 可獨立完成　△ 提醒後完成　◇ 需要協助　－ 尚未觀察。能力現況「身體動作與健康」的證據。',
+    sections:[
+      {fields:[CHILD,D('date','觀察期間（開始）'),D('date2','觀察期間（結束）')]},
+      {title:'01–05 觀察項目',fields:[{k:'grid',type:'grid',marks:MARK4,markNames:['可獨立完成','提醒後完成','需要協助','尚未觀察'],groups:[
+        ['用餐與飲水',['能自行使用餐具進食','能自行取用及收拾餐具','食物掉落時能嘗試自行處理','能在用餐後整理自己的位置','能自行飲水並將水杯歸位']],
+        ['如廁與清潔',['能主動表達如廁需求','能自行穿脫褲子','能完成基本如廁清潔','如廁後能自行沖水','能依步驟完成洗手','能整理自己的衣物']],
+        ['穿脫與個人物品',['能自行穿脫外套','能自行穿脫鞋襪','能辨認自己的物品','能整理自己的書包','能將個人物品放回固定位置','發現物品遺失時，能嘗試尋找或向成人求助']],
+        ['環境整理',['使用材料後能主動收拾','能依分類將物品放回原位','能整理自己的座位或活動空間','能完成簡單的班級整理工作','收拾過程中能持續完成，不因其他活動中斷']],
+        ['午休與日常流程',['能準備自己的午休用品','能自行整理寢具','能依班級流程完成日常準備','活動轉換時能整理自己的物品','知道下一個流程並嘗試自行準備']]]}]},
+      {title:'06 老師的觀察與下一步',fields:[TA('good','目前做得很好的地方'),TA('need','目前還需要支持的地方'),TA('next','下一步我可以提供的支持')]}]},
+
+  f22:{name:'表單22 幼兒一日作息適應觀察表',short:'一日作息',purpose:'把一天拆開來看，找到真正需要支持的時段。○ 穩定自主　△ 提醒後完成　◇ 需要協助　× 明顯困難。',
+    sections:[
+      {fields:[CHILD,D('date')]},
+      {title:'01 一日作息快速觀察',fields:[{k:'day',type:'daygrid',slots:['入園','晨間活動','團體活動','學習區','用餐','午休','戶外／大肌肉','活動轉換','放學'],cols:['進入活動','參與／完成','轉換離開'],marks:['○','△','◇','×']}]},
+      {title:'02–03 最穩定與最需要支持的時段',fields:[CK('stable','最穩定的時段',['入園','晨間活動','團體活動','學習區','用餐','午休','戶外／大肌肉','活動轉換','放學']),TA('stable_can','這個時段孩子做得到什麼？'),CK('hard','最需要支持的時段',['入園','晨間活動','團體活動','學習區','用餐','午休','戶外／大肌肉','活動轉換','放學']),TA('hard_obs','我實際觀察到的困難')]},
+      {title:'04 困難可能出現在哪裡？',fields:[CK('cause','',['不知道下一步要做什麼','等待時間太長','活動轉換太突然','指令太多','環境刺激較多','身體疲累','飢餓或需要休息','和同儕互動後難以轉換','不想結束喜歡的活動','需要成人陪伴','尚未熟悉固定流程'],{other:true}),T('cause_main','目前最可能影響孩子的因素（老師的推測）')]},
+      {title:'05–06 支持與改變',fields:[CK('support','老師目前提供的支持',['提前預告下一個活動','圖片作息表','視覺計時','固定口令或音樂','個別提醒','拆小步驟','提供等待任務','固定位置','同儕示範','成人陪同轉換'],{other:true}),T('best','目前最有效的支持方式'),CK('change','提供支持後有什麼改變',['能更快進入活動','參與時間增加','轉換較順利','提醒次數減少','情緒較穩定','能自己看流程','開始主動準備下一步','只有短暫效果','尚無明顯改變'])]},
+      {title:'08 下一步先調整一個時段',fields:[T('n_slot','我準備先調整的時段'),TA('n_how','我準備怎麼調整'),TA('n_goal','希望孩子慢慢可以自己做到的是')]}]},
+
+  emo:{name:'幼兒情緒事件紀錄表',short:'情緒事件',purpose:'事情發生前 → 當下 → 老師回應 → 後來。看見情緒發生的脈絡，是 IEP「情緒與行為」那一項最需要的資料。',
+    sections:[
+      {fields:[CHILD,D('date'),T('time','時間'),T('place','地點')]},
+      {title:'01 事情發生前',fields:[T('activity','當時正在進行什麼活動？'),CK('before','事件發生前，可能出現哪些情況？',['被拒絕','等待','與同儕發生衝突','活動轉換','任務遇到困難','想要的東西沒有得到','被提醒或制止','身體疲累或不舒服'],{other:true})]},
+      {title:'02 孩子當時的情緒與表現',fields:[CK('emotion','主要情緒',['生氣','難過','害怕','焦慮','挫折','興奮'],{other:true}),TA('behavior','孩子出現哪些行為？（只寫看到的動作與次數）'),TA('said','孩子當時說了什麼？')]},
+      {title:'03 老師怎麼回應',fields:[CK('resp','當下使用的支持方式',['陪伴等待情緒緩和','協助說出情緒','協助表達需求','提供選擇','暫時離開情境','引導重新嘗試','協助與同儕溝通'],{other:true}),TA('resp_how','教師實際怎麼處理？')]},
+      {title:'04 後來怎麼了',fields:[CK('after','',['可以自己恢復','提醒後恢復','教師協助後恢復','再次出現相同情緒','需要持續觀察']),T('recover','大約多久恢復？'),TA('after_obs','恢復後的表現或後續情況')]},
+      {title:'05 老師下一步',fields:[TA('need','我觀察到孩子可能需要（老師的推測）'),TA('next','下次遇到類似情況，我可以先')]}]},
+
+  f13:{name:'表單13 幼兒等待能力觀察紀錄表',short:'等待能力',purpose:'不是只看能不能等，而是找出孩子在哪一種等待最需要支持。追蹤表：○ 可自行等待　△ 提醒後可以　◇ 需要協助　× 目前困難。',
+    sections:[
+      {fields:[CHILD,D('date'),T('period','觀察時段')]},
+      {title:'01 孩子在哪一種情境需要等待？',fields:[CK('scene','',['排隊','輪流使用材料','等待老師協助','等待同儕','用餐或取餐','如廁','活動轉換','團體活動發言','遊戲輪流','放學'],{other:true})]},
+      {title:'02 等待開始後，孩子怎麼反應？',fields:[CK('react','',['可以安靜等待','會觀察別人在做什麼','需要提醒一次','反覆詢問還要多久','離開等待位置','插隊或搶先','碰觸別人或物品','出現情緒反應','需要成人陪伴']),TA('react_obs','我實際觀察到')]},
+      {title:'03 孩子大約可以等待多久？',fields:[RD('howlong','',['少於1分鐘','約1～3分鐘','約3～5分鐘','5分鐘以上','依情境差異很大','尚未觀察']),T('better','什麼情況下比較能等待？')]},
+      {title:'04–05 支持與改變',fields:[CK('support','目前什麼方法能幫助孩子？',['提前告知要等待','告訴孩子大約要等多久','倒數','視覺提示','給等待期間的小任務','提醒輪流順序','讓孩子知道下一步','成人陪伴'],{other:true}),CK('change','提供支持後有什麼不同？',['等待時間變長','提醒次數減少','情緒較穩定','可以留在等待位置','能自己找事情做','仍需要大量協助','沒有明顯改變']),T('best','目前最有效的支持方式')]},
+      {title:'06 孩子已經會哪些等待方法？',fields:[CK('methods','',['看順序','問還要多久','找替代活動','提醒自己要等','觀察同儕','用語言表達著急','找成人協助','目前還需要成人提供方法'])]},
+      {title:'07 等待能力追蹤',fields:[{k:'track',type:'rows',cols:[{k:'d',label:'日期',type:'date'},{k:'s',label:'等待情境'},{k:'p',label:'孩子的表現'},{k:'m',label:'標記',type:'select',options:['','○','△','◇','×']},{k:'r',label:'支持／結果'}]}]},
+      {title:'08 下一步',fields:[T('can','孩子目前已經做得到的是'),T('grow','下一次想慢慢增加的是'),T('less','可以減少的成人協助')]}]},
+
+  f08:{name:'表單08 幼兒個別支持策略紀錄表',short:'支持策略',purpose:'不要一直換方法，留下真正有效的支持。效果：○ 有效　△ 部分有效　◇ 尚需觀察　× 效果不明顯。這就是 IEP「支持策略」那一欄。',
+    sections:[
+      {fields:[CHILD,D('date','開始觀察日期')]},
+      {title:'01 目前想支持孩子什麼？',fields:[CK('aim','',['情緒調節','注意與專注','活動轉換','等待能力','同儕互動','語言表達','生活自理','團體參與','任務完成','班級常規'],{other:true}),TA('obs','我實際觀察到的情況')]},
+      {title:'02 什麼時候最容易出現？',fields:[CK('when','',['入園','團體活動','學習區','自由遊戲','用餐','午休前後','戶外活動','排隊等待','活動轉換','放學前','與特定同儕互動時','遇到困難時'],{other:true}),T('common','我注意到的共同情境')]},
+      {title:'03–04 試什麼方法、孩子怎麼反應',fields:[CK('try','老師準備試什麼方法？',['提前提醒','視覺提示','任務拆小步驟','提供有限選擇','調整座位或環境','縮短等待時間','個別提醒','同儕示範','降低第一次任務難度','增加練習機會','給予等待時間','協助說出需求']),CK('effect','試了以後，孩子怎麼反應？',['明顯有幫助','有一些幫助','只有特定情境有效','第一次有效，之後效果降低','沒有明顯改變','反而增加孩子的困難','還需要多觀察幾次']),TA('change','我看到的具體變化')]},
+      {title:'05 支持策略追蹤',fields:[{k:'track',type:'rows',cols:[{k:'d',label:'日期',type:'date'},{k:'s',label:'使用的策略'},{k:'p',label:'孩子的反應'},{k:'m',label:'效果',type:'select',options:['','○','△','◇','×']}]}]},
+      {title:'06–07 留下來的方法與下一步',fields:[T('keep','目前最有效的是'),T('maybe','可能有效，但還要再觀察的是'),T('stop','目前可以先停止的是'),CK('next','下一步',['繼續使用目前策略','稍微調整策略','減少成人提醒','增加孩子自己完成的機會','換一個情境再觀察','與家長討論','與班級其他教師討論','需要更多資料再判斷'],{other:true}),T('plan','下一階段我想先做到')]}]},
+
+  abc:{name:'A／B／C 評量快記卡',short:'評量快記',purpose:'依「幼兒園評量表設計」的代碼：A 自主表現、B 提醒後表現、C 需要較多協助、— 本次未觀察。同一個目標每週記幾次，工具會算出「B 以上幾次」，就是 IEP 目標的評量證據。',
+    sections:[{fields:[CHILD,D('date'),T('target','觀察的目標行為（寫成看得到的行為）',{placeholder:'例：排隊時看著沙漏或順序圖卡，等到輪到自己'}),RD('code','本次表現',['A 自主表現','B 提醒後表現','C 需要較多協助','— 本次未觀察']),TA('fact','現場事實（孩子實際說了什麼、做了什麼）'),T('adjust','下一次想調整的教學或材料')]}]},
+
+  talk:{name:'親師溝通前事實整理與回應規劃單',short:'親師溝通',purpose:'先確認事實，再決定怎麼回應。家長的原話盡量照原意記下來，交給 AI 時也要求它不改寫。',
+    sections:[
+      {fields:[CHILD,D('date'),CK('way','方式',['當面','電話','訊息','聯絡簿'])]},
+      {title:'01 家長提出了什麼？',fields:[TA('parent','家長原本的問題或說法（盡量保留原意）')]},
+      {title:'02 把事實與待確認事項分開',fields:[TA('fact','我親自觀察或已查證的事實'),TA('tbc','尚待確認的事情／需要詢問的人'),TA('guess','目前只是推測、不能當成事實的部分')]},
+      {title:'03 回覆前，先決定怎麼說',fields:[T('want','家長真正想了解的是'),CK('plan','',['說明已確認事實','說明已採取措施','告知待確認事項','討論合作方式','約定回覆時間','請園方共同處理']),TA('reply','我準備回覆的重點（先寫事實，再寫處理與後續）')]},
+      {title:'04 溝通後的追蹤',fields:[CK('follow','',['已說明清楚','家長仍有疑問','需持續觀察','需再次聯繫','園方協助']),T('todo','後續待辦'),{k:'due',label:'預計回覆／追蹤日期',type:'date'}]}]},
+
+  grow:{name:'幼兒學習成果與歷程差異觀察單',short:'進步對照',purpose:'同一個孩子、兩個時間點放在一起看。期末檢討與轉銜交接最需要的證據。',
+    sections:[
+      {fields:[CHILD,T('area','活動／學習區'),T('content','學習內容')]},
+      {title:'01 第一次嘗試',fields:[D('d1','第一次日期'),TA('can1','孩子當時能做到什麼？'),TA('hard1','遇到困難／出現的變化'),TA('help1','教師提供的協助')]},
+      {title:'01 一段時間之後',fields:[D('d2','一段時間之後的日期'),TA('can2','孩子當時能做到什麼？'),TA('hard2','遇到困難／出現的變化'),TA('help2','教師提供的協助')]},
+      {title:'02 我看見的具體進步',fields:[CK('prog','',['操作更熟練','能獨立完成更多步驟','願意主動嘗試','會修正錯誤','能說明自己的方法','需要的協助減少'],{other:true}),T('before','以前需要'),T('now','現在已能')]},
+      {title:'03 留下證據',fields:[CK('evid','',['第一次作品','最近作品','照片','孩子的原話','教師觀察'])]},
+      {title:'04 下一步',fields:[T('challenge','孩子可以挑戰'),T('provide','老師準備提供')]}]}
+};
+
+/* ---------- 六個時間點 ---------- */
+const STAGES=[
+  {id:'daily',name:'平常記錄',when:'每天、每週',forms:['general','f11'],
+   why:'IEP 寫不出來，多半是平常沒有紀錄。每次只記一件事，寫看到的動作和孩子的原話，不寫「不專心」「攻擊」這類判斷。',
+   prompt:'請把下面的觀察紀錄整理成表格，欄位是：日期／情境／孩子做了什麼／次數或持續多久／老師怎麼回應／孩子後來怎樣。\n規則：\n1. 只寫紀錄裡有的事實，不推測原因、不下診斷、不用形容人格的詞（例如攻擊、故意、情緒障礙）。\n2. 紀錄裡沒寫的欄位，填「未記錄」。\n3. 老師的想法另外放在表格下方，標「老師的推測，未確認」。'},
+  {id:'now',name:'能力現況',when:'訂定 IEP 前',forms:['f02','f22'],all:true,
+   why:'能力現況要有證據。這一頁會把「所有時間點」的紀錄一起匯出，適合整份放進 NotebookLM，請它逐句附來源。',
+   prompt:'你是協助幼兒園老師整理 IEP 草稿的助手。\n請只根據下面的紀錄，依幼兒園課綱六大領域（身體動作與健康、認知、語文、社會、情緒、美感），整理這位幼兒的「能力現況」：每個領域分「目前能做到的」和「需要支持的」各 1–3 點。\n規則：\n1. 每一句都要標出依據是哪一筆紀錄（表單名稱＋日期）。\n2. 只寫紀錄裡觀察到的行為，不推測原因、不寫診斷。\n3. 資料不夠判斷的領域，寫「資料不足，建議再觀察：＿＿」。\n4. 用老師看得懂的白話，每點 30 字內。'},
+  {id:'behave',name:'行為與支持',when:'事件發生後、每月整理',forms:['emo','f13','f08'],
+   why:'先看規律，再談原因：事情發生前在做什麼、之後怎樣、什麼方法有效。右邊的統計是工具算的，不是 AI 猜的。',
+   prompt:'以下是同一位幼兒的情緒事件、等待能力與支持策略紀錄。\n請整理：\n1. 一張表格：發生前（在做什麼、出現什麼情況）／孩子做了什麼／老師怎麼回應／後來怎樣。\n2. 這些事件的共同情境，最多 3 點。\n3. 支持策略分三類：目前有效、建議繼續／部分有效、要再觀察／效果不明顯、可以先停。每點說明依據是哪一筆紀錄。\n規則：如果要寫可能的原因，一律標「推測，待團隊確認」；不可以寫診斷。'},
+  {id:'goal',name:'目標與評量',when:'訂目標、每月檢核',forms:['abc'],
+   why:'目標要量得到。用 A／B／C 代碼記同一個目標，工具會算出每個月「B 以上幾次」，那就是起點數據和通過標準的依據。',
+   prompt:'以下是同一位幼兒的評量快記（A 自主表現、B 提醒後表現、C 需要較多協助），以及工具算出的統計。\n請草擬 1 條學期目標，給 IEP 會議討論用，包含：\n1. 目標（孩子會做到什麼，寫成看得到的行為）\n2. 評量方式（老師怎麼觀察、記錄）\n3. 檢核日期（例如每月最後一週）\n4. 通過標準：用「每週觀察 5 次，其中 4 次達 B 以上」這種格式，並說明和目前起點數據相比是否合理\n5. 班上可用的支持策略 3 個\n最後列出 3 個要在 IEP 會議上問團隊或家長的問題。'},
+  {id:'talk',name:'親師溝通',when:'IEP 會議前後',forms:['talk'],
+   why:'家長的原話要照原意保留。先分清楚事實、待確認、推測，再請 AI 幫你寫家長看得懂的說明。',
+   prompt:'以下是親師溝通前的事實整理（虛構或已去識別化）。請幫我寫：\n1. 一段給家長看的白話說明，300 字內：先寫孩子做得到的，再寫需要一起支持的；語氣溫和、不用專業術語。\n2. IEP 會議議程（30 分鐘）。\n3. 會議上要問家長的 3 個問題。\n規則：家長的原話、期待和擔心要照原意保留，不要美化或改寫；「推測」的部分不可以寫成事實。'},
+  {id:'end',name:'期末與轉銜',when:'期末檢討、換老師、升班',forms:['grow'],extra:['abc','f08'],
+   why:'期末看的是「同一個孩子前後的變化」。這一頁會把進步對照、評量快記和有效策略一起帶給 AI，寫進步摘要和交接單。',
+   prompt:'以下是同一位幼兒期初與期末的紀錄（進步對照、評量快記、支持策略）。請寫：\n1. 進步摘要：用「以前需要……，現在能……」的句型，最多 3 點，每點附依據（表單名稱＋月份）。\n2. 一頁交接摘要，給下學期的新老師：孩子的優勢、有效的支持方式、要注意的情境、還在練習的目標。\n規則：只寫紀錄裡有的事，不要加形容詞誇大進步。'}
+];
+
+/* ---------- 資料 ---------- */
+let state={records:[],names:'',drops:'',dateMode:'month'};
+let storeOK=true;
+function load(){try{const s=localStorage.getItem(KEY);if(s){const o=JSON.parse(s);if(o&&Array.isArray(o.records))state=Object.assign(state,o)}}catch(e){storeOK=false}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){storeOK=false;topMsg('這個瀏覽器不能存檔，關掉分頁前請先「匯出備份」。')}}
+function topMsg(m){$('topMsg').textContent=m;clearTimeout(topMsg.t);topMsg.t=setTimeout(()=>$('topMsg').textContent='',6000)}
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+
+/* ---------- 去識別化 ---------- */
+function parseNames(){
+  const rows=[];let auto=0;const L='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  state.names.split('\n').forEach(line=>{
+    line=line.trim();if(!line)return;
+    const parts=line.split(/→|->|=/);
+    const aliases=parts[0].split(/[、,，\/]/).map(s=>s.trim()).filter(Boolean);
+    let code=(parts[1]||'').trim();
+    if(!aliases.length)return;
+    if(!code){code='幼兒'+(L[auto]||auto+1);auto++}
+    rows.push({aliases,code});
+  });
+  return rows;
+}
+function fmtDate(v){
+  if(!v)return '';
+  const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v);if(!m)return v;
+  const mo=+m[2],d=+m[3];
+  if(state.dateMode==='hide')return '某日';
+  if(state.dateMode==='month')return mo+' 月';
+  return mo+'/'+d;
+}
+function deid(text){
+  let t=text;const A='\u0001',B='\u0002';
+  const pairs=[];parseNames().forEach(n=>n.aliases.forEach(a=>pairs.push([a,n.code])));
+  pairs.sort((x,y)=>y[0].length-x[0].length);
+  pairs.forEach(([a,c])=>{t=t.replace(new RegExp(reEsc(a),'g'),A+c+B)});
+  state.drops.split('\n').map(s=>s.trim()).filter(Boolean).sort((x,y)=>y.length-x.length).forEach(w=>{t=t.replace(new RegExp(reEsc(w),'g'),A+'○○'+B)});
+  t=t.replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g,'○○@○○');
+  t=t.replace(/[A-Za-z][12]\d{8}/g,'○○○○○○○○○○');
+  t=t.replace(/09\d{2}[-\s]?\d{3}[-\s]?\d{3}/g,'○○○○-○○○-○○○');
+  t=t.replace(/\(?0\d{1,2}\)?[-\s]?\d{3,4}[-\s]?\d{4}/g,'○○-○○○○-○○○○');
+  if(state.dateMode!=='keep'){
+    t=t.replace(/(民國)?\d{2,4}\s*[\/\-.年]\s*\d{1,2}\s*[\/\-.月]\s*\d{1,2}\s*日?/g,state.dateMode==='hide'?'某日':(s=>{const m=/(\d{1,2})\s*[\/\-.月]\s*\d{1,2}\s*日?$/.exec(s);return m?(+m[1])+' 月':'某日'}));
+    t=t.replace(/(?<![\d.])(\d{1,2})\s*[\/月]\s*\d{1,2}\s*日?(?![\d\/])/g,(s,mo)=>state.dateMode==='hide'?'某日':(+mo)+' 月');
+  }
+  return t.replace(new RegExp('['+A+B+']','g'),'');
+}
+const FLAGS=['診斷','疑似','鑑定','醫院','診所','醫師','醫生','用藥','療育','治療','自閉','過動','發展遲緩','遲緩','障礙','身障','手冊','單親','隔代','離婚','外籍','新住民','低收','寄養','輪椅','助聽器','雙胞胎','地址','攻擊','故意'];
+function flagsIn(t){return FLAGS.filter(w=>t.includes(w))}
+
+/* ---------- 紀錄轉文字 ---------- */
+function allFields(form){const out=[];form.sections.forEach(s=>s.fields.forEach(f=>out.push([s,f])));return out}
+function recDate(r){return r.data.date||r.data.d1||r.data.d2||''}
+function recSummary(r){
+  const f=FORMS[r.form],d=r.data;
+  const pick=d.did||d.behavior||d.fact||d.target||d.parent||d.obs||d.react_obs||d.can2||d.content_obs||d.q1||d.good||d.hard_obs||'';
+  return pick.replace(/\s+/g,' ').slice(0,46);
+}
+function recText(r){
+  const form=FORMS[r.form],d=r.data,lines=['【'+form.name+'】'];
+  allFields(form).forEach(([s,f])=>{
+    const v=d[f.k];const lab=f.label||(s.title||'').replace(/^\d+(–\d+)?\s*/,'');
+    if(f.type==='checks'){const a=(v||[]).slice();if(d[f.k+'_other'])a.push('其他：'+d[f.k+'_other']);if(a.length)lines.push(lab+'：'+a.join('、'))}
+    else if(f.type==='date'){if(v)lines.push(f.label+'：'+fmtDate(v))}
+    else if(f.type==='grid'){
+      if(!v)return;f.marks.forEach((m,i)=>{if(m==='－')return;const items=[];f.groups.forEach(g=>g[1].forEach(it=>{if(v[it]===m)items.push(it)}));if(items.length)lines.push(m+' '+f.markNames[i]+'：'+items.join('、'))});
+    }
+    else if(f.type==='daygrid'){
+      if(!v)return;f.slots.forEach(sl=>{const row=v[sl]||{};const parts=f.cols.map(c=>row[c]?c+row[c]:'').filter(Boolean);if(parts.length||row.note)lines.push(sl+'：'+parts.join('、')+(row.note?'（'+row.note+'）':''))});
+    }
+    else if(f.type==='rows'){
+      (v||[]).forEach(row=>{const parts=f.cols.map(c=>{const x=row[c.k];if(!x)return '';return c.type==='date'?fmtDate(x):x}).filter(Boolean);if(parts.length)lines.push(lab+'｜'+parts.join('｜'))});
+    }
+    else if(v&&String(v).trim()&&f.k!=='child'&&!(f.k==='ref'&&v==='（不指定）')){lines.push(lab+'：'+String(v).trim())}
+  });
+  return lines.join('\n');
+}
+const sortByDate=a=>a.slice().sort((x,y)=>(recDate(x)>recDate(y)?1:-1));
+
+/* ---------- 統計 ---------- */
+function bars(map,total){
+  const ks=Object.keys(map).sort((a,b)=>map[b]-map[a]);if(!ks.length)return '<div class="empty">還沒有資料</div>';
+  const mx=Math.max(...ks.map(k=>map[k]));
+  return ks.map(k=>`<div class="barrow"><span>${esc(k)}</span><span class="barbg"><span class="barfg" style="display:block;width:${Math.round(map[k]/mx*100)}%"></span></span><b>${map[k]}</b></div>`).join('')+(total?`<div class="hint">共 ${total} 筆</div>`:'');
+}
+function count(list,key){const m={};list.forEach(r=>(r.data[key]||[]).forEach(x=>m[x]=(m[x]||0)+1));return m}
+function monthOf(v){const m=/^(\d{4})-(\d{2})/.exec(v||'');return m?(+m[2])+' 月':'未填日期'}
+function statsHTML(st){
+  const R=state.records;const of=k=>R.filter(r=>r.form===k);
+  if(st.id==='daily'){
+    const m={};R.forEach(r=>{const n=FORMS[r.form].short;m[n]=(m[n]||0)+1});
+    const mm={};R.forEach(r=>{const k=monthOf(recDate(r));mm[k]=(mm[k]||0)+1});
+    return `<div class="stat"><h4>各表單紀錄筆數</h4>${bars(m,R.length)}</div><div class="stat"><h4>每月紀錄筆數</h4>${bars(mm)}</div>`;
+  }
+  if(st.id==='now'){
+    let h='';const g=sortByDate(of('f02')).pop();
+    if(g){const v=g.data.grid||{};const c={'○ 可獨立':0,'△ 提醒後':0,'◇ 需要協助':0};const need=[];Object.keys(v).forEach(it=>{if(v[it]==='○')c['○ 可獨立']++;if(v[it]==='△'){c['△ 提醒後']++}if(v[it]==='◇'){c['◇ 需要協助']++;need.push(it)}});
+      h+=`<div class="stat"><h4>生活自理（最近一次）</h4>${bars(c)}${need.length?'<div class="hint">需要協助：'+esc(need.join('、'))+'</div>':''}</div>`}
+    const dg=sortByDate(of('f22')).pop();
+    if(dg){const v=dg.data.day||{};const hard=[],good=[];Object.keys(v).forEach(sl=>{const marks=Object.values(v[sl]).filter(x=>['○','△','◇','×'].includes(x));if(marks.some(x=>x==='◇'||x==='×'))hard.push(sl);else if(marks.length&&marks.every(x=>x==='○'))good.push(sl)});
+      h+=`<div class="stat"><h4>一日作息（最近一次）</h4><div>穩定的時段：${esc(good.join('、')||'—')}</div><div>需要支持的時段：${esc(hard.join('、')||'—')}</div></div>`}
+    const per={};STAGES.forEach(s=>{per[s.name]=R.filter(r=>s.forms.includes(r.form)).length});
+    h+=`<div class="stat"><h4>可以拿來寫能力現況的紀錄</h4>${bars(per,R.length)}<div class="hint">按「複製給 AI」或「下載 .txt」會帶出全部紀錄（已去識別化）。</div></div>`;
+    return h;
+  }
+  if(st.id==='behave'){
+    const e=of('emo');let h=`<div class="stat"><h4>情緒事件：發生前的情況</h4>${bars(count(e,'before'),e.length)}</div>`;
+    h+=`<div class="stat"><h4>情緒事件：後來怎麼了</h4>${bars(count(e,'after'))}</div>`;
+    const tr={};of('f13').forEach(r=>(r.data.track||[]).forEach(x=>{if(x.m)tr[x.m]=(tr[x.m]||0)+1}));
+    h+=`<div class="stat"><h4>等待能力追蹤（○ 可自行　△ 提醒後　◇ 需協助　× 困難）</h4>${bars(tr)}</div>`;
+    const sm={};of('f08').forEach(r=>(r.data.track||[]).forEach(x=>{if(!x.s)return;(sm[x.s]=sm[x.s]||[]).push(x.m||'?')}));
+    const ks=Object.keys(sm);
+    h+=`<div class="stat"><h4>支持策略效果（○ 有效　△ 部分　◇ 再觀察　× 不明顯）</h4>${ks.length?'<table class="g"><tr><th>策略</th><th>每次效果</th></tr>'+ks.map(k=>`<tr><td>${esc(k)}</td><td>${esc(sm[k].join(' '))}</td></tr>`).join('')+'</table>':'<div class="empty">還沒有資料</div>'}</div>`;
+    return h;
+  }
+  if(st.id==='goal'||st.id==='end'){
+    const a=of('abc');const by={};a.forEach(r=>{const t=(r.data.target||'（未填目標）').trim();const mo=monthOf(r.data.date);by[t]=by[t]||{};by[t][mo]=by[t][mo]||{A:0,B:0,C:0,n:0};const c=(r.data.code||'')[0];if(c==='A'||c==='B'||c==='C'){by[t][mo][c]++;by[t][mo].n++}});
+    const ts=Object.keys(by);
+    let h=`<div class="stat"><h4>評量快記：每月「B 以上」次數</h4>${ts.length?ts.map(t=>`<div style="margin-top:6px"><b>${esc(t)}</b><table class="g" style="margin-top:4px"><tr><th>月份</th><th>A</th><th>B</th><th>C</th><th>B 以上</th></tr>${Object.keys(by[t]).sort((x,y)=>parseInt(x)-parseInt(y)).map(mo=>{const c=by[t][mo];return `<tr><td>${esc(mo)}</td><td>${c.A}</td><td>${c.B}</td><td>${c.C}</td><td><b>${c.A+c.B}/${c.n}</b></td></tr>`}).join('')}</table></div>`).join(''):'<div class="empty">還沒有資料</div>'}</div>`;
+    if(st.id==='end'){const g=of('grow');h+=`<div class="stat"><h4>進步對照</h4>${g.length?g.map(r=>`<div>${esc(r.data.content||r.data.area||'')}：以前需要「${esc(r.data.before||'—')}」→ 現在能「${esc(r.data.now||'—')}」</div>`).join(''):'<div class="empty">還沒有資料</div>'}</div>`}
+    return h;
+  }
+  if(st.id==='talk'){
+    const t=of('talk');return `<div class="stat"><h4>親師溝通</h4><div>共 ${t.length} 筆。</div><div class="hint">交給 AI 時，家長原話會原樣帶過去，提示詞也要求 AI 不改寫。</div></div>`;
+  }
+  return '';
+}
+function statsText(st){
+  const tmp=document.createElement('div');tmp.innerHTML=statsHTML(st);
+  tmp.querySelectorAll('tr').forEach(tr=>{tr.insertAdjacentText('beforeend','\n')});
+  tmp.querySelectorAll('td,th').forEach(td=>td.insertAdjacentText('beforeend','　'));
+  tmp.querySelectorAll('h4,.barrow,div').forEach(d=>d.insertAdjacentText('beforeend','\n'));
+  return tmp.textContent.replace(/\n{2,}/g,'\n').trim();
+}
+
+/* ---------- 給 AI 的文字 ---------- */
+function stageRecords(st){
+  const keys=st.all?Object.keys(FORMS):st.forms.concat(st.extra||[]);
+  return sortByDate(state.records.filter(r=>keys.includes(r.form)));
+}
+function aiText(st){
+  const recs=stageRecords(st);if(!recs.length)return '';
+  let body=recs.map(recText).join('\n\n');
+  let s='';if(st.id==='goal'||st.id==='behave'||st.id==='end')s='\n\n【工具算出的統計】\n'+statsText(st);
+  return deid(st.prompt+'\n（以下資料已去識別化）\n\n'+body+s);
+}
+
+/* ---------- 畫面 ---------- */
+let cur='daily';
+function renderTabs(){
+  $('tabs').innerHTML=STAGES.map((s,i)=>`<button class="tab" role="tab" aria-selected="${s.id===cur}" data-id="${s.id}">${i+1}　${s.name}<small>${s.when}</small></button>`).join('');
+  $('tabs').querySelectorAll('.tab').forEach(b=>b.onclick=()=>{cur=b.dataset.id;render()});
+}
+function render(){
+  renderTabs();
+  const st=STAGES.find(s=>s.id===cur);
+  const recs=sortByDate(state.records.filter(r=>st.forms.includes(r.form))).reverse();
+  const txt=aiText(st);const fl=flagsIn(txt);
+  $('stageBox').innerHTML=`<div class="stage">
+   <div class="panel">
+     <h2>${st.name}</h2>
+     <div class="why">${esc(st.why)}</div>
+     <h3>用哪張表單</h3>
+     <div class="forms">${st.forms.map(k=>`<div class="fcard"><div style="flex:1;min-width:200px"><b>${esc(FORMS[k].name)}</b>${k==='general'||k==='abc'?'<span class="tag">工具內建</span>':''}<p>${esc(FORMS[k].purpose)}</p></div><button class="btn small primary" data-new="${k}">＋ 新增紀錄</button></div>`).join('')}</div>
+     <h3>這一頁的紀錄（${recs.length}）</h3>
+     <div>${recs.length?recs.map(r=>`<div class="rec"><div class="t"><b>${esc(FORMS[r.form].short)}</b>　<span>${esc(fmtDate(recDate(r))||'未填日期')}　${esc(deid(recSummary(r)))}</span></div><div style="display:flex;gap:6px"><button class="btn small" data-edit="${r.id}">編輯</button><button class="btn small warn" data-del="${r.id}">刪除</button></div></div>`).join(''):'<div class="empty">還沒有紀錄。按上面的「＋ 新增紀錄」，或先「載入示範資料」看看。</div>'}</div>
+   </div>
+   <div class="panel">
+     <h2>自動統計</h2>
+     <div class="stats">${statsHTML(st)}</div>
+     <div class="ai">
+       <b>複製給 AI（已去識別化，含提示詞）</b>
+       <div class="hint">${st.all?'包含所有時間點的紀錄。':'包含這一頁的紀錄'+(st.extra?'，以及評量快記與支持策略。':'。')}貼到 Gemini、ChatGPT 或 NotebookLM 前，請再讀一次。</div>
+       ${fl.length?`<div class="flagline">還看到這些詞，請自己判斷要不要改：${esc(fl.join('、'))}</div>`:''}
+       <div class="out" id="aiOut">${txt?esc(txt):'<span class="empty">有紀錄之後，這裡會出現可以直接貼給 AI 的文字。</span>'}</div>
+       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="bCopy" ${txt?'':'disabled'}>複製給 AI</button><button class="btn" id="bTxt" ${txt?'':'disabled'}>下載 .txt</button></div>
+       <span class="msg" id="copyMsg"></span>
+     </div>
+   </div></div>`;
+  $('stageBox').querySelectorAll('[data-new]').forEach(b=>b.onclick=()=>openForm(b.dataset.new));
+  $('stageBox').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const r=state.records.find(x=>x.id===b.dataset.edit);if(r)openForm(r.form,r)});
+  $('stageBox').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('確定刪除這筆紀錄？')){state.records=state.records.filter(x=>x.id!==b.dataset.del);save();render()}});
+  if(txt){
+    $('bCopy').onclick=()=>{const done=m=>$('copyMsg').textContent=m;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(()=>done('已複製，貼之前再讀一次。'),()=>selectOut())}else selectOut()};
+    $('bTxt').onclick=()=>download('IEP給AI_'+st.name+'.txt',txt,'text/plain');
+  }
+}
+function selectOut(){const r=document.createRange();r.selectNodeContents($('aiOut'));const s=getSelection();s.removeAllRanges();s.addRange(r);$('copyMsg').textContent='已選取，請按 Ctrl+C（Mac 按 Cmd+C）複製。'}
+function download(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:type+';charset=utf-8'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+
+/* ---------- 表單編輯 ---------- */
+let editing=null;
+function fieldHTML(f,d){
+  const v=d[f.k];const id='f_'+f.k;
+  if(f.type==='text')return `<div class="fld"><label class="lb" for="${id}">${esc(f.label)}</label><input type="text" id="${id}" data-k="${f.k}" value="${esc(v||'')}" placeholder="${esc(f.placeholder||'')}"></div>`;
+  if(f.type==='date')return `<div class="fld"><label class="lb" for="${id}">${esc(f.label)}</label><input type="date" id="${id}" data-k="${f.k}" value="${esc(v||'')}"></div>`;
+  if(f.type==='textarea')return `<div class="fld"><label class="lb" for="${id}">${esc(f.label)}</label><textarea id="${id}" data-k="${f.k}">${esc(v||'')}</textarea></div>`;
+  if(f.type==='select')return `<div class="fld"><label class="lb" for="${id}">${esc(f.label)}</label><select id="${id}" data-k="${f.k}">${f.options.map(o=>`<option${o===v?' selected':''}>${esc(o)}</option>`).join('')}</select></div>`;
+  if(f.type==='checks'){const a=v||[];return `<div class="fld">${f.label?`<span class="lb">${esc(f.label)}</span>`:''}<div class="chks">${f.options.map(o=>`<label><input type="checkbox" data-ck="${f.k}" value="${esc(o)}"${a.includes(o)?' checked':''}>${esc(o)}</label>`).join('')}</div>${f.other?`<input type="text" data-k="${f.k}_other" value="${esc(d[f.k+'_other']||'')}" placeholder="其他：" aria-label="其他">`:''}</div>`}
+  if(f.type==='radio')return `<div class="fld">${f.label?`<span class="lb">${esc(f.label)}</span>`:''}<div class="chks">${f.options.map(o=>`<label><input type="radio" name="${id}" data-rd="${f.k}" value="${esc(o)}"${v===o?' checked':''}>${esc(o)}</label>`).join('')}</div></div>`;
+  if(f.type==='grid'){const g=v||{};return `<div class="tw"><table class="g"><tr><th>觀察項目</th>${f.marks.map((m,i)=>`<th class="c" title="${esc(f.markNames[i])}">${m}</th>`).join('')}</tr>${f.groups.map(gr=>`<tr><th colspan="${f.marks.length+1}">${esc(gr[0])}</th></tr>`+gr[1].map(it=>`<tr><td>${esc(it)}</td>${f.marks.map(m=>`<td class="c"><input type="radio" name="g_${esc(it)}" data-grid="${f.k}" data-item="${esc(it)}" value="${m}"${g[it]===m?' checked':''} aria-label="${esc(it)} ${m}"></td>`).join('')}</tr>`).join('')).join('')}</table></div><div class="hint">${f.marks.map((m,i)=>m+' '+f.markNames[i]).join('　')}</div>`}
+  if(f.type==='daygrid'){const g=v||{};return `<div class="tw"><table class="g"><tr><th>時段</th>${f.cols.map(c=>`<th>${esc(c)}</th>`).join('')}<th>簡短紀錄</th></tr>${f.slots.map(sl=>{const row=g[sl]||{};return `<tr><td>${esc(sl)}</td>${f.cols.map(c=>`<td><select data-day="${f.k}" data-slot="${esc(sl)}" data-col="${esc(c)}" aria-label="${esc(sl+' '+c)}"><option></option>${f.marks.map(m=>`<option${row[c]===m?' selected':''}>${m}</option>`).join('')}</select></td>`).join('')}<td><input type="text" data-day="${f.k}" data-slot="${esc(sl)}" data-col="note" value="${esc(row.note||'')}" aria-label="${esc(sl)} 紀錄"></td></tr>`}).join('')}</table></div><div class="hint">○ 穩定自主　△ 提醒後完成　◇ 需要協助　× 明顯困難</div>`}
+  if(f.type==='rows'){const rows=(v&&v.length?v:[{}]);return `<div class="tw"><table class="g" data-rows="${f.k}"><tr>${f.cols.map(c=>`<th>${esc(c.label)}</th>`).join('')}<th></th></tr>${rows.map(r=>rowHTML(f,r)).join('')}</table></div><button class="btn small" type="button" data-addrow="${f.k}">＋ 加一列</button>`}
+  return '';
+}
+function rowHTML(f,r){return `<tr>${f.cols.map(c=>`<td>${c.type==='date'?`<input type="date" data-c="${c.k}" value="${esc(r[c.k]||'')}" aria-label="${esc(c.label)}">`:c.type==='select'?`<select data-c="${c.k}" aria-label="${esc(c.label)}">${c.options.map(o=>`<option${r[c.k]===o?' selected':''}>${o}</option>`).join('')}</select>`:`<input type="text" data-c="${c.k}" value="${esc(r[c.k]||'')}" aria-label="${esc(c.label)}">`}</td>`).join('')}<td><button class="btn small warn" type="button" data-delrow>刪</button></td></tr>`}
+function openForm(key,rec){
+  const form=FORMS[key];editing={key,id:rec?rec.id:null};const d=rec?rec.data:{};
+  $('dTitle').textContent=form.name;
+  $('dForm').innerHTML=`<div class="why">${esc(form.purpose)}</div>`+form.sections.map(s=>`<div class="sec">${s.title?`<h3>${esc(s.title)}</h3>`:''}${s.title?'':'<div class="row2">'}${s.fields.map(f=>fieldHTML(f,d)).join('')}${s.title?'':'</div>'}</div>`).join('');
+  $('dForm').querySelectorAll('[data-addrow]').forEach(b=>b.onclick=()=>{const f=allFields(form).map(x=>x[1]).find(x=>x.k===b.dataset.addrow);$('dForm').querySelector(`[data-rows="${f.k}"]`).insertAdjacentHTML('beforeend',rowHTML(f,{}));bindDel()});
+  bindDel();
+  if(!rec){const c=$('f_date');if(c&&!c.value){const n=new Date();c.value=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')}}
+  if(typeof $('dlg').showModal==='function')$('dlg').showModal();else $('dlg').setAttribute('open','');
+}
+function bindDel(){$('dForm').querySelectorAll('[data-delrow]').forEach(b=>b.onclick=()=>b.closest('tr').remove())}
+function collect(){
+  const F=$('dForm'),d={};
+  F.querySelectorAll('[data-k]').forEach(el=>{if(el.value!=='')d[el.dataset.k]=el.value});
+  F.querySelectorAll('[data-ck]').forEach(el=>{d[el.dataset.ck]=d[el.dataset.ck]||[];if(el.checked)d[el.dataset.ck].push(el.value)});
+  F.querySelectorAll('[data-rd]').forEach(el=>{if(el.checked)d[el.dataset.rd]=el.value});
+  F.querySelectorAll('[data-grid]').forEach(el=>{if(el.checked){d[el.dataset.grid]=d[el.dataset.grid]||{};d[el.dataset.grid][el.dataset.item]=el.value}});
+  F.querySelectorAll('[data-day]').forEach(el=>{if(el.value){const k=el.dataset.day;d[k]=d[k]||{};d[k][el.dataset.slot]=d[k][el.dataset.slot]||{};d[k][el.dataset.slot][el.dataset.col]=el.value}});
+  F.querySelectorAll('[data-rows]').forEach(tb=>{const rows=[];tb.querySelectorAll('tr').forEach((tr,i)=>{if(!i)return;const r={};tr.querySelectorAll('[data-c]').forEach(el=>{if(el.value)r[el.dataset.c]=el.value});if(Object.keys(r).length)rows.push(r)});d[tb.dataset.rows]=rows});
+  return d;
+}
+function closeDlg(){if(typeof $('dlg').close==='function')$('dlg').close();else $('dlg').removeAttribute('open');editing=null}
+$('dSave').onclick=()=>{if(!editing)return;const d=collect();if(editing.id){const r=state.records.find(x=>x.id===editing.id);if(r)r.data=d}else state.records.push({id:uid(),form:editing.key,data:d});save();closeDlg();render()};
+$('dCancel').onclick=closeDlg;$('dClose').onclick=closeDlg;
+
+/* ---------- 設定、備份 ---------- */
+$('names').oninput=e=>{state.names=e.target.value;save();render()};
+$('drops').oninput=e=>{state.drops=e.target.value;save();render()};
+$('dateMode').onchange=e=>{state.dateMode=e.target.value;save();render()};
+$('bExport').onclick=()=>{download('IEP工具箱備份_'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(state,null,1),'application/json');topMsg('備份檔含真實姓名與對照表，請存在安全的地方，不要上傳或分享。')};
+$('fImport').onchange=e=>{const file=e.target.files[0];if(!file)return;const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(rd.result);if(!o||!Array.isArray(o.records))throw 0;if(state.records.length&&!confirm('匯入會取代目前的所有紀錄，確定嗎？'))return;state=Object.assign({records:[],names:'',drops:'',dateMode:'month'},o);save();syncSet();render();topMsg('已匯入 '+state.records.length+' 筆紀錄。')}catch(err){topMsg('這不是工具箱的備份檔。')}};rd.readAsText(file);e.target.value=''};
+$('bClear').onclick=()=>{if(confirm('確定清除這台電腦上的所有紀錄和代號設定？清除後無法復原。')){state={records:[],names:'',drops:'',dateMode:'month'};try{localStorage.removeItem(KEY)}catch(e){}syncSet();render();topMsg('已全部清除。')}};
+function syncSet(){$('names').value=state.names;$('drops').value=state.drops;$('dateMode').value=state.dateMode}
+
+/* ---------- 示範資料（虛構幼兒「小樹」） ---------- */
+$('bSample').onclick=()=>{
+  if(state.records.length&&!confirm('載入示範資料會取代目前的紀錄，確定嗎？'))return;
+  const C='王小樹';
+  const R=(form,data)=>({id:uid(),form,data:Object.assign({child:C},data)});
+  state={dateMode:'month',names:'王小樹、小樹 → 幼兒A\n陳小安、小安 → 同學B\n林美玲老師 → 導師A',drops:'快樂星星幼兒園\n小熊班\n星光兒童醫院',records:[
+    R('general',{date:'2026-10-09',ref:'表單18 幼兒團體活動參與觀察表',scene:'大團體說故事，約 15 分鐘',did:'前 8 分鐘坐著看繪本，之後起身走到窗邊看外面',times:'坐 8 分鐘，離開 2 次',resp:'請他回座位幫忙翻書',after:'回座翻了 3 頁，坐到故事結束'}),
+    R('general',{date:'2026-10-14',ref:'幼兒學習區觀察紀錄表',scene:'積木區自由選區',did:'用積木蓋「恐龍家」',times:'約 18 分鐘',words:'「這是門」「恐龍睡覺」「窗戶」',resp:'問「恐龍家還缺什麼？」',after:'回答「窗戶」，加了 2 塊積木'}),
+    R('general',{date:'2026-10-24',ref:'表單14 幼兒挫折反應與問題解決觀察表',scene:'美勞：剪貼樹葉',did:'沿直線剪開；剪曲線時剪到線外',times:'剪 4 片，2 片沿線',words:'「不會」',resp:'示範轉紙不轉剪刀',after:'再剪 1 片，大致沿線'}),
+    R('f11',{date:'2026-11-03',scene:'點心時間、積木區',initiate:['主動說出需求','以動作或指向代替語言'],content:['說出自己想要什麼','說出不想要什麼'],content_obs:'多用 2–4 個字的句子；說不清楚時會推開東西或抱住積木',answer:['回答內容很短'],q1:'點心有香蕉時：「不要」，老師示範後跟著說「我不要香蕉」',q2:'同學靠近積木區：「我的」，老師示範後跟著說「這塊給你」',q3:'放學看到媽媽：「媽媽 恐龍」（指著積木區）',peer:['能拒絕或表達不同意','常需要成人代替表達'],stuck:['用動作表示','出現情緒反應'],support:['示範完整句子','鼓勵孩子自己再說一次'],best:'老師先示範一句，他會跟著說',next:['發生衝突時使用語言','把句子說得更完整'],next_plan:'衝突發生前先提醒可以說的句子'}),
+    R('f02',{date:'2026-10-01',date2:'2026-11-03',grid:{'能自行使用餐具進食':'○','能自行取用及收拾餐具':'△','能自行飲水並將水杯歸位':'○','能依步驟完成洗手':'△','能自行穿脫鞋襪':'○','能自行穿脫外套':'◇','使用材料後能主動收拾':'△','活動轉換時能整理自己的物品':'△'},good:'自己用湯匙吃完點心；會自己穿脫鞋子',need:'外套拉鍊、釦子需要協助；洗手要提醒步驟',next:'洗手台貼步驟圖卡'}),
+    R('f22',{date:'2026-10-30',day:{'入園':{'進入活動':'○','參與／完成':'○','轉換離開':'○'},'晨間活動':{'進入活動':'△','參與／完成':'◇','轉換離開':'△',note:'排隊洗手推人 2 次'},'團體活動':{'進入活動':'○','參與／完成':'△','轉換離開':'○',note:'約 8 分鐘後離座'},'學習區':{'進入活動':'○','參與／完成':'○','轉換離開':'△',note:'積木區很投入'},'用餐':{'進入活動':'○','參與／完成':'○','轉換離開':'○'},'戶外／大肌肉':{'進入活動':'○','參與／完成':'○','轉換離開':'△'}},stable:['學習區','用餐'],stable_can:'積木區能專心 15–20 分鐘，會說出作品意義',hard:['晨間活動','活動轉換'],hard_obs:'排隊等待時推人',cause:['等待時間太長','不想結束喜歡的活動'],cause_main:'等待時間長、不知道還要等多久（推測）',support:['視覺計時','個別提醒'],best:'沙漏',change:['情緒較穩定']}),
+    R('emo',{date:'2026-10-06',time:'早上',place:'洗手台前',activity:'排隊洗手，前面有 5 位幼兒',before:['等待'],emotion:['生氣'],behavior:'推前面的同學 1 次',said:'「快一點」',resp:['協助表達需求'],resp_how:'蹲下說「等一下就輪到你」，給他看排隊順序圖卡',after:['提醒後恢復'],recover:'約 1 分鐘',after_obs:'站回原位，等約 1 分鐘後洗手'}),
+    R('emo',{date:'2026-10-21',time:'戶外時間',place:'鞦韆區',activity:'盪鞦韆輪流',before:['等待','想要的東西沒有得到'],emotion:['生氣','難過'],behavior:'等待時哭，拉住鞦韆繩',said:'大聲說「我的」',resp:['陪伴等待情緒緩和','提供選擇'],resp_how:'給沙漏計時，說「沙漏漏完換你」',after:['教師協助後恢復'],recover:'約 2 分鐘',after_obs:'看著沙漏等待，輪到時停止哭泣'}),
+    R('emo',{date:'2026-10-30',time:'早上',place:'洗手台前',activity:'排隊洗手',before:['等待'],emotion:['生氣'],behavior:'推前面的陳小安 2 次',resp:['暫時離開情境'],resp_how:'叫名字他沒有回頭；走過去拍肩',after:['可以自己恢復'],recover:'約 3 分鐘',after_obs:'自己走到角落坐約 3 分鐘，再回來排隊，沒有哭',need:'可能需要知道還要等多久（推測，待確認）',next:'排隊前先給順序圖卡和沙漏'}),
+    R('emo',{date:'2026-11-03',time:'角落時間',place:'積木區',activity:'自己蓋積木，同學靠近',before:['想要的東西沒有得到'],before_other:'同學靠近他正在用的積木',emotion:['焦慮'],behavior:'把積木抱在胸前',said:'「我的」',resp:['協助表達需求','協助與同儕溝通'],resp_how:'提議一起蓋，示範說「這塊給你」',after:['提醒後恢復'],after_obs:'跟著說「這塊給你」，讓同學拿 2 塊，兩人並排蓋約 5 分鐘'}),
+    R('f13',{date:'2026-11-03',period:'10/6–11/3',scene:['排隊','遊戲輪流','輪流使用材料'],react:['插隊或搶先','碰觸別人或物品','出現情緒反應'],react_obs:'等待時推前面的人、拉住鞦韆繩',howlong:'約1～3分鐘',better:'有沙漏或順序圖卡、看得到還要等多久時',support:['視覺提示','告訴孩子大約要等多久'],change:['情緒較穩定','可以留在等待位置'],best:'沙漏',methods:['看順序','目前還需要成人提供方法'],track:[{d:'2026-10-06',s:'排隊洗手',p:'推人 1 次，看圖卡後等待',m:'△',r:'順序圖卡'},{d:'2026-10-21',s:'盪鞦韆輪流',p:'哭、拉繩，看沙漏後等待',m:'◇',r:'沙漏'},{d:'2026-10-30',s:'排隊洗手',p:'推人 2 次',m:'×',r:'叫名字無效，拍肩後離開'},{d:'2026-11-03',s:'積木輪流',p:'抱住積木，示範後分享',m:'△',r:'示範句子'}],can:'有沙漏時能等 1–2 分鐘',grow:'排隊時先自己看圖卡',less:'老師示範句子的次數'}),
+    R('f08',{date:'2026-10-06',aim:['等待能力','同儕互動'],obs:'等待輪流或別人靠近他的東西時，會推人、拉東西、說「我的」',when:['排隊等待','戶外活動','與特定同儕互動時'],common:'需要等待，或別人靠近他正在用的東西',try:['視覺提示','協助說出需求','給予等待時間'],effect:['有一些幫助','只有特定情境有效'],change:'有沙漏時能等待；沒有工具時仍會推人',track:[{d:'2026-10-06',s:'排隊順序圖卡',p:'站回原位等待',m:'○'},{d:'2026-10-21',s:'沙漏計時',p:'看著沙漏等待',m:'○'},{d:'2026-10-30',s:'叫名字提醒',p:'沒有回頭',m:'×'},{d:'2026-10-30',s:'走過去拍肩',p:'離開隊伍到角落冷靜',m:'△'},{d:'2026-11-03',s:'示範句子「這塊給你」',p:'跟著說並分享',m:'○'}],keep:'沙漏、順序圖卡、示範句子',maybe:'走過去拍肩',stop:'遠距離叫名字',next:['繼續使用目前策略','與家長討論'],plan:'排隊前主動給沙漏，減少事後提醒'}),
+    R('abc',{date:'2026-11-04',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'C 需要較多協助',fact:'推前面的同學 1 次，老師陪在旁邊才等'}),
+    R('abc',{date:'2026-11-06',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'C 需要較多協助',fact:'離開隊伍 2 次'}),
+    R('abc',{date:'2026-11-11',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'B 提醒後表現',fact:'提醒看沙漏後等約 1 分鐘'}),
+    R('abc',{date:'2026-11-13',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'C 需要較多協助',fact:'拉前面同學衣服 1 次'}),
+    R('abc',{date:'2026-11-18',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'B 提醒後表現',fact:'提醒後看順序圖卡，等到輪到自己'}),
+    R('abc',{date:'2026-12-02',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'B 提醒後表現',fact:'【假設的期末資料】提醒後看沙漏等待'}),
+    R('abc',{date:'2026-12-04',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'A 自主表現',fact:'【假設的期末資料】自己拿沙漏，等到輪到自己'}),
+    R('abc',{date:'2026-12-09',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'B 提醒後表現',fact:'【假設的期末資料】提醒後等待約 2 分鐘'}),
+    R('abc',{date:'2026-12-11',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'C 需要較多協助',fact:'【假設的期末資料】前面同學很慢，推了 1 次'}),
+    R('abc',{date:'2026-12-16',target:'排隊時看著沙漏或順序圖卡，等到輪到自己',code:'B 提醒後表現',fact:'【假設的期末資料】提醒後看順序圖卡等待'}),
+    R('talk',{date:'2026-10-25',way:['當面'],parent:'希望小樹「可以用說的，不要用推的」，也希望他能交到朋友。擔心健康檢查時被提醒「語言可以再觀察」，目前在星光兒童醫院等發展評估，報告還沒拿到。在家有 2 歲妹妹，搶玩具時會推妹妹。',fact:'學校觀察：排隊、輪流時推人或拉東西共 3 次；有沙漏或順序圖卡時能等待。積木區能專心 15–20 分鐘。',tbc:'發展評估結果（等報告）；在家推妹妹的情境是否和等待有關（問家長）',guess:'等待太久、不知道還要等多久，可能是原因之一',want:'孩子在學校會不會被當成「有問題」、老師打算怎麼幫他',plan:['說明已確認事實','說明已採取措施','討論合作方式'],reply:'先說小樹在積木區的專注與表達；再說等待時的情況與沙漏有效；邀請家長在家一起用沙漏練習輪流',follow:['需持續觀察'],todo:'每週聯絡簿分享一次等待練習的情況'}),
+    R('grow',{area:'排隊洗手、輪流',content:'等待輪到自己',d1:'2026-10-06',can1:'有順序圖卡時能等約 1 分鐘',hard1:'沒有工具時推前面的人',help1:'老師蹲下說明、給順序圖卡',d2:'2026-12-16',can2:'【假設的期末資料】自己拿沙漏，多數時候能等到輪到自己',hard2:'前面的人很慢時仍會推 1 次',help2:'提醒看沙漏或圖卡',prog:['需要的協助減少'],before:'老師陪在旁邊才能等',now:'提醒後看沙漏自己等待',evid:['教師觀察'],challenge:'不用提醒，自己去拿沙漏',provide:'把沙漏固定放在洗手台旁'})
+  ]};
+  save();syncSet();render();$('setBox').open=true;topMsg('已載入虛構幼兒「小樹」的示範資料。');
+};
+
+load();syncSet();render();
+if(!storeOK)topMsg('這個瀏覽器不能存檔，關掉分頁前請先「匯出備份」。');
+})();
+</script>
+</body>
+</html>
