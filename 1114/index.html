@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-Hant-TW" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>課堂 AI 帶走資源</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<meta name="description" content="11/14 教育科技展講座：今天用到的提示詞、步驟與工具連結">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--indigo:#3B3486;--ink:#1C1F33;--apricot:#F4B48C;--apricot-btn:#E39A6E;--lav:#B9B3E3;--lav-soft:#E6E3F7;--muted:#5B5E73;--apricot-deep:#A4552A;--apricot-soft:#FDE9DC;--line:#D9D6EE;--bg:#FFFFFF}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:"Noto Sans TC",sans-serif;font-size:16px;line-height:1.75}
+.wrap{max-width:820px;margin:0 auto;padding:24px 16px 48px}
+header{display:flex;gap:12px;align-items:center;border-bottom:3px solid var(--indigo);padding-bottom:14px}
+h1{font-weight:900;font-size:26px;line-height:1.35;margin:0}
+.kicker{color:var(--muted);font-size:14px}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+nav a{background:var(--lav-soft);color:var(--indigo);text-decoration:none;border-radius:999px;padding:4px 14px;font-size:14px;font-weight:700}
+h2{color:var(--indigo);font-size:21px;margin:34px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--lav-soft)}
+h3{font-size:17px;margin:20px 0 6px}
+.card{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+.prompt{position:relative;background:#F6F5FC;border-radius:12px;padding:14px 14px 14px;margin:8px 0;white-space:pre-wrap;font-size:15px;line-height:1.7}
+.copy{float:right;margin:-4px -4px 6px 8px;border:0;background:var(--indigo);color:#fff;border-radius:8px;padding:4px 12px;font-family:inherit;font-size:13px;cursor:pointer}
+.tip{background:var(--apricot-soft);border-radius:12px;padding:12px 14px;margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{background:var(--indigo);color:#fff;text-align:left;padding:8px}
+td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top}
+a{color:var(--indigo)}
+ol,ul{padding-left:1.3em}
+.sig{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:40px;padding:14px 16px;background:var(--lav-soft);border-radius:14px}
+.sig .n1{font-weight:700;color:var(--indigo)} .sig .n2,.sig .tg{color:var(--muted);font-size:14px}
+.abby-fb svg{width:26px;height:26px;fill:var(--indigo);vertical-align:middle}
+.lk{display:flex;gap:10px;align-items:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<svg viewBox="0 0 64 64" width="44" height="44" role="img" aria-label="Abby 陪你簡單用 AI"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg>
+<div><div class="kicker">2026/11/14 教育科技展講座｜帶走資源</div><h1>從硬體、軟體到 AI：教育科技如何幫忙課堂？</h1></div>
+</header>
+<nav><a href="#tools">工具連結</a><a href="#s1">講義動起來</a><a href="#s2">河川差異化</a><a href="#five">五招提示詞</a><a href="#s3">Canvas 拿 .html</a><a href="#s5">會議紀錄</a></nav>
+
+<h2 id="tools">今天用到的工具</h2>
+<table>
+<tr><th>老師的一天</th><th>工具</th><th>用在哪</th></tr>
+<tr><td>備課</td><td><a href="https://notebooklm.google.com" target="_blank" rel="noopener">Gemini Notebook</a>（原名 NotebookLM）</td><td>影片摘要、語音摘要、資訊圖表</td></tr>
+<tr><td>上課</td><td><a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a>（Live 語音、Canvas）</td><td>AI 角色對話、做互動小遊戲</td></tr>
+<tr><td>上課</td><td><a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a>＋<a href="https://kahoot.com" target="_blank" rel="noopener">Kahoot</a></td><td>從講義出題、建立 Kahoot 草稿</td></tr>
+<tr><td>看懂學生</td><td><a href="https://edcafe.ai" target="_blank" rel="noopener">Edcafe</a>（Mini App）</td><td>上傳 .html 遊戲、看學生遊玩紀錄</td></tr>
+<tr><td>開會</td><td>Meeting Ink</td><td>線下會議即時逐字稿、摘要待辦</td></tr>
+<tr><td>開會</td><td><a href="https://tactiq.io" target="_blank" rel="noopener">Tactiq</a>（Chrome 擴充功能）</td><td>Google Meet 逐字稿；免費版每月 10 份、5 次 AI 摘要</td></tr>
+</table>
+<p class="kicker">工具功能與方案以各官網當下公告為準；學校帳號能否使用，請先確認學校的設定。</p>
+
+<h2 id="s1">① 講義動起來：用 ChatGPT 出 Kahoot 題</h2>
+<p>先在 ChatGPT 連結 Kahoot app（對話框輸入 @Kahoot），上傳講義後依序貼：</p>
+<div class="prompt"><button class="copy">複製</button>這是我七年級自然的講義。請根據講義內容，出 8 題 Kahoot 單選題：
+- 每題 4 個選項、只有 1 個正確答案，限時 20 秒
+- 題目不超過 60 個字、選項不超過 20 個字
+- 用繁體中文、台灣用語
+- 只能用講義裡有的內容
+先在對話裡列出題目和答案給我看，先不要建立 Kahoot。</div>
+<div class="prompt"><button class="copy">複製</button>再幫我加 2 題陷阱題，針對講義裡的常見迷思。錯誤選項要寫得像學生真的會選的說法。刪掉最簡單的 2 題，總數維持 8 題。</div>
+<div class="prompt"><button class="copy">複製</button>可以了，請在我的 Kahoot 建立這份測驗，標題「〇〇〇」。</div>
+<div class="tip">AI 建好的是草稿，開給學生前一定先看過、改過。</div>
+
+<h2 id="s2">② 課本變助教：一課三條闖關路線（Gemini Notebook）</h2>
+<p>把教材上傳成筆記本來源，貼下面這段。差異化是目的，遊戲化是包裝；讓學生自選路線，不貼標籤。</p>
+<div class="prompt"><button class="copy">複製</button>請把來源中的「［單元名稱］」改編成適合［年級］學生的冒險任務故事。
+故事開頭設定任務目標，完成任務就能拿到徽章。
+接著讓學生從三條路線選一條，三條路線的終點都要學會同一件事：［學習目標］。
+① 聽力路線：關卡素材是一段簡短的語音摘要，任務是聽完後回答偵探問題
+② 圖像路線：關卡素材是一張資訊圖表，任務是在圖上找出線索
+③ 挑戰路線：關卡素材是一段正反辯論音檔，任務是當裁判並說出理由
+每條路線設計 2 個關卡，每個關卡包含：簡短的故事情境、任務、正確答案（裁判題請給評分參考）、給答錯學生的小提示。
+最後設計一個三條路線共同的「最終挑戰」。
+所有知識內容都必須以來源為依據，不要加入來源沒有的數字。用繁體中文、台灣用語。</div>
+<h3>辯論版語音摘要（格式選「辯論」）自訂指示</h3>
+<div class="prompt"><button class="copy">複製</button>這段音檔給［年級］、程度較好的學生，主題是「［爭議問題］」。
+兩位主持人各站一方，每個論點都要說出「教材裡哪一段可以支持這個說法」。
+不要替學生下結論。最後請主持人一起對聽眾說：「現在換你當裁判」，並提出三個問題：
+1. 哪一方的哪一個理由最有根據？
+2. 哪一個理由你覺得證據不夠？
+3. 有沒有兩全其美的做法？
+用繁體中文、台灣用語。</div>
+
+<h2 id="five">Gemini Notebook 課堂遊戲化五招</h2>
+<p>Gemini Notebook（原名 NotebookLM）使用方式：</p>
+<ol><li>把教材、講義或 PDF 加入 Gemini Notebook 當來源。</li><li>選一個想做的課堂活動。</li><li>複製提示詞，把［　］換成你的課程資訊。</li><li>生成後依班級程度微調。</li></ol>
+<p class="kicker">延伸使用：簡單版請 AI 輸出 PDF／Word 直接用；進階版把生成的題目匯入 Kahoot!、Google 表單等平台。</p>
+<h3>① 課堂尋寶挑戰</h3><div class="prompt"><button class="copy">複製</button>請根據我提供的資料，設計一個適合學生進行的「課堂尋寶挑戰」。請設計 8 個簡短的線索問題，讓學生必須閱讀、搜尋或理解資料內容才能找到答案。問題請由簡單到困難排列，每一題都要提供：
+1. 線索問題
+2. 正確答案
+3. 答案可從資料中的哪個重點找到
+問題不要只是單純背誦，希望能讓學生有「找線索、解任務」的感覺。</div><h3>② 故事任務闖關</h3><div class="prompt"><button class="copy">複製</button>請把我提供的［課程主題］改編成一個適合［年級］學生的冒險任務故事。設計 5 個連續的任務關卡，每完成一關才能繼續下一段故事。每個關卡請包含：
+1. 簡短的故事情境
+2. 一個與教材內容有關的問題或任務
+3. 正確答案
+4. 給答錯學生的小提示
+故事可以有角色、任務目標與最終挑戰，但所有知識內容都必須以我提供的資料為依據。</div><h3>③ 全班搶答賽</h3><div class="prompt"><button class="copy">複製</button>請根據我提供的資料，設計一場適合［年級／學科］的分組搶答賽。一共設計 10 題，混合以下三種題型：
+・選擇題
+・是非題
+・簡答題
+請將題目由基礎理解逐漸提升到需要思考與應用的程度。每一題請提供：
+1. 題目
+2. 題型
+3. 正確答案
+4. 簡短解析
+題目必須能從我提供的資料中找到依據。</div><h3>④ 密室逃脫謎題</h3><div class="prompt"><button class="copy">複製</button>請根據我提供的資料，設計一個「教室密室逃脫」學習活動，適合［年級／學科］學生。設計 5 個連續謎題，學生必須解開上一題才能取得下一關的線索。每一關請提供：
+1. 關卡情境
+2. 謎題／任務
+3. 學生卡關時可以使用的提示
+4. 正確答案
+5. 解題後獲得的下一關線索
+最後一關請設計成「成功逃脫」的 Final Mission。所有謎題的知識內容都必須來自我提供的資料。</div><h3>⑤ AI 聽力偵探</h3><div class="prompt"><button class="copy">複製</button>請根據這份語音摘要（Audio Overview）的內容，設計一個「聽力偵探」活動，適合［年級］學生。請設計 6 個偵探問題，讓學生在聆聽過程中尋找關鍵資訊與線索。問題請包含：
+・重要人物／概念
+・關鍵事件或資訊
+・因果關係
+・容易被忽略的細節
+・至少一題需要整合多個線索才能回答的問題
+每題請提供：
+1. 偵探問題
+2. 正確答案
+3. 學生應該注意的聆聽線索
+最後再提供一題「終極偵探題」，讓學生整理整段內容後才能回答。</div><h3>＋ 萬用改寫句</h3>
+<p>想換年級、科目，不用重寫提示詞，在任何一組最後加上：</p>
+<div class="prompt"><button class="copy">複製</button>我的學生是［年級］，科目是［科目］，本堂課時間約［時間］分鐘，共［人數］人。請依照學生程度調整題目難度與活動方式，使用適合台灣學生理解的繁體中文與台灣用語。</div>
+<div class="tip">AI 生成的內容，請老師先確認正確性、難度和是否符合班級情境，再給學生使用。先挑一招用在下週的一堂課就好。</div>
+
+<h2 id="s3">③ Gemini Canvas 做的遊戲，怎麼存成 .html 檔？</h2>
+<div class="card"><h3>方法 A：請它直接給檔案</h3>
+<p>在同一個對話補一句：</p>
+<div class="prompt"><button class="copy">複製</button>請把這個遊戲整理成一個 .html 檔案讓我下載，所有程式碼和樣式都放在同一個檔案裡，不要連外部圖片、字型或程式庫。</div>
+<p>再從 Canvas 右上角的選單下載。</p></div>
+<div class="card"><h3>方法 B：自己複製程式碼</h3>
+<ol>
+<li>Canvas 右上角切到「程式碼」分頁 → 全選 → 複製</li>
+<li><b>Mac</b>：打開「文字編輯」→ 先按「格式 → 製作純文字」（⇧⌘T）→ 貼上 → 存檔，檔名改成 <code>game.html</code>，編碼選 UTF-8</li>
+<li><b>Windows</b>：打開「記事本」→ 貼上 → 另存新檔，存檔類型選「所有檔案」，檔名 <code>game.html</code>，編碼 UTF-8</li>
+<li>雙擊檔案，用瀏覽器打開就能玩</li>
+</ol></div>
+<div class="tip">學校 Google 帳號常常不能分享 Gemini 連結。存成檔案放進 Mini App 類工具，就不用管帳號設定，還看得到學生的遊玩紀錄。</div>
+<p>遊戲在觸控大屏上玩，記得在指令裡加：「只用點擊操作，不要拖曳；按鈕和字要大」。</p>
+
+<h2 id="s5">⑤ 只有錄音檔：用 Gemini Notebook 整理會議紀錄</h2>
+<div class="prompt"><button class="copy">複製</button>這是一段學校行政會議的錄音。請整理成會議紀錄：
+1. 會議重點（3–5 點，每點一句話）
+2. 決議事項
+3. 待辦清單，用表格列出：事項｜負責人｜期限
+4. 還沒決定、需要追蹤的事
+用繁體中文、台灣用語，只根據錄音內容，聽不清楚的地方標註「待確認」。</div>
+<div class="tip">個案、IEP、輔導、親師會談不要用逐字稿工具；錄音前先告知與會者。</div>
+
+<div class="sig">
+  <div class="lk"><svg viewBox="0 0 64 64" width="36" height="36" aria-hidden="true"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg><div><div class="n1">Abby 陪你簡單用 AI</div><div class="n2">教師數位增能研習｜公部門 AI 培訓｜補習班數位教學陪跑</div></div></div>
+  <div class="tg">一堂課，帶走明天就能用的 AI
+  <a class="abby-fb" href="https://www.facebook.com/abby.ai.simple" target="_blank" rel="noopener" aria-label="前往 Abby 陪你簡單用 AI 的 Facebook 粉專"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.5-3.92 3.77-3.92 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V22c4.78-.79 8.45-4.94 8.45-9.94Z"/></svg></a></div>
+</div>
+</div>
+<script>
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+  const t=b.parentElement.innerText.replace(/^複製\s*/,'').replace(/^已複製\s*/,'');
+  const done=()=>{b.textContent='已複製';setTimeout(()=>b.textContent='複製',1500)};
+  if(navigator.clipboard){navigator.clipboard.writeText(t).then(done).catch(()=>{})}
+}));
+</script>
+</body>
+</html>
