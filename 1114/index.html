@@ -33,9 +33,16 @@ ol,ul{padding-left:1.3em}
 .sig .n1{font-weight:700;color:var(--indigo)} .sig .n2,.sig .tg{color:var(--muted);font-size:14px}
 .abby-fb svg{width:26px;height:26px;fill:var(--indigo);vertical-align:middle}
 .lk{display:flex;gap:10px;align-items:center}
+.qrbox{position:fixed;top:16px;left:16px;z-index:10;background:#fff;border:2px solid var(--indigo);border-radius:16px;padding:10px;text-align:center;width:200px;box-shadow:0 2px 10px rgba(28,31,51,.12)}
+.qrbox img{width:176px;height:176px;display:block;margin:0 auto}
+.qrbox .q1{font-weight:900;color:var(--indigo);font-size:16px;line-height:1.3;margin-top:6px}
+.qrbox .q2{font-family:Lexend,sans-serif;font-size:12px;color:var(--muted)}
+@media (max-width:1259px){.qrbox{position:static;margin:16px auto 0;width:220px}}
+@media (max-width:600px){.qrbox{display:none}}
 </style>
 </head>
 <body>
+<div class="qrbox"><img src="qr.png" alt="掃描開啟本頁 abbyaisimple.com/1114"><div class="q1">手機掃我，帶走提示詞</div><div class="q2">abbyaisimple.com/1114</div></div>
 <div class="wrap">
 <header>
 <svg viewBox="0 0 64 64" width="44" height="44" role="img" aria-label="Abby 陪你簡單用 AI"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg>
