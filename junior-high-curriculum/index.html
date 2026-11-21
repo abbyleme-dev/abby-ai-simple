@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<link rel="canonical" href="https://abbyaisimple.com/junior-high-curriculum/">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+<title>國中課綱教學對照</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="給國中老師用的 108 課綱學習重點查詢、核心素養對照、教案標注、素養導向評量與教學法提示詞工具。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* 版面：頂部標題＋黏性分頁列；內容區最大寬 1180px；查詢頁兩欄、教學法頁左卡片右組合器 */
+:root{
+  --paper:#FFFBF5;      /* 米白：頁面底 */
+  --tea:#F7EFE5;        /* 奶茶：區塊底 */
+  --tea-line:#E9DCCB;   /* 奶茶加深：框線 */
+  --sage:#8DA99A;       /* 鼠尾草綠：選取、素養標籤 */
+  --sage-soft:#E3ECE6;
+  --sage-ink:#3F5A4C;
+  --peach:#F78C56;      /* 蜜桃橘：主要按鈕 */
+  --peach-soft:#FDE3D3;
+  --butter:#FFDC7D;     /* 鵝黃：反白、提醒 */
+  --butter-soft:#FFF4D6;
+  --ink:#2D3748;        /* 深石墨灰：文字 */
+  --ink-2:#5B6577;
+  --white:#FFFFFF;
+  --rose:#F9D9D6; --mint:#DCEBE2; --mist:#DCE7F2; --lav:#E6DEF2; --cream:#FFF2CC;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-code:"Lexend","Noto Sans TC",ui-sans-serif,system-ui,sans-serif;
+  --r:14px;
+  color-scheme:light;
+}
+html{scroll-padding-top:120px}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+a{color:var(--sage-ink)}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--peach);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding-block:28px 12px}
+.top-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.25;margin:0;letter-spacing:.02em;text-wrap:balance}
+h1 .ver{font-family:var(--font-code);font-weight:500;font-size:.45em;background:var(--butter);padding:2px 10px;border-radius:999px;vertical-align:middle;margin-left:8px;letter-spacing:.04em}
+.lede{margin:6px 0 0;color:var(--ink-2);max-width:62ch}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--ink-2)}
+.stats b{font-family:var(--font-code);font-size:20px;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;margin-right:4px}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--tea-line)}
+.tab-row{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.tab-row::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1px solid var(--tea-line);background:var(--white);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:500;font-size:15px;white-space:nowrap}
+.tab .n{font-family:var(--font-code);color:var(--ink-2);margin-right:6px;font-size:13px}
+.tab[aria-selected="true"]{background:var(--sage);border-color:var(--sage);color:var(--ink)}
+.tab[aria-selected="true"] .n{color:var(--ink)}
+main{padding-block:22px 120px}
+section.panel>h2{font-size:22px;margin:0 0 4px}
+.panel-intro{margin:0 0 16px;color:var(--ink-2);max-width:70ch}
+.box{background:var(--tea);border:1px solid var(--tea-line);border-radius:var(--r);padding:16px}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 12px;align-items:end}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2);font-weight:500;min-width:0}
+select,input[type=text],input[type=search],textarea{background:var(--white);border:1px solid var(--tea-line);border-radius:10px;padding:8px 10px;font-size:15px;min-width:0;width:100%}
+textarea{resize:vertical;line-height:1.6}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer;border:1px solid transparent;font-size:15px}
+.btn.primary{background:var(--peach);color:var(--ink)}
+.btn.primary:hover{background:#F57D41}
+.btn.ghost{background:var(--white);border-color:var(--tea-line)}
+.btn.ghost:hover{border-color:var(--sage)}
+.btn.sm{padding:4px 10px;font-size:13px;font-weight:500;border-radius:8px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.note{background:var(--butter-soft);border:1px solid #F3D88A;border-radius:10px;padding:8px 12px;font-size:14px}
+.muted{color:var(--ink-2);font-size:14px}
+.chip{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-code);font-size:12.5px;padding:1px 8px;border-radius:999px;background:var(--sage-soft);color:var(--sage-ink);border:1px solid #CFDDD4;white-space:nowrap;cursor:pointer}
+.chip.plain{cursor:default}
+.chip.grade{background:var(--butter-soft);border-color:#F3D88A;color:#6B5200}
+.chip.rel{background:var(--white);border-color:var(--tea-line);color:var(--ink-2)}
+.chip.none{background:transparent;border-style:dashed;color:var(--ink-2);font-family:var(--font-body);cursor:default}
+mark{background:var(--butter);color:inherit;border-radius:3px;padding:0 1px}
+/* 分頁 1 */
+.meta-strip{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:12px 0}
+.legend{font-size:13px;color:var(--ink-2)}
+.legend details{display:inline}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.col{min-width:0}
+.col-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:8px 4px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 56px);background:var(--paper);z-index:5}
+.col-head h3{margin:0;font-size:18px}
+.col-head .count{font-family:var(--font-code);font-size:13px;color:var(--ink-2)}
+.grp{margin-bottom:10px;border:1px solid var(--tea-line);border-radius:var(--r);background:var(--white);overflow:hidden}
+.grp>summary{list-style:none;cursor:pointer;padding:9px 14px;background:var(--tea);font-weight:700;font-size:15px;display:flex;justify-content:space-between;gap:8px}
+.grp>summary::-webkit-details-marker{display:none}
+.grp>summary .gc{font-family:var(--font-code);font-weight:500;color:var(--ink-2);font-size:13px}
+.item{padding:10px 14px;border-top:1px solid #F1E8DC;display:grid;grid-template-columns:auto 1fr;gap:2px 12px}
+.item:first-of-type{border-top:0}
+.code{font-family:var(--font-code);font-weight:600;font-size:14px;white-space:nowrap;padding-top:2px}
+.code .mk{color:var(--peach);margin-right:2px}
+.txt{min-width:0;overflow-wrap:anywhere}
+.item .tags{grid-column:2;display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:4px}
+.item .acts{grid-column:2;display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.pin[aria-pressed="true"]{background:var(--peach-soft);border-color:var(--peach)}
+.src-link{font-size:12.5px;color:var(--ink-2);text-decoration:none;border-bottom:1px dotted var(--ink-2)}
+.empty{padding:28px;text-align:center;color:var(--ink-2);background:var(--white);border:1px dashed var(--tea-line);border-radius:var(--r)}
+.empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
+/* 清單匣 */
+.tray{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--white);border-top:1px solid var(--tea-line);box-shadow:0 -6px 18px rgba(45,55,72,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tray .wrap{display:flex;align-items:center;gap:10px;padding-block:10px;flex-wrap:wrap}
+.tray .label{font-weight:700;font-size:14px;white-space:nowrap}
+.tray .label span{font-family:var(--font-code)}
+.tray-items{display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:0}
+.tray-items .chip{background:var(--peach-soft);border-color:#F8C3A4;color:var(--ink)}
+.tray-items .chip button{border:0;background:none;padding:0 0 0 2px;cursor:pointer;font-size:14px;line-height:1}
+/* 分頁 2 */
+.nine{display:grid;grid-template-columns:110px repeat(3,1fr);gap:10px}
+.nine .dim{display:flex;flex-direction:column;justify-content:center;font-weight:700;background:var(--tea);border-radius:var(--r);padding:10px;font-size:15px}
+.nine .dim small{font-family:var(--font-code);color:var(--ink-2);font-weight:500}
+.cell{border:1px solid var(--tea-line);background:var(--white);border-radius:var(--r);padding:12px 14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-width:0}
+.cell .cc{font-family:var(--font-code);font-weight:600;font-size:20px}
+.cell .nm{font-weight:700;font-size:15px}
+.cell:hover{border-color:var(--sage)}
+.cell[aria-pressed="true"]{background:var(--sage);border-color:var(--sage)}
+.comp-detail{margin-top:18px;display:grid;gap:14px}
+.comp-head{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.comp-head .box h4{margin:0 0 6px;font-size:14px;color:var(--ink-2);font-weight:700}
+.comp-head .box p{margin:0}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--tea-line);border-radius:var(--r);background:var(--white)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid #F1E8DC;font-size:15px}
+th{background:var(--tea);font-size:13px;color:var(--ink-2);font-weight:700}
+td.cd{font-family:var(--font-code);font-weight:600;white-space:nowrap}
+td .ex{margin-top:6px}
+td .ex summary{cursor:pointer;color:var(--sage-ink);font-size:13.5px}
+td .ex ul{margin:6px 0 0;padding-left:18px;font-size:14px}
+/* 分頁 3、4 */
+.two{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;align-items:start}
+.result-list{display:grid;gap:8px}
+.hit{background:var(--white);border:1px solid var(--tea-line);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:auto auto 1fr;gap:4px 10px;align-items:start}
+.hit .lv{font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.lv.h{background:var(--peach-soft);color:#8A3A12}.lv.m{background:var(--butter-soft);color:#6B5200}.lv.l{background:var(--tea);color:var(--ink-2)}
+.hit .txt{grid-column:3}
+.hit input{margin-top:5px}
+.prompt-out{min-height:260px;font-size:14px}
+.ai-links{display:flex;gap:8px;flex-wrap:wrap}
+.ai-links a{font-size:14px;padding:6px 12px;border:1px solid var(--tea-line);border-radius:999px;background:var(--white);text-decoration:none;color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--white);padding:8px 16px;border-radius:999px;font-size:14px;z-index:40}
+.pick-list{max-height:280px;overflow:auto;border:1px solid var(--tea-line);border-radius:10px;background:var(--white)}
+.pick{display:grid;grid-template-columns:auto auto 1fr;gap:8px;padding:7px 10px;border-top:1px solid #F1E8DC;font-size:14px;cursor:pointer;align-items:start}
+.pick:first-child{border-top:0}
+.pick:hover{background:var(--paper)}
+.pick .code{font-size:13px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--tea-line);background:var(--white);border-radius:999px;padding:5px 12px;font-size:14px;cursor:pointer}
+.seg input{accent-color:var(--peach)}
+.seg label:has(input:checked){background:var(--peach-soft);border-color:var(--peach)}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+legend.f{font-size:13px;color:var(--ink-2);font-weight:500;margin-bottom:4px;padding:0}
+.stack{display:grid;gap:12px}
+/* 分頁 5 */
+.methods-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.filters button{border:1px solid var(--tea-line);background:var(--white);border-radius:999px;padding:5px 12px;font-size:14px;cursor:pointer}
+.filters button[aria-pressed="true"]{border-color:var(--ink);font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.mcard{border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(45,55,72,.08)}
+.mcard h4{margin:0;font-size:17px}
+.mcard .cat{font-size:12px;font-weight:700;color:var(--ink-2);letter-spacing:.04em}
+.mcard p{margin:0;font-size:14.5px}
+.mcard ol{margin:0;padding-left:20px;font-size:14px}
+.mcard .fit{display:flex;flex-wrap:wrap;gap:4px}
+.mcard .fit span{font-size:12px;background:rgba(255,255,255,.7);border-radius:999px;padding:1px 8px}
+.mcard .tip{font-size:13px;color:var(--ink-2)}
+.mcard .btn{align-self:flex-start;margin-top:auto}
+.mcard .btn[aria-pressed="true"]{background:var(--ink);color:var(--white)}
+.c-rose{background:var(--rose)}.c-mint{background:var(--mint)}.c-mist{background:var(--mist)}.c-lav{background:var(--lav)}.c-cream{background:var(--cream)}
+.composer{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);max-height:calc(100vh - 150px);overflow:auto}
+.sel-chips{display:flex;flex-wrap:wrap;gap:6px;min-height:28px}
+.sel-chips .chip{background:var(--white);color:var(--ink);font-family:var(--font-body)}
+.sel-chips .chip button{border:0;background:none;padding:0 0 0 2px;cursor:pointer}
+footer{border-top:1px solid var(--tea-line);background:var(--tea);padding-block:28px calc(110px + env(safe-area-inset-bottom,0px))}
+footer h3{margin:0 0 8px;font-size:16px}
+footer .disclaim{font-weight:700;background:var(--butter-soft);border:1px solid #F3D88A;border-radius:10px;padding:10px 14px;display:inline-block}
+.src-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:4px 18px;font-size:14px;margin:10px 0 18px;padding:0;list-style:none}
+.credit{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;margin-top:18px}
+.credit .fb{display:inline-flex;width:22px;height:22px;border-radius:50%;background:#1877F2;align-items:center;justify-content:center}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:860px){
+  .cols,.two,.methods-layout,.comp-head{grid-template-columns:1fr}
+  .composer{position:static;max-height:none}
+  .nine{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .nine .dim{grid-column:1/-1;flex-direction:row;gap:8px;align-items:baseline;padding:6px 10px}
+  .col-head{position:static}
+}
+@media (max-width:480px){
+  .cell .cc{font-size:17px}.cell .nm{font-size:13px}
+  .cell{padding:10px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div>
+        <h1>國中課綱教學對照<span class="ver">第四學習階段</span></h1>
+        <p class="lede">十二年國教課綱國中（七至九年級）學習重點，依領域、科目查詢，對照核心素養，並產生給 AI 的備課與評量提示詞。</p>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="功能分頁">
+  <div class="wrap tab-row" role="tablist">
+    <button class="tab" role="tab" id="t-lookup" aria-controls="lookup" data-tab="lookup"><span class="n">1</span>查學習重點</button>
+    <button class="tab" role="tab" id="t-competency" aria-controls="competency" data-tab="competency"><span class="n">2</span>核心素養對照</button>
+    <button class="tab" role="tab" id="t-annotate" aria-controls="annotate" data-tab="annotate"><span class="n">3</span>教案標注課綱</button>
+    <button class="tab" role="tab" id="t-assess" aria-controls="assess" data-tab="assess"><span class="n">4</span>素養導向評量</button>
+    <button class="tab" role="tab" id="t-methods" aria-controls="methods" data-tab="methods"><span class="n">5</span>教學法靈感・提示詞</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <!-- 分頁 1 -->
+  <section class="panel" id="lookup" role="tabpanel" aria-labelledby="t-lookup">
+    <h2>依領域・科目查學習重點</h2>
+    <p class="panel-intro">選領域與科目，左欄是學習表現、右欄是學習內容。每條旁的綠色標籤是課綱附錄「呼應表參考示例」列出的領域核心素養；點「加入清單」可帶到評量與教學設計分頁使用。</p>
+    <div class="box controls">
+      <label class="f">領域<select id="l-domain"></select></label>
+      <label class="f">科目<select id="l-subject"></select></label>
+      <label class="f" id="l-sub3-wrap" hidden><span id="l-sub3-label">語別</span><select id="l-sub3"></select></label>
+      <label class="f">類別<select id="l-group"><option value="">全部類別</option></select></label>
+      <label class="f">關鍵字（文字或編碼）<input type="search" id="l-q" placeholder="例如：論證、函數、Bb"></label>
+    </div>
+    <div class="meta-strip" id="l-meta"></div>
+    <div id="l-body"></div>
+  </section>
+
+  <!-- 分頁 2 -->
+  <section class="panel" id="competency" role="tabpanel" aria-labelledby="t-competency" hidden>
+    <h2>核心素養對照</h2>
+    <p class="panel-intro">總綱三面九項。點一項，看總綱說明、國民中學教育（J）具體內涵，以及各領域在國中階段的具體內涵；展開「呼應表示例」可看課綱附錄列出的對應學習重點。</p>
+    <div class="nine" id="c-grid"></div>
+    <div class="comp-detail" id="c-detail"></div>
+  </section>
+
+  <!-- 分頁 3 -->
+  <section class="panel" id="annotate" role="tabpanel" aria-labelledby="t-annotate" hidden>
+    <h2>教案標注課綱</h2>
+    <p class="panel-intro">貼上教學活動或教案，網頁先用關鍵詞比對找出可能對應的學習重點；也可以複製提示詞，貼到 ChatGPT、Gemini 或 Claude 請 AI 標注。</p>
+    <div class="two">
+      <div class="stack">
+        <div class="box stack">
+          <div class="controls">
+            <label class="f">領域<select id="a-domain"></select></label>
+            <label class="f">科目<select id="a-subject"></select></label>
+            <label class="f" id="a-sub3-wrap" hidden><span>語別</span><select id="a-sub3"></select></label>
+            <label class="f">年級<select id="a-grade"><option>七年級</option><option>八年級</option><option>九年級</option></select></label>
+          </div>
+          <label class="f">教學活動或教案
+            <textarea id="a-text" rows="11"></textarea>
+          </label>
+          <p class="note">請勿貼上學生姓名、座號等個人資料。</p>
+          <div class="btn-row">
+            <button class="btn primary" id="a-match">網頁比對</button>
+            <button class="btn ghost" id="a-ai">請 AI 標注</button>
+            <button class="btn ghost sm" id="a-clear">清空</button>
+          </div>
+        </div>
+        <div class="box stack" id="a-prompt-box" hidden>
+          <div class="btn-row" style="justify-content:space-between">
+            <strong>AI 標注提示詞</strong>
+            <button class="btn primary sm" id="a-copy">複製提示詞</button>
+          </div>
+          <textarea class="prompt-out" id="a-prompt" aria-label="AI 標注提示詞"></textarea>
+          <div class="ai-links"><span class="muted">貼到：</span><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a><a href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a></div>
+        </div>
+      </div>
+      <div class="stack" id="a-results"></div>
+    </div>
+  </section>
+
+  <!-- 分頁 4 -->
+  <section class="panel" id="assess" role="tabpanel" aria-labelledby="t-assess" hidden>
+    <h2>素養導向評量</h2>
+    <p class="panel-intro">選一條學習表現（可再搭配最多 2 條學習內容），網頁產生提示詞，請 AI 設計一題情境化的素養導向題目，附評分重點。</p>
+    <div class="two">
+      <div class="box stack">
+        <div class="controls">
+          <label class="f">領域<select id="e-domain"></select></label>
+          <label class="f">科目<select id="e-subject"></select></label>
+          <label class="f" id="e-sub3-wrap" hidden><span>語別</span><select id="e-sub3"></select></label>
+          <label class="f">年級<select id="e-grade"><option>七年級</option><option>八年級</option><option>九年級</option></select></label>
+        </div>
+        <div class="stack">
+          <label class="f">學習表現（必選 1 條）<input type="search" id="e-pq" placeholder="輸入關鍵字縮小範圍"></label>
+          <div class="pick-list" id="e-plist" role="listbox" aria-label="學習表現"></div>
+        </div>
+        <div class="stack">
+          <label class="f">學習內容（選填，最多 2 條）<input type="search" id="e-cq" placeholder="輸入關鍵字縮小範圍"></label>
+          <div class="pick-list" id="e-clist" aria-label="學習內容"></div>
+        </div>
+        <fieldset><legend class="f">題型</legend><div class="seg" id="e-type"></div></fieldset>
+        <fieldset><legend class="f">情境類型</legend><div class="seg" id="e-ctx"></div></fieldset>
+      </div>
+      <div class="box stack">
+        <div class="btn-row" style="justify-content:space-between">
+          <strong>評量提示詞</strong>
+          <button class="btn primary sm" id="e-copy">複製提示詞</button>
+        </div>
+        <div id="e-picked" class="muted"></div>
+        <textarea class="prompt-out" id="e-prompt" rows="20" aria-label="評量提示詞"></textarea>
+        <div class="ai-links"><span class="muted">貼到：</span><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a><a href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分頁 5 -->
+  <section class="panel" id="methods" role="tabpanel" aria-labelledby="t-methods" hidden>
+    <h2>教學法靈感・提示詞</h2>
+    <p class="panel-intro">左邊是教學法卡片，依類別分色；點「加入組合器」最多選 3 種。右邊填好年級、科目與單元，按「請設計提示詞」，再複製到 AI 工具。</p>
+    <div class="methods-layout">
+      <div>
+        <div class="filters" id="m-filters"></div>
+        <div class="cards" id="m-cards"></div>
+      </div>
+      <div class="box stack composer" id="composer">
+        <strong>提示詞組合器</strong>
+        <div class="controls">
+          <label class="f">年級<select id="k-grade"><option>七年級</option><option>八年級</option><option>九年級</option></select></label>
+          <label class="f">領域<select id="k-domain"></select></label>
+          <label class="f">科目<select id="k-subject"></select></label>
+          <label class="f" id="k-sub3-wrap" hidden><span>語別</span><select id="k-sub3"></select></label>
+        </div>
+        <label class="f">單元主題<input type="text" id="k-unit" placeholder="例如：一元一次方程式的應用"></label>
+        <fieldset><legend class="f">教學時間</legend><div class="seg" id="k-time"></div></fieldset>
+        <div>
+          <div class="f muted" style="font-size:13px;font-weight:500">教學法（最多 3 種）<span id="k-mcount"></span></div>
+          <div class="sel-chips" id="k-methods"></div>
+        </div>
+        <div class="stack">
+          <div class="f muted" style="font-size:13px;font-weight:500">學習重點（最多 5 條）<span id="k-icount"></span></div>
+          <div class="sel-chips" id="k-items"></div>
+          <input type="search" id="k-iq" placeholder="搜尋本科學習重點後點選加入" aria-label="搜尋學習重點">
+          <div class="pick-list" id="k-ilist" style="max-height:200px"></div>
+        </div>
+        <details>
+          <summary class="muted" style="cursor:pointer">選填：班級人數、學生特質、可用設備</summary>
+          <div class="stack" style="margin-top:8px">
+            <label class="f">班級人數<input type="text" id="k-size" placeholder="例如：28 人"></label>
+            <label class="f">學生特質<input type="text" id="k-trait" placeholder="例如：程度落差大、喜歡動手做"></label>
+            <label class="f">可用設備<input type="text" id="k-device" placeholder="例如：每組一台平板、投影機"></label>
+          </div>
+        </details>
+        <div class="btn-row">
+          <button class="btn primary" id="k-make">請設計提示詞</button>
+          <button class="btn ghost" id="k-copy">複製提示詞</button>
+        </div>
+        <textarea class="prompt-out" id="k-prompt" rows="14" aria-label="教學設計提示詞" placeholder="按「請設計提示詞」後會出現在這裡，可以再自行修改。"></textarea>
+        <div class="ai-links"><span class="muted">貼到：</span><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a><a href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h3>資料來源</h3>
+    <p class="muted" style="margin:0">教育部《十二年國民基本教育課程綱要總綱》（111 學年度實施版）及各領域課程綱要；原始檔取自國家教育研究院「十二年國教課程綱要」專區：<a href="https://www.naer.edu.tw/PageSyllabus?fid=52" target="_blank" rel="noopener">naer.edu.tw/PageSyllabus?fid=52</a>。各條目旁的「原檔 p.」連結會開啟官方 PDF 該頁。</p>
+    <ul class="src-grid" id="src-list"></ul>
+    <p class="disclaim">學習重點文字由課綱檔案整理，正式引用請以原檔為準。</p>
+    <p class="muted">核心素養標籤只採用各領綱附錄一「學習重點與核心素養呼應表參考示例」所列對應；未列出者顯示「課綱未列對應」。數學含上標、根號的條目已依原檔畫面校正。資料整理日期：2026-11-21。</p>
+    <div class="credit">
+      <span>製作：Abby 陪你簡單用 AI｜@abby.ai.simple</span>
+      <a class="fb" href="https://www.facebook.com/abby.ai.simple" target="_blank" rel="noopener" aria-label="Abby 陪你簡單用 AI 的 Facebook">
+        <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path fill="#FFFFFF" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.9c0-.6.4-.9 1-.9z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<div class="tray" id="tray" hidden>
+  <div class="wrap">
+    <span class="label">我的清單 <span id="tray-n">0</span>/5</span>
+    <div class="tray-items" id="tray-items"></div>
+    <button class="btn ghost sm" id="tray-to-k">帶到教學設計</button>
+    <button class="btn ghost sm" id="tray-clear">清空</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+const D = window.KG_DATA;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('kgmap:'+k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem('kgmap:'+k, JSON.stringify(v)); }catch(e){} }
+};
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,1800); }
+async function copyText(text, ta){
+  try{ await navigator.clipboard.writeText(text); toast('已複製'); }
+  catch(e){ if(ta){ ta.focus(); ta.select(); } toast('請按 Ctrl＋C／⌘＋C 複製已選取的文字'); }
+}
+
+/* ---------- 學制結構 ---------- */
+const byFile = {}; D.subjects.forEach(s => byFile[s.file] = s);
+const NEW_LANGS = ['越南語文','印尼語文','泰語文','緬甸語文','柬埔寨語文','菲律賓語文','馬來西亞語文'];
+const MENU = [
+  {d:'語文', subs:[
+    {n:'國語文', f:'01_國語文'},
+    {n:'英語文', f:'02_英語文'},
+    {n:'本土語文／臺灣手語', third:'語別', opts:[['閩南語文','03_本土語文_閩南語文'],['客家語文','04_本土語文_客語文'],['原住民族語文','05_本土語文_原住民族語文'],['閩東語文','06_本土語文_閩東語文'],['臺灣手語','07_臺灣手語']]},
+    {n:'新住民語文', third:'語別', opts:NEW_LANGS.map(x=>[x,'08_新住民語文'])}
+  ]},
+  {d:'數學', subs:[{n:'數學', f:'10_數學'}]},
+  {d:'社會', subs:['歷史','地理','公民與社會'].map(n=>({n, f:'12_社會', s:n}))},
+  {d:'自然科學', subs:['生物','理化','地球科學'].map(n=>({n, f:'11_自然科學', s:n}))},
+  {d:'藝術', subs:['音樂','視覺藝術','表演藝術'].map(n=>({n, f:'13_藝術', s:n}))},
+  {d:'綜合活動', subs:['家政','童軍','輔導'].map(n=>({n, f:'14_綜合活動', s:n}))},
+  {d:'科技', subs:['資訊科技','生活科技'].map(n=>({n, f:'15_科技_國中起', s:n}))},
+  {d:'健康與體育', subs:['健康教育','體育'].map(n=>({n, f:'16_健康與體育', s:n}))}
+];
+// 多科目領域加「全部科目」
+MENU.forEach(m => { if(m.subs.length>1 && m.subs.every(x=>x.f===m.subs[0].f)) m.subs.unshift({n:'全部科目', f:m.subs[0].f, s:null}); });
+
+function makePicker(prefix, onChange){
+  const dSel=$('#'+prefix+'-domain'), sSel=$('#'+prefix+'-subject'), tWrap=$('#'+prefix+'-sub3-wrap'), tSel=$('#'+prefix+'-sub3');
+  dSel.innerHTML = MENU.map((m,i)=>`<option value="${i}">${esc(m.d)}</option>`).join('');
+  function fillSubs(){
+    const m = MENU[dSel.value];
+    sSel.innerHTML = m.subs.map((s,i)=>`<option value="${i}">${esc(s.n)}</option>`).join('');
+  }
+  function fillThird(){
+    const s = MENU[dSel.value].subs[sSel.value];
+    if(s.third){ tWrap.hidden=false; tSel.innerHTML = s.opts.map((o,i)=>`<option value="${i}">${esc(o[0])}</option>`).join(''); }
+    else tWrap.hidden=true;
+  }
+  dSel.addEventListener('change',()=>{ fillSubs(); fillThird(); onChange(); });
+  sSel.addEventListener('change',()=>{ fillThird(); onChange(); });
+  tSel.addEventListener('change',onChange);
+  fillSubs(); fillThird();
+  return {
+    get(){
+      const m = MENU[dSel.value], s = m.subs[sSel.value];
+      let file = s.f, label = s.n, third = null;
+      if(s.third){ const o = s.opts[tSel.value||0]; file = o[1]; third = o[0]; label = o[0]; }
+      const subj = byFile[file];
+      const items = subj ? subj.items.filter(it => !s.s || !it.s || it.s.includes(s.s)) : [];
+      return {domain:m.d, subjectName: s.n==='全部科目' ? m.d : (s.third ? s.n+'（'+third+'）' : s.n), label, subj, items, filter:s.s||null};
+    },
+    set(di, si, ti){ dSel.value=di; fillSubs(); sSel.value=si; fillThird(); if(ti!=null && !tWrap.hidden) tSel.value=ti; },
+    state(){ return [dSel.value, sSel.value, tWrap.hidden?null:tSel.value]; }
+  };
+}
+
+/* ---------- 共用：條目呈現 ---------- */
+function pdfLink(subj, p){
+  if(!subj || !subj.src) return '';
+  return `<a class="src-link" href="${esc(encodeURI(subj.src))}#page=${p}" target="_blank" rel="noopener">原檔 p.${p}</a>`;
+}
+function hl(text, q){
+  if(!q) return esc(text);
+  const words = q.split(/\s+/).filter(Boolean).map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+  if(!words.length) return esc(text);
+  const re = new RegExp('('+words.join('|')+')','gi');
+  return esc(text).replace(re,'<mark>$1</mark>');
+}
+const allCodes = {}; D.subjects.forEach(s => s.items.forEach(it => allCodes[s.file+'|'+it.c] = {it, subj:s}));
+
+/* ---------- 我的清單 ---------- */
+let tray = store.get('tray', []); // [{f, c}]
+function trayFind(f,c){ return tray.findIndex(x=>x.f===f && x.c===c); }
+function trayToggle(f,c){
+  const i = trayFind(f,c);
+  if(i>=0) tray.splice(i,1);
+  else { if(tray.length>=5){ toast('清單最多 5 條'); return false; } tray.push({f,c}); }
+  store.set('tray', tray); renderTray(); return true;
+}
+function renderTray(){
+  $('#tray').hidden = tray.length===0;
+  $('#tray-n').textContent = tray.length;
+  $('#tray-items').innerHTML = tray.map((x,i)=>`<span class="chip plain">${esc(x.c)}<button aria-label="移除 ${esc(x.c)}" data-i="${i}">×</button></span>`).join('');
+  document.querySelectorAll('.pin').forEach(b => b.setAttribute('aria-pressed', trayFind(b.dataset.f,b.dataset.c)>=0 ? 'true':'false'));
+}
+$('#tray-items').addEventListener('click', e => { const b=e.target.closest('button'); if(!b) return; tray.splice(+b.dataset.i,1); store.set('tray',tray); renderTray(); });
+$('#tray-clear').addEventListener('click', ()=>{ tray=[]; store.set('tray',tray); renderTray(); });
+$('#tray-to-k').addEventListener('click', ()=>{ kItems = tray.slice(0,5).map(x=>({...x})); renderKItems(); location.hash='methods'; });
+
+/* ---------- 統計 ---------- */
+(function(){
+  const n = D.subjects.reduce((a,s)=>a+s.items.length,0);
+  const nc = D.subjects.reduce((a,s)=>a+Object.keys(s.comp).length,0);
+  $('#stats').innerHTML = `<span><b>${n.toLocaleString()}</b>條學習重點</span><span><b>${D.subjects.length}</b>份領域課綱</span><span><b>${nc}</b>條領域核心素養</span>`;
+  const files = [['總綱（111 學年度實施版）', D.zongSrc]].concat(D.subjects.map(s=>[s.domain==='語文'?s.name.replace('本土語文／臺灣手語｜',''):s.name, s.src]));
+  $('#src-list').innerHTML = files.map(f=>`<li><a href="${esc(encodeURI(f[1]))}" target="_blank" rel="noopener">${esc(f[0])}課程綱要</a></li>`).join('').replace('總綱（111 學年度實施版）課程綱要','十二年國教課程綱要總綱（111 學年度實施版）');
+})();
+
+/* ========== 分頁 1 ========== */
+const L = makePicker('l', renderLookup);
+$('#l-group').addEventListener('change', renderLookupBody);
+$('#l-q').addEventListener('input', renderLookupBody);
+function renderLookup(){
+  const st = L.get();
+  const groups = [...new Set(st.items.map(it=>it.g).filter(Boolean))];
+  const gSel = $('#l-group'); const old = gSel.value;
+  gSel.innerHTML = '<option value="">全部類別</option>' + groups.map(g=>`<option>${esc(g)}</option>`).join('');
+  if(groups.includes(old)) gSel.value = old;
+  const s = st.subj;
+  let meta = '';
+  if(s){
+    if(s.note) meta += `<span class="note">${esc(s.note)}</span>`;
+    const lg = Object.entries(s.legend||{});
+    if(lg.length) meta += `<span class="legend"><details><summary style="cursor:pointer">條目符號說明（${lg.map(x=>esc(x[0])).join('、')}）</summary><span style="display:block;max-width:70ch">${lg.map(x=>esc(x[1])).join('<br>')}</span></details></span>`;
+    meta += `<span class="legend">來源：${s.src?`<a href="${esc(encodeURI(s.src))}" target="_blank" rel="noopener">${esc(st.domain)}領域課程綱要（官方 PDF）</a>`:''}</span>`;
+  }
+  $('#l-meta').innerHTML = meta;
+  store.set('l', L.state());
+  renderLookupBody();
+}
+function itemHTML(it, subj, q){
+  const cc = it.cc ? it.cc.map(c=>`<span class="chip" data-goto="${esc(c)}" title="看這項核心素養">${esc(c)}</span>`).join('') : `<span class="chip none">課綱未列對應</span>`;
+  const grade = it.y ? `<span class="chip grade plain">${it.y} 年級</span>` : '';
+  const rel = it.r ? `<span class="muted" style="font-size:12.5px">${it.k==='p'?'相關學習內容':'對應學習表現'}：</span>${it.r.map(r=>`<span class="chip rel plain">${esc(r)}</span>`).join('')}` : '';
+  const fx = it.fx ? `<span class="muted" style="font-size:12.5px">含數學式，以原檔排版為準</span>` : '';
+  const shared = (it.s && it.s.length>1) ? `<span class="muted" style="font-size:12.5px">${it.s.length>=3?'領域共用':esc(it.s.join('、'))}</span>` : '';
+  const pressed = trayFind(subj.file,it.c)>=0;
+  return `<div class="item">
+    <div class="code">${it.m?`<span class="mk" title="條目符號">${esc(it.m)}</span>`:''}${hl(it.c,q)}</div>
+    <div class="txt">${hl(it.t,q)}</div>
+    <div class="tags">${grade}${cc}${rel}${shared}${fx}</div>
+    <div class="acts"><button class="btn ghost sm cp" data-f="${esc(subj.file)}" data-c="${esc(it.c)}">複製</button><button class="btn ghost sm pin" aria-pressed="${pressed}" data-f="${esc(subj.file)}" data-c="${esc(it.c)}">☆ 加入清單</button>${pdfLink(subj,it.p)}</div>
+  </div>`;
+}
+function renderLookupBody(){
+  const st = L.get(), q = $('#l-q').value.trim(), g = $('#l-group').value;
+  const body = $('#l-body');
+  if(!st.subj || !st.subj.items.length){
+    body.innerHTML = `<div class="empty"><b>尚未加入課綱資料</b>這個科目的課綱檔案還沒整理進來。</div>`; return;
+  }
+  const words = q.split(/\s+/).filter(Boolean).map(w=>w.toLowerCase());
+  const match = it => (!g || it.g===g) && words.every(w => (it.c+' '+it.t+' '+(it.g||'')).toLowerCase().includes(w));
+  const cols = [['p','學習表現'],['c','學習內容']].map(([k,title])=>{
+    const list = st.items.filter(it=>it.k===k && match(it));
+    const total = st.items.filter(it=>it.k===k).length;
+    const groups = []; const idx = {};
+    list.forEach(it => { const key = it.g||'其他'; if(!(key in idx)){ idx[key]=groups.length; groups.push({g:key, items:[]}); } groups[idx[key]].items.push(it); });
+    const inner = groups.length ? groups.map(gr=>`<details class="grp" open><summary><span>${esc(gr.g)}</span><span class="gc">${gr.items.length} 條</span></summary>${gr.items.map(it=>itemHTML(it, st.subj, q)).join('')}</details>`).join('')
+      : `<div class="empty">沒有符合的條目</div>`;
+    return `<div class="col"><div class="col-head"><h3>${title}</h3><span class="count">${list.length===total?total:list.length+' / '+total} 條</span></div>${inner}</div>`;
+  });
+  body.innerHTML = (q?`<p class="muted" style="margin:0 0 8px">找到 ${st.items.filter(match).length} 條</p>`:'') + `<div class="cols">${cols.join('')}</div>`;
+}
+$('#l-body').addEventListener('click', e => {
+  const cp = e.target.closest('.cp'), pin = e.target.closest('.pin'), go = e.target.closest('[data-goto]');
+  if(cp){ const x = allCodes[cp.dataset.f+'|'+cp.dataset.c]; copyText(`${x.it.c} ${x.it.t}`); }
+  if(pin){ trayToggle(pin.dataset.f, pin.dataset.c); }
+  if(go){ openComp(go.dataset.goto.slice(-2)); }
+});
+
+/* ========== 分頁 2 ========== */
+let compSel = 'A1';
+function renderGrid(){
+  const dims = [['A','自主行動'],['B','溝通互動'],['C','社會參與']];
+  $('#c-grid').innerHTML = dims.map(([d,dn])=>`<div class="dim"><small>${d}</small>${dn}</div>` + D.zong.filter(z=>z.dim===d).map(z=>`<button class="cell" aria-pressed="${z.code===compSel}" data-c="${z.code}"><span class="cc">${z.code}</span><span class="nm">${esc(z.name)}</span></button>`).join('')).join('');
+}
+function openComp(code){ compSel = code; location.hash = 'competency'; renderGrid(); renderCompDetail(); setTimeout(()=>$('#c-detail').scrollIntoView({behavior:'smooth',block:'start'}),50); }
+function renderCompDetail(){
+  const z = D.zong.find(x=>x.code===compSel);
+  const rows = D.subjects.map(s=>{
+    const key = s.code+'-J-'+compSel, txt = s.comp[key];
+    const ex = s.items.filter(it=>it.cc && it.cc.includes(key));
+    const name = s.name.replace('本土語文／臺灣手語｜','');
+    return `<tr><td>${esc(name)}</td><td class="cd">${txt?esc(key):'—'}</td><td>${txt?esc(txt):'<span class="muted">此領域課綱未列此項國中具體內涵</span>'}${ex.length?`<details class="ex"><summary>呼應表示例：${ex.length} 條學習重點</summary><ul>${ex.map(it=>`<li><b style="font-family:var(--font-code)">${esc(it.c)}</b> ${esc(it.t)}</li>`).join('')}</ul></details>`:''}</td></tr>`;
+  }).join('');
+  $('#c-detail').innerHTML = `
+    <div class="comp-head">
+      <div class="box"><h4>${z.dim} ${esc(z.dimName)}｜${z.code} ${esc(z.name)}・總綱項目說明</h4><p>${esc(z.desc)}</p></div>
+      <div class="box" style="background:var(--sage-soft);border-color:#CFDDD4"><h4>國民中學教育 J-${z.code}</h4><p>${esc(z.j)}</p></div>
+    </div>
+    <div class="tbl-wrap"><table><thead><tr><th style="width:120px">領域／科目</th><th style="width:110px">代碼</th><th>國中階段具體內涵</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+$('#c-grid').addEventListener('click', e => { const b=e.target.closest('.cell'); if(!b) return; compSel=b.dataset.c; renderGrid(); renderCompDetail(); });
+
+/* ========== 分頁 3：教案標注 ========== */
+const A = makePicker('a', ()=>{ $('#a-results').innerHTML=''; store.set('a', A.state()); });
+const SAMPLE = `單元：一元一次方程式的應用（八節課的第三節）
+活動一：以「班級園遊會飲料定價」情境開場，請各組估算成本與售價，寫出數量關係。
+活動二：各組把文字敘述列成一元一次方程式，用等量公理與移項法則求解，並上台說明驗算過程。
+活動三：比較不同組的列式方式，討論哪一種最容易檢查錯誤。
+評量：出場券兩題，請學生寫出列式理由並自我檢核答案是否合理。`;
+$('#a-text').value = store.get('aText', SAMPLE);
+$('#a-text').addEventListener('input', ()=>store.set('aText',$('#a-text').value));
+function bigrams(s){
+  const out=[]; const t=s.replace(/[^一-鿿A-Za-z0-9]+/g,' ');
+  t.split(' ').forEach(seg=>{
+    if(!seg) return;
+    if(/^[A-Za-z0-9]+$/.test(seg)){ if(seg.length>1) out.push(seg.toLowerCase()); return; }
+    for(let i=0;i<seg.length-1;i++) out.push(seg.slice(i,i+2));
+  });
+  return out;
+}
+const STOP = new Set(['能夠','並能','以及','的意','意義','學習','學生','透過','進行','能力','相關','活動','運用','了解','理解','生活','日常','問題','方法','各種','不同','其他','之間','具備']);
+function scoreItems(text, items){
+  const qb = new Set(bigrams(text).filter(b=>!STOP.has(b)));
+  const df = {}; items.forEach(it=>{ new Set(bigrams(it.t)).forEach(b=>df[b]=(df[b]||0)+1); });
+  const N = items.length;
+  return items.map(it=>{
+    const ib = new Set(bigrams(it.t)); let sc=0; const hit=[];
+    ib.forEach(b=>{ if(qb.has(b) && !STOP.has(b)){ sc += Math.log(1+N/(df[b]||1)); hit.push(b); } });
+    return {it, sc: sc/Math.sqrt(Math.max(ib.size,4)), hit};
+  }).filter(x=>x.sc>0).sort((a,b)=>b.sc-a.sc);
+}
+function markHits(text, hit){
+  if(!hit.length) return esc(text);
+  const on = new Array(text.length).fill(false);
+  hit.forEach(b=>{ let i=text.indexOf(b); while(i>=0){ on[i]=on[i+1]=true; i=text.indexOf(b,i+1); } });
+  let out='', open=false;
+  for(let i=0;i<text.length;i++){ if(on[i]&&!open){out+='<mark>';open=true;} if(!on[i]&&open){out+='</mark>';open=false;} out+=esc(text[i]); }
+  return out+(open?'</mark>':'');
+}
+let aLast = null;
+$('#a-match').addEventListener('click', ()=>{
+  const st = A.get(), text = $('#a-text').value.trim();
+  if(!text){ toast('請先貼上教學活動或教案'); return; }
+  const res = scoreItems(text, st.items);
+  aLast = {st, res};
+  const top = k => res.filter(x=>x.it.k===k).slice(0,10);
+  const max = res.length ? res[0].sc : 1;
+  const lv = sc => sc>=max*0.66?['h','高']:sc>=max*0.38?['m','中']:['l','低'];
+  const block = (k,title)=>{
+    const list = top(k);
+    return `<div class="box stack"><strong>可能對應的${title}（前 ${list.length} 條）</strong>${list.length?`<div class="result-list">${list.map(x=>{const [c,t]=lv(x.sc);return `<label class="hit"><input type="checkbox" ${c!=='l'?'checked':''} data-c="${esc(x.it.c)}"><span class="lv ${c}">${t}</span><span class="code">${esc(x.it.c)}</span><span class="txt">${markHits(x.it.t,x.hit)}</span></label>`}).join('')}</div>`:'<p class="muted" style="margin:0">沒有找到相符的詞，試試在教案中寫出更具體的學習目標或活動內容。</p>'}</div>`;
+  };
+  const ccs = {}; res.slice(0,20).forEach(x=>(x.it.cc||[]).forEach(c=>ccs[c]=(ccs[c]||0)+1));
+  const ccList = Object.entries(ccs).sort((a,b)=>b[1]-a[1]);
+  const comp = st.subj ? st.subj.comp : {};
+  $('#a-results').innerHTML = `<p class="note" style="margin:0">關鍵字比對僅供參考，請老師依教學內容判斷。勾選的條目會放進 AI 提示詞。</p>`
+    + block('p','學習表現') + block('c','學習內容')
+    + `<div class="box stack"><strong>相關的領域核心素養</strong>${ccList.length?ccList.map(([c,n])=>`<div><span class="chip plain">${esc(c)}</span> <span style="font-size:14px">${esc(comp[c]||'')}</span></div>`).join(''):'<p class="muted" style="margin:0">比對到的條目在課綱呼應表中沒有列出對應素養。可以請 AI 從本領域核心素養中判斷。</p>'}</div>`;
+});
+$('#a-ai').addEventListener('click', ()=>{
+  const st = A.get(), text = $('#a-text').value.trim();
+  if(!text){ toast('請先貼上教學活動或教案'); return; }
+  let cand;
+  const checked = [...document.querySelectorAll('#a-results input[type=checkbox]:checked')].map(x=>x.dataset.c);
+  if(st.items.length<=70) cand = st.items;
+  else { const res = scoreItems(text, st.items); const p=res.filter(x=>x.it.k==='p').slice(0,30).map(x=>x.it), c=res.filter(x=>x.it.k==='c').slice(0,30).map(x=>x.it); cand = p.concat(c); checked.forEach(code=>{ const it=st.items.find(i=>i.c===code); if(it && !cand.includes(it)) cand.push(it); }); }
+  const P = cand.filter(i=>i.k==='p'), C = cand.filter(i=>i.k==='c');
+  const comp = st.subj ? Object.entries(st.subj.comp) : [];
+  const grade = $('#a-grade').value;
+  const prompt =
+`你是熟悉台灣十二年國教課綱的國中${st.subjectName}教學專家。請閱讀以下${grade}${st.subjectName}的教學活動，標注它對應的課綱學習重點與核心素養。
+
+【規則】
+1. 只能從下方「可選清單」挑選，必須寫出原本的編碼與原文，不可自創、改寫或補編碼。
+2. 每一條都要說明對應理由，並指出是教案中的哪一個活動。
+3. 分成「明確對應」與「部分對應」兩級。
+4. 最後提出 2～3 個讓教案更貼近素養導向的修改建議。
+5. 請使用台灣繁體中文與台灣教育用語回答。
+${checked.length?`6. 網頁關鍵字比對初步勾選了：${checked.join('、')}，請檢查是否合適，不合適就排除。\n`:''}
+【輸出格式】
+一、學習重點對應表（編碼｜原文｜對應活動｜理由｜明確／部分）
+二、對應的領域核心素養（只能使用下方清單的代碼與原文，說明理由）
+三、修改建議
+
+【教學活動】
+${text}
+
+【可選清單：學習表現】
+${P.map(i=>`${i.c} ${i.t}`).join('\n')}
+
+【可選清單：學習內容】
+${C.map(i=>`${i.c} ${i.t}`).join('\n')}
+
+【可選清單：${st.domain}領域核心素養（國民中學教育）】
+${comp.map(([k,v])=>`${k} ${v}`).join('\n')}
+
+資料來源：十二年國民基本教育課程綱要${st.domain}領域，第四學習階段。`;
+  $('#a-prompt').value = prompt; $('#a-prompt-box').hidden = false;
+  copyText(prompt, $('#a-prompt'));
+});
+$('#a-copy').addEventListener('click', ()=>copyText($('#a-prompt').value, $('#a-prompt')));
+$('#a-clear').addEventListener('click', ()=>{ $('#a-text').value=''; store.set('aText',''); $('#a-results').innerHTML=''; $('#a-prompt-box').hidden=true; });
+
+/* ========== 分頁 4：素養導向評量 ========== */
+const TYPES = ['選擇題','題組','開放式問答','實作任務'], CTXS = ['生活情境','學術探究情境','社會議題','跨領域情境'];
+$('#e-type').innerHTML = TYPES.map((t,i)=>`<label><input type="radio" name="e-type" value="${t}" ${i===1?'checked':''}>${t}</label>`).join('');
+$('#e-ctx').innerHTML = CTXS.map((t,i)=>`<label><input type="radio" name="e-ctx" value="${t}" ${i===0?'checked':''}>${t}</label>`).join('');
+let eP = null, eC = [];
+const E = makePicker('e', ()=>{ eP=null; eC=[]; renderE(); store.set('e', E.state()); });
+function pickRow(it, checked, type, name){
+  return `<label class="pick"><input type="${type}" name="${name}" value="${esc(it.c)}" ${checked?'checked':''}><span class="code">${esc(it.c)}</span><span>${esc(it.t)}</span></label>`;
+}
+function renderE(){
+  const st = E.get(); const pq=$('#e-pq').value.trim().toLowerCase(), cq=$('#e-cq').value.trim().toLowerCase();
+  const f = (it,q)=>!q || (it.c+it.t+(it.g||'')).toLowerCase().includes(q);
+  const P = st.items.filter(it=>it.k==='p' && f(it,pq)), C = st.items.filter(it=>it.k==='c' && f(it,cq));
+  $('#e-plist').innerHTML = P.length ? P.map(it=>pickRow(it, eP===it.c, 'radio', 'e-p')).join('') : `<div class="pick muted">${st.items.length?'沒有符合的學習表現':'尚未加入課綱資料'}</div>`;
+  $('#e-clist').innerHTML = C.length ? C.map(it=>pickRow(it, eC.includes(it.c), 'checkbox', 'e-c')).join('') : `<div class="pick muted">沒有符合的學習內容</div>`;
+  makeE();
+}
+$('#e-pq').addEventListener('input', renderE); $('#e-cq').addEventListener('input', renderE);
+$('#e-plist').addEventListener('change', e=>{ eP = e.target.value; makeE(); });
+$('#e-clist').addEventListener('change', e=>{
+  const v=e.target.value;
+  if(e.target.checked){ if(eC.length>=2){ e.target.checked=false; toast('學習內容最多選 2 條'); return; } eC.push(v); } else eC = eC.filter(x=>x!==v);
+  makeE();
+});
+document.querySelectorAll('#e-type input,#e-ctx input').forEach(x=>x.addEventListener('change', makeE));
+$('#e-grade').addEventListener('change', makeE);
+function makeE(){
+  const st = E.get();
+  const p = st.items.find(it=>it.c===eP);
+  const cs = eC.map(c=>st.items.find(it=>it.c===c)).filter(Boolean);
+  $('#e-picked').innerHTML = p ? `已選：<b style="font-family:var(--font-code)">${esc(p.c)}</b>${cs.length?'＋'+cs.map(c=>esc(c.c)).join('、'):''}` : '請先在左邊選一條學習表現。';
+  if(!p){ $('#e-prompt').value=''; return; }
+  const type = document.querySelector('input[name=e-type]:checked').value, ctx = document.querySelector('input[name=e-ctx]:checked').value;
+  const comp = st.subj ? st.subj.comp : {};
+  const ccs = [...new Set([...(p.cc||[]), ...cs.flatMap(c=>c.cc||[])])];
+  const compText = ccs.length ? ccs.map(c=>`${c} ${comp[c]||''}`).join('\n') + '\n（以上為課綱呼應表所列）'
+    : `課綱呼應表未列出這條學習表現的對應素養，請從下列${st.domain}領域核心素養挑選最相關的 1～2 項並說明理由：\n` + Object.entries(comp).map(([k,v])=>`${k} ${v}`).join('\n');
+  $('#e-prompt').value =
+`你是台灣的國中${st.subjectName}老師，擅長設計素養導向評量。請依下列條件設計 1 題情境化的素養導向題目。
+
+【對象】${$('#e-grade').value}學生
+【學習表現】
+${p.c} ${p.t}
+${cs.length?`【學習內容】\n${cs.map(c=>`${c.c} ${c.t}`).join('\n')}\n`:''}【核心素養】
+${compText}
+【題型】${type}
+【情境類型】${ctx}
+
+【請產出】
+1. 情境說明：200～400 字，貼近台灣國中生的生活；虛構的數據或人物請標明「虛構情境」，不可假造真實統計或新聞。
+2. 題目${type==='選擇題'?'（4 個選項，錯誤選項要反映學生常見的迷思）':type==='題組'?'（2～3 小題，由淺入深）':''}
+3. 參考答案
+4. 評分重點：分「精熟、基礎、待加強」三級，每級寫出可觀察的學生表現
+5. 對應的學習表現、學習內容、核心素養（只能使用上面提供的編碼與原文，不可自創編碼）
+6. 學生可能出現的迷思，以及教師回饋建議
+7. 自我檢核：題目是否有真實情境？是否需要整合知識、技能與態度？是否不只考記憶？
+
+請使用台灣繁體中文與台灣教育用語。`;
+}
+$('#e-copy').addEventListener('click', ()=>{ if(!$('#e-prompt').value){ toast('請先選一條學習表現'); return; } copyText($('#e-prompt').value, $('#e-prompt')); });
+
+/* ========== 分頁 5：教學法 ========== */
+const CATS = {
+  coop:{n:'合作互動', c:'c-rose'}, inq:{n:'探究實作', c:'c-mint'}, self:{n:'自主學習', c:'c-mist'}, diff:{n:'個別化', c:'c-lav'}, expr:{n:'表達創作', c:'c-cream'}
+};
+const METHODS = [
+  {id:'coop', cat:'coop', n:'合作學習（分組合作）', d:'學生以 4～6 人異質小組分工完成任務，彼此互相依賴、共同負責成果。', fit:['各領域'], t:'一節以上', steps:['依程度與特質異質分組，分配角色','給明確的小組任務與完成標準','小組發表，個人與小組都要評量'], tip:'角色要輪替，避免同一人包辦。'},
+  {id:'jigsaw', cat:'coop', n:'拼圖法（Jigsaw）', d:'把教材拆成幾塊，各組派「專家」先研讀同一塊，再回原組教給組員。', fit:['社會','自然科學','語文'], t:'一至兩節', steps:['教材分成 4～5 個段落','專家組研讀並整理重點','回原組輪流教學，最後個別小考'], tip:'專家組要給整理表格，避免回原組時講不清楚。'},
+  {id:'lc', cat:'coop', n:'學習共同體', d:'以伸展跳躍的挑戰任務為核心，讓學生在 4 人小組中互相聆聽、彼此學習。', fit:['數學','語文','自然科學'], t:'一節', steps:['設計共有任務與伸展跳躍任務','小組協同學習，教師串聯學生想法','全班分享不同思考路徑'], tip:'教師少講解，多聆聽與串聯。'},
+  {id:'peer', cat:'coop', n:'同儕教學', d:'學生先獨立作答概念題，再與持不同答案的同學討論後重答。', fit:['數學','自然科學','英語文'], t:'15～20 分鐘', steps:['提出概念題，學生先獨立作答','與答案不同的同學互相說服','再作答一次，教師針對分歧講解'], tip:'題目要能引出常見迷思。'},
+  {id:'inquiry', cat:'inq', n:'探究與實作', d:'從現象提出問題，經由規劃、蒐集資料、分析與論證，產出結論並與他人溝通。', fit:['自然科學','社會','科技'], t:'兩節至一週', steps:['觀察現象，提出可探究的問題','規劃方法並蒐集資料或實驗','分析證據、提出結論與發表'], tip:'先教學生把問題改寫成可檢驗的形式。'},
+  {id:'5e', cat:'inq', n:'5E 探究教學', d:'依參與、探索、解釋、精緻化、評量五個階段，引導學生由經驗建構概念。', fit:['自然科學','數學'], t:'一至兩節', steps:['參與：用現象或問題引起好奇','探索、解釋：動手操作後整理概念','精緻化、評量：應用到新情境並檢核'], tip:'解釋階段要先讓學生說，教師再補充。'},
+  {id:'pbl', cat:'inq', n:'問題導向學習（PBL）', d:'以真實且結構不完整的問題為起點，學生自行界定需要學什麼並找出解法。', fit:['社會','健康與體育','綜合活動','自然科學'], t:'一週以上', steps:['呈現真實問題情境','小組列出已知、未知與待查','提出解決方案並說明依據'], tip:'問題要貼近學生生活，太抽象會失去動機。'},
+  {id:'pjbl', cat:'inq', n:'專題導向學習（PjBL）', d:'以一個驅動問題和公開成果為目標，學生長時間規劃、製作並發表作品。', fit:['科技','藝術','綜合活動','語文'], t:'一週以上', steps:['提出驅動問題與成果形式','分階段檢核：計畫、草稿、修正','對真實觀眾發表與反思'], tip:'設定中途檢核點，避免最後才趕工。'},
+  {id:'dt', cat:'inq', n:'設計思考', d:'依同理、定義、發想、原型、測試的流程，為使用者解決問題。', fit:['科技','藝術','綜合活動'], t:'兩節至一週', steps:['訪談或觀察使用者需求','定義問題並大量發想點子','做出簡單原型並測試修正'], tip:'原型可以用紙板、便利貼，重點在快速測試。'},
+  {id:'flip', cat:'self', n:'翻轉教室', d:'學生課前看影片或讀教材，課堂時間用來討論、練習與解決問題。', fit:['數學','英語文','自然科學'], t:'課前＋一節', steps:['提供 10 分鐘內的課前影片或教材','課堂先用小測了解預習狀況','進行練習、討論與個別指導'], tip:'課前任務要短，並準備沒預習學生的補救方案。'},
+  {id:'xsd', cat:'self', n:'學思達', d:'以問題導向的講義引導學生自學、思考、討論、表達，教師主持與補充。', fit:['國語文','社會','自然科學'], t:'一節', steps:['發下問題導向講義讓學生自學','小組討論後抽籤上台表達','教師補充、統整與追問'], tip:'講義問題要有層次，由事實到評論。'},
+  {id:'contract', cat:'self', n:'自主學習契約', d:'學生與教師約定學習目標、進度與成果，學生自行安排學習並定期回報。', fit:['各領域','彈性學習課程'], t:'一週以上', steps:['師生共訂目標、進度與評量方式','學生依計畫自主學習並記錄','定期面談檢核與調整'], tip:'目標要具體可檢核，並保留調整空間。'},
+  {id:'diffi', cat:'diff', n:'差異化教學', d:'依學生的準備度、興趣與學習風格，調整內容、過程、成果或環境。', fit:['各領域'], t:'一節以上', steps:['用前測了解學生起點','設計分層任務或多元選擇','用一致的評量規準檢核成果'], tip:'分組要彈性流動，不要固定貼標籤。'},
+  {id:'station', cat:'diff', n:'分站學習', d:'教室設數個學習站，學生依序或依需求輪站完成不同任務。', fit:['英語文','數學','自然科學','健康與體育'], t:'一至兩節', steps:['設計 3～5 個不同任務的學習站','說明輪站規則與時間','最後統整各站學習成果'], tip:'每站要有書面指引，教師才能駐站指導。'},
+  {id:'scaffold', cat:'diff', n:'鷹架教學', d:'先提供示範、提示與分步支持，再逐步撤除，讓學生能獨立完成。', fit:['語文','數學','科技'], t:'一節以上', steps:['教師示範並放聲思考','學生在提示下合作練習','逐步撤除提示，獨立完成'], tip:'撤除鷹架的時機要依學生表現調整。'},
+  {id:'go', cat:'expr', n:'圖像組織與心智圖', d:'用心智圖、概念圖、比較表等視覺工具整理想法與概念關係。', fit:['國語文','社會','自然科學'], t:'20～45 分鐘', steps:['選擇適合的圖像組織類型','學生個人或小組完成','互相比較並修正概念連結'], tip:'先示範一次，再讓學生自己畫。'},
+  {id:'rt', cat:'expr', n:'讀者劇場', d:'學生把文本改編成劇本，以聲音與表情朗讀演出，不需背稿與布景。', fit:['國語文','英語文','本土語文','社會'], t:'兩節', steps:['選文本並改寫成劇本','分配角色練習朗讀','演出後回饋與反思'], tip:'重點在理解與聲情，不必追求道具。'},
+  {id:'game', cat:'expr', n:'遊戲化學習', d:'把積分、關卡、挑戰等遊戲元素放進學習任務，提升投入與練習量。', fit:['英語文','數學','健康與體育'], t:'15 分鐘至一節', steps:['設定學習目標與遊戲規則','設計關卡與即時回饋','結束後回到概念做統整'], tip:'遊戲是手段，最後一定要回到學習目標。'},
+  {id:'debate', cat:'expr', n:'辯論與論證', d:'學生針對有爭議的議題蒐集證據，提出主張、理由與反駁。', fit:['社會','國語文','自然科學','綜合活動'], t:'兩節以上', steps:['選定有兩面觀點的議題','蒐集證據並寫出主張與理由','進行辯論或論證寫作並互評'], tip:'先教「主張—證據—推理」的結構。'}
+];
+let mFilter = 'all', kMethods = store.get('kMethods', []), kItems = store.get('kItems', []);
+function renderMFilters(){
+  $('#m-filters').innerHTML = [['all','全部']].concat(Object.entries(CATS).map(([k,v])=>[k,v.n])).map(([k,n])=>`<button aria-pressed="${mFilter===k}" data-k="${k}" class="${k!=='all'?CATS[k].c:''}">${n}</button>`).join('');
+}
+function renderCards(){
+  $('#m-cards').innerHTML = METHODS.filter(m=>mFilter==='all'||m.cat===mFilter).map(m=>{
+    const on = kMethods.includes(m.id);
+    return `<article class="mcard ${CATS[m.cat].c}">
+      <span class="cat">${CATS[m.cat].n}類</span>
+      <h4>${esc(m.n)}</h4>
+      <p>${esc(m.d)}</p>
+      <div class="fit">${m.fit.map(f=>`<span>${esc(f)}</span>`).join('')}<span>建議時間：${esc(m.t)}</span></div>
+      <ol>${m.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
+      <p class="tip">提醒：${esc(m.tip)}</p>
+      <button class="btn ghost sm" aria-pressed="${on}" data-id="${m.id}">${on?'✓ 已加入':'加入組合器'}</button>
+    </article>`;
+  }).join('');
+}
+$('#m-filters').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; mFilter=b.dataset.k; renderMFilters(); renderCards(); });
+$('#m-cards').addEventListener('click', e=>{
+  const b=e.target.closest('button[data-id]'); if(!b) return; const id=b.dataset.id;
+  if(kMethods.includes(id)) kMethods = kMethods.filter(x=>x!==id);
+  else { if(kMethods.length>=3){ toast('教學法最多選 3 種'); return; } kMethods.push(id); }
+  store.set('kMethods', kMethods); renderCards(); renderKMethods();
+});
+function renderKMethods(){
+  $('#k-mcount').textContent = `（${kMethods.length}/3）`;
+  $('#k-methods').innerHTML = kMethods.length ? kMethods.map(id=>{const m=METHODS.find(x=>x.id===id);return `<span class="chip plain ${CATS[m.cat].c}">${esc(m.n)}<button data-id="${id}" aria-label="移除 ${esc(m.n)}">×</button></span>`}).join('') : '<span class="muted">從左邊卡片點「加入組合器」</span>';
+}
+$('#k-methods').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; kMethods=kMethods.filter(x=>x!==b.dataset.id); store.set('kMethods',kMethods); renderCards(); renderKMethods(); });
+const TIMES = ['一節 45 分鐘','兩節 90 分鐘','一週'];
+$('#k-time').innerHTML = TIMES.map((t,i)=>`<label><input type="radio" name="k-time" value="${t}" ${i===0?'checked':''}>${t}</label>`).join('');
+const K = makePicker('k', ()=>{ renderKList(); store.set('k', K.state()); });
+function renderKItems(){
+  store.set('kItems', kItems);
+  $('#k-icount').textContent = `（${kItems.length}/5）`;
+  $('#k-items').innerHTML = kItems.length ? kItems.map((x,i)=>`<span class="chip plain" title="${esc((allCodes[x.f+'|'+x.c]||{it:{t:''}}).it.t)}">${esc(x.c)}<button data-i="${i}" aria-label="移除 ${esc(x.c)}">×</button></span>`).join('') : '<span class="muted">搜尋下方清單點選，或從「我的清單」帶入</span>';
+  renderKList();
+}
+$('#k-items').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; kItems.splice(+b.dataset.i,1); renderKItems(); });
+function renderKList(){
+  const st = K.get(), q = $('#k-iq').value.trim().toLowerCase();
+  const list = st.items.filter(it=>!q || (it.c+it.t+(it.g||'')).toLowerCase().includes(q)).slice(0,80);
+  $('#k-ilist').innerHTML = list.map(it=>{ const on = kItems.some(x=>x.f===st.subj.file && x.c===it.c); return `<label class="pick"><input type="checkbox" ${on?'checked':''} data-c="${esc(it.c)}"><span class="code">${esc(it.c)}</span><span>${esc(it.t)}</span></label>`; }).join('') || '<div class="pick muted">沒有符合的學習重點</div>';
+}
+$('#k-iq').addEventListener('input', renderKList);
+$('#k-ilist').addEventListener('change', e=>{
+  const st = K.get(), c = e.target.dataset.c, f = st.subj.file;
+  if(e.target.checked){ if(kItems.length>=5){ e.target.checked=false; toast('學習重點最多 5 條'); return; } kItems.push({f,c}); }
+  else kItems = kItems.filter(x=>!(x.f===f && x.c===c));
+  renderKItems();
+});
+['k-unit','k-size','k-trait','k-device'].forEach(id=>{ const el=$('#'+id); el.value = store.get(id,''); el.addEventListener('input',()=>store.set(id,el.value)); });
+function makeK(){
+  const st = K.get(), unit = $('#k-unit').value.trim();
+  const time = document.querySelector('input[name=k-time]:checked').value;
+  const items = kItems.map(x=>allCodes[x.f+'|'+x.c]).filter(Boolean);
+  const methods = kMethods.map(id=>METHODS.find(m=>m.id===id));
+  const opt = [['班級人數',$('#k-size').value.trim()],['學生特質',$('#k-trait').value.trim()],['可用設備',$('#k-device').value.trim()]].filter(x=>x[1]);
+  const comp = st.subj ? st.subj.comp : {};
+  const ccs = [...new Set(items.flatMap(x=>x.it.cc||[]))];
+  return `你是台灣的國中${st.subjectName}老師，熟悉十二年國教課綱與素養導向教學。請依下列條件設計一份教學活動。
+
+【年級】${$('#k-grade').value}
+【領域／科目】${st.domain}／${st.subjectName}
+【單元主題】${unit||'（請依學習重點自行訂定合適的單元主題）'}
+【教學時間】${time}${time==='一週'?'（請依此科目國中常見的每週節數自行假設，並寫出你的假設）':''}
+【教學法】${methods.length?methods.map(m=>`${m.n}：${m.d}`).join('\n　　　　'):'（請選擇最適合的教學法並說明理由）'}
+【學習重點】
+${items.length?items.map(x=>`${x.it.c} ${x.it.t}`).join('\n'):'（請從本科國中學習重點中選擇合適的條目，並寫出原本的編碼與原文）'}
+${ccs.length?`【課綱呼應表所列核心素養】\n${ccs.map(c=>`${c} ${comp[c]||''}`).join('\n')}\n`:''}${opt.length?`【班級資訊】\n${opt.map(x=>x[0]+'：'+x[1]).join('\n')}\n`:''}
+【請寫出】
+1. 學習目標：可觀察、可評量，每項標出對應的學習重點編碼
+2. 對應學習重點：編碼＋原文，只能使用上面提供的，不可自創或改寫編碼
+3. 教學流程：分為引起動機、發展活動、綜合活動；每段寫出時間分配、教師提問、學生活動，並說明所選教學法怎麼落實
+4. 評量方式：形成性評量＋總結性評量，附簡單的評分規準
+
+請用表格整理教學流程，並使用台灣國中教案的慣用格式、台灣繁體中文與台灣教育用語。`;
+}
+$('#k-make').addEventListener('click', ()=>{ $('#k-prompt').value = makeK(); toast('已產生提示詞'); });
+$('#k-copy').addEventListener('click', ()=>{ if(!$('#k-prompt').value) $('#k-prompt').value = makeK(); copyText($('#k-prompt').value, $('#k-prompt')); });
+
+/* ---------- 分頁切換 ---------- */
+const TABS = ['lookup','competency','annotate','assess','methods'];
+function showTab(){
+  const h = location.hash.replace('#','');
+  const cur = TABS.includes(h) ? h : 'lookup';
+  TABS.forEach(t=>{ $('#'+t).hidden = t!==cur; $('#t-'+t).setAttribute('aria-selected', t===cur?'true':'false'); });
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ location.hash = b.dataset.tab; window.scrollTo({top:0}); }));
+window.addEventListener('hashchange', showTab);
+
+/* ---------- 啟動 ---------- */
+function restore(p, key){ const s = store.get(key,null); if(s){ try{ p.set(s[0],s[1],s[2]); }catch(e){} } }
+restore(L,'l'); restore(A,'a'); restore(E,'e'); restore(K,'k');
+renderLookup(); renderGrid(); renderCompDetail(); renderE();
+renderMFilters(); renderCards(); renderKMethods(); renderKItems(); renderTray();
+showTab();
+})();
+</script>
+</body>
+</html>
