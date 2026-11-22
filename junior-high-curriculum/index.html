@@ -222,6 +222,24 @@ footer .disclaim{font-weight:700;background:var(--peach-soft);border-radius:10px
   .cell{padding:10px}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+.chip.hb{border:1px dashed var(--apricot-ink);background:var(--peach-soft);color:var(--apricot-ink)}
+.chip.hbcase{border:1px solid var(--apricot-ink);background:#fff;color:var(--apricot-ink);text-decoration:none}
+details.exp{margin:6px 0 2px;background:#FAFAFC;border-radius:8px;padding:2px 10px}
+details.exp>summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--sage)}
+details.exp p{margin:4px 0 6px;font-size:14.5px;line-height:1.7}
+.seqline{font-size:13px;color:#5B5E73;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;margin:4px 0}
+.seqbtn{font-family:var(--font-code);font-size:12.5px;border:1px solid var(--lav);background:#fff;color:var(--sage);border-radius:6px;padding:0 6px;cursor:pointer}
+.hbcases{margin:10px 0}
+.hbcases>summary{cursor:pointer;font-weight:700;color:var(--sage);padding:10px 14px;background:var(--sage-soft);border-radius:12px;list-style:none}
+.hbcases>summary::-webkit-details-marker{display:none}
+.caselist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;padding:10px 0}
+.case{border:1px solid #E3E3EC;border-radius:12px;padding:12px;background:#fff;display:flex;flex-direction:column;gap:6px}
+.case h4{margin:0;font-size:15.5px}
+.case .meta{font-size:13px;color:#5B5E73}
+.case .codes{display:flex;flex-wrap:wrap;gap:4px}
+.case .codes span{font-family:var(--font-code);font-size:12px;background:var(--sage-soft);color:var(--sage);border-radius:6px;padding:0 6px}
+.casefilter{display:inline-flex;gap:6px;align-items:center;background:var(--sage-soft);border:1px solid var(--sage);border-radius:999px;padding:3px 6px 3px 12px;font-size:14px;margin:6px 0}
+.casefilter button{border:0;background:#fff;border-radius:999px;width:26px;height:26px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -274,6 +292,8 @@ footer .disclaim{font-weight:700;background:var(--peach-soft);border-radius:10px
           <div class="sel-chips" id="k-methods"></div>
         </div>
         <div class="stack">
+          <label class="f muted" style="font-size:13px;font-weight:500">參考課程手冊案例（選填）<select id="k-case"><option value="">不參考</option></select></label>
+          <div id="k-casebox" style="font-size:13.5px;margin:4px 0 8px"></div>
           <div class="f muted" style="font-size:13px;font-weight:500">學習重點（最多 5 條）<span id="k-icount"></span></div>
           <div class="sel-chips" id="k-items"></div>
           <input type="search" id="k-iq" placeholder="搜尋本科學習重點後點選加入" aria-label="搜尋學習重點">
@@ -308,6 +328,7 @@ footer .disclaim{font-weight:700;background:var(--peach-soft);border-radius:10px
       <label class="f">關鍵字（文字或編碼）<input type="search" id="l-q" placeholder="例如：論證、函數、Bb"></label>
     </div>
     <div class="meta-strip" id="l-meta"></div>
+    <div id="l-cases"></div>
     <div id="l-body"></div>
   </section>
 
@@ -523,6 +544,7 @@ $('#tray-to-k').addEventListener('click', ()=>{ kItems = tray.slice(0,5).map(x=>
   const nc = D.subjects.reduce((a,s)=>a+Object.keys(s.comp).length,0);
   $('#stats').innerHTML = `<span><b>${n.toLocaleString()}</b>條學習重點</span><span><b>${D.subjects.length}</b>份領域課綱</span><span><b>${nc}</b>條領域核心素養</span>`;
   const files = [['總綱（111 學年度實施版）', D.zongSrc]].concat(D.subjects.map(s=>[s.domain==='語文'?s.name.replace('本土語文／臺灣手語｜',''):s.name, s.src]));
+  setTimeout(()=>{ if(D.handbooks) $('#src-list').insertAdjacentHTML('beforeend', `<li>課程手冊（教學案例、呼應說明、學習重點解析來源）：${D.handbooks.map(h=>`<a href="${esc(encodeURI(h.url))}" target="_blank" rel="noopener">${esc(h.n)}</a>`).join('、')}</li>`); },0);
   $('#src-list').innerHTML = files.map(f=>`<li><a href="${esc(encodeURI(f[1]))}" target="_blank" rel="noopener">${esc(f[0])}課程綱要</a></li>`).join('').replace('總綱（111 學年度實施版）課程綱要','十二年國教課程綱要總綱（111 學年度實施版）');
 })();
 
@@ -549,7 +571,12 @@ function renderLookup(){
   renderLookupBody();
 }
 function itemHTML(it, subj, q){
-  const cc = it.cc ? it.cc.map(c=>`<span class="chip" data-goto="${esc(c)}" title="看這項核心素養">${esc(c)}</span>`).join('') : `<span class="chip none">課綱未列對應</span>`;
+  let cc = (it.cc||[]).map(c=>`<span class="chip" data-goto="${esc(c)}" title="課綱附錄呼應表：看這項核心素養">${esc(c)}</span>`).join('') + (it.hc||[]).map(h=>`<span class="chip hb" data-goto="${esc(h[0])}" title="課程手冊呼應說明（${esc(h[1])}）">手冊 ${esc(h[0])}</span>`).join('');
+  if(!cc) cc = `<span class="chip none">課綱未列對應</span>`;
+  const hcases = (subj.cases||[]).filter(k=>k.codes.includes(it.c)).map(k=>`<a class="chip hbcase" href="${esc(encodeURI(k.url))}" target="_blank" rel="noopener" title="課程手冊教學單元案例（開啟手冊原檔）">手冊案例：${esc(k.u)}</a>`).join('');
+  let extra='';
+  if(it.sq){ const q2=it.sq; extra+=`<div class="seqline">${['先備','連結','後續'].map(k=>`<span><b>${k}：</b>${(q2[k]&&q2[k].length)?q2[k].map(c=>c==='無'?'無':`<button type="button" class="seqbtn" data-seq="${esc(c)}">${esc(c)}</button>`).join(' '):'—'}</span>`).join('')}<a class="src-link" href="${esc(encodeURI(q2.url))}" target="_blank" rel="noopener">手冊解析</a></div>`; }
+  if(it.ex){ const e2=it.ex; extra+=`<details class="exp"><summary>課程手冊解析</summary><p>${esc(e2.t)}</p>${e2.grp&&e2.grp.length>1?`<div class="muted" style="font-size:12.5px">此說明適用：${esc(e2.grp.join('、'))}</div>`:''}<div class="muted" style="font-size:12.5px">出處：<a href="${esc(encodeURI(e2.url))}" target="_blank" rel="noopener">${esc(e2.src)}</a></div></details>`; }
   const grade = it.y ? `<span class="chip grade plain">${it.y} 年級</span>` : '';
   const rel = it.r ? `<span class="muted" style="font-size:12.5px">${it.k==='p'?'相關學習內容':'對應學習表現'}：</span>${it.r.map(r=>`<span class="chip rel plain">${esc(r)}</span>`).join('')}` : '';
   const fx = it.fx ? `<span class="muted" style="font-size:12.5px">含數學式，以原檔排版為準</span>` : '';
@@ -557,8 +584,8 @@ function itemHTML(it, subj, q){
   const pressed = trayFind(subj.file,it.c)>=0;
   return `<div class="item">
     <div class="code">${it.m?`<span class="mk" title="條目符號">${esc(it.m)}</span>`:''}${hl(it.c,q)}</div>
-    <div class="txt">${hl(it.t,q)}</div>
-    <div class="tags">${grade}${cc}${rel}${shared}${fx}</div>
+    <div class="txt">${hl(it.t,q)}</div>${extra}
+    <div class="tags">${grade}${cc}${hcases}${rel}${shared}${fx}</div>
     <div class="acts"><button class="btn ghost sm cp" data-f="${esc(subj.file)}" data-c="${esc(it.c)}">複製</button><button class="btn ghost sm pin" aria-pressed="${pressed}" data-f="${esc(subj.file)}" data-c="${esc(it.c)}">☆ 加入清單</button>${pdfLink(subj,it.p)}</div>
   </div>`;
 }
@@ -568,8 +595,11 @@ function renderLookupBody(){
   if(!st.subj || !st.subj.items.length){
     body.innerHTML = `<div class="empty"><b>尚未加入課綱資料</b>這個科目的課綱檔案還沒整理進來。</div>`; return;
   }
-  const words = q.split(/\s+/).filter(Boolean).map(w=>w.toLowerCase());
-  const match = it => (!g || it.g===g) && words.every(w => (it.c+' '+it.t+' '+(it.g||'')).toLowerCase().includes(w));
+  renderCases(st);
+  const words = q.normalize('NFC').split(/\s+/).filter(Boolean).map(w=>w.toLowerCase());
+  const cf = caseSel && caseSel.f===st.subj.file ? caseSel : null;
+  const exact = /^[^\s]{0,2}[A-Za-z0-9]{1,3}-[IVⅣ789]+-\d+$/.test(q);
+  const match = it => (!cf || cf.codes.includes(it.c)) && (!g || it.g===g) && (exact ? it.c===q : words.every(w => (it.c+' '+it.t+' '+(it.g||'')).toLowerCase().includes(w)));
   const cols = [['p','學習表現'],['c','學習內容']].map(([k,title])=>{
     const list = st.items.filter(it=>it.k===k && match(it));
     const total = st.items.filter(it=>it.k===k).length;
@@ -581,11 +611,28 @@ function renderLookupBody(){
   });
   body.innerHTML = (q?`<p class="muted" style="margin:0 0 8px">找到 ${st.items.filter(match).length} 條</p>`:'') + `<div class="cols">${cols.join('')}</div>`;
 }
+let caseSel=null;
+function renderCases(st){
+  const box=$('#l-cases'); const list=(st.subj&&st.subj.cases)||[];
+  const items=new Set(st.items.map(i=>i.c));
+  const show=list.filter(k=>k.codes.some(c=>items.has(c)));
+  if(caseSel && (!st.subj || caseSel.f!==st.subj.file)) caseSel=null;
+  if(!show.length){ box.innerHTML=''; return; }
+  box.innerHTML=(caseSel?`<span class="casefilter">只看手冊案例「${esc(caseSel.u)}」的學習重點<button type="button" data-caseclear aria-label="取消案例篩選">✕</button></span>`:'')+
+   `<details class="hbcases"${caseSel?' open':''}><summary>課程手冊教學單元案例（${show.length} 個）▾</summary><div class="caselist">${show.map(k=>`<div class="case"><h4>${esc(k.u)}</h4><div class="meta">${esc(k.gl)}${k.per?'・'+esc(k.per):''}</div><div class="codes">${k.codes.map(c=>`<span>${esc(c)}</span>`).join('')}</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" class="btn ghost sm" data-case="${esc(k.u)}">只看這些學習重點</button><a class="btn ghost sm" href="${esc(encodeURI(k.url))}" target="_blank" rel="noopener">看完整教案</a></div><div class="muted" style="font-size:12px">出處：${esc(k.src)}</div></div>`).join('')}</div></details>`;
+}
+$('#l-cases').addEventListener('click', e=>{
+  const b=e.target.closest('[data-case]'); const st=L.get();
+  if(b){ caseSel=(st.subj.cases||[]).find(k=>k.u===b.dataset.case)||null; renderLookupBody(); return; }
+  if(e.target.closest('[data-caseclear]')){ caseSel=null; renderLookupBody(); }
+});
 $('#l-body').addEventListener('click', e => {
   const cp = e.target.closest('.cp'), pin = e.target.closest('.pin'), go = e.target.closest('[data-goto]');
   if(cp){ const x = allCodes[cp.dataset.f+'|'+cp.dataset.c]; copyText(`${x.it.c} ${x.it.t}`); }
   if(pin){ trayToggle(pin.dataset.f, pin.dataset.c); }
   if(go){ openComp(go.dataset.goto.slice(-2)); }
+  const sq=e.target.closest('[data-seq]');
+  if(sq){ const c=sq.dataset.seq; const st=L.get(); if(st.subj && st.subj.items.some(i=>i.c===c)){ $('#l-q').value=c; renderLookupBody(); } else toast(c+' 不屬於國中範圍或不在目前選的科目'); }
 });
 
 /* ========== 分頁 2 ========== */
@@ -600,8 +647,9 @@ function renderCompDetail(){
   const rows = D.subjects.map(s=>{
     const key = s.code+'-J-'+compSel, txt = s.comp[key];
     const ex = s.items.filter(it=>it.cc && it.cc.includes(key));
+    const hx = s.items.filter(it=>(it.hc||[]).some(h=>h[0]===key));
     const name = s.name.replace('本土語文／臺灣手語｜','');
-    return `<tr><td>${esc(name)}</td><td class="cd">${txt?esc(key):'—'}</td><td>${txt?esc(txt):'<span class="muted">此領域課綱未列此項國中具體內涵</span>'}${ex.length?`<details class="ex"><summary>呼應表示例：${ex.length} 條學習重點</summary><ul>${ex.map(it=>`<li><b style="font-family:var(--font-code)">${esc(it.c)}</b> ${esc(it.t)}</li>`).join('')}</ul></details>`:''}</td></tr>`;
+    return `<tr><td>${esc(name)}</td><td class="cd">${txt?esc(key):'—'}</td><td>${txt?esc(txt):'<span class="muted">此領域課綱未列此項國中具體內涵</span>'}${ex.length?`<details class="ex"><summary>呼應表示例：${ex.length} 條學習重點</summary><ul>${ex.map(it=>`<li><b style="font-family:var(--font-code)">${esc(it.c)}</b> ${esc(it.t)}</li>`).join('')}</ul></details>`:''}${hx.length?`<details class="ex"><summary>課程手冊呼應說明：再 ${hx.length} 條學習重點</summary><ul>${hx.map(it=>`<li><b style="font-family:var(--font-code)">${esc(it.c)}</b> ${esc(it.t)}</li>`).join('')}</ul></details>`:''}</td></tr>`;
   }).join('');
   $('#c-detail').innerHTML = `
     <div class="comp-head">
@@ -831,7 +879,7 @@ function renderKMethods(){
 $('#k-methods').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; kMethods=kMethods.filter(x=>x!==b.dataset.id); store.set('kMethods',kMethods); renderCards(); renderKMethods(); });
 const TIMES = ['一節 45 分鐘','兩節 90 分鐘','一週'];
 $('#k-time').innerHTML = TIMES.map((t,i)=>`<label><input type="radio" name="k-time" value="${t}" ${i===0?'checked':''}>${t}</label>`).join('');
-const K = makePicker('k', ()=>{ renderKList(); store.set('k', K.state()); });
+const K = makePicker('k', ()=>{ renderKList(); renderKCases(); store.set('k', K.state()); });
 function renderKItems(){
   store.set('kItems', kItems);
   $('#k-icount').textContent = `（${kItems.length}/5）`;
@@ -839,6 +887,22 @@ function renderKItems(){
   renderKList();
 }
 $('#k-items').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; kItems.splice(+b.dataset.i,1); renderKItems(); });
+function renderKCases(){
+  const st=K.get(); const sel=$('#k-case'); const cur=sel.value;
+  const items=new Set(st.items.map(i=>i.c));
+  const list=((st.subj&&st.subj.cases)||[]).filter(k=>k.codes.some(c=>items.has(c)));
+  sel.innerHTML='<option value="">'+(list.length?'不參考':'此科目沒有國中案例')+'</option>'+list.map((k,i)=>`<option value="${esc(k.u)}">${esc(k.u)}（${esc(k.gl)}）</option>`).join('');
+  sel.value=list.some(k=>k.u===cur)?cur:'';
+  renderKCaseBox();
+}
+function curKCase(){ const st=K.get(); return ((st.subj&&st.subj.cases)||[]).find(k=>k.u===$('#k-case').value)||null; }
+function renderKCaseBox(){
+  const k=curKCase(); const box=$('#k-casebox');
+  if(!k){ box.innerHTML=''; return; }
+  box.innerHTML=`<div style="background:var(--sage-soft);border-radius:10px;padding:8px 10px"><b>${esc(k.u)}</b>（${esc(k.gl)}${k.per?'・'+esc(k.per):''}）<br>案例學習重點：${k.codes.map(esc).join('、')}<div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><button type="button" class="btn ghost sm" id="k-caseuse">帶入案例的學習重點（最多 5 條）</button><a class="btn ghost sm" href="${esc(encodeURI(k.url))}" target="_blank" rel="noopener">看完整教案</a></div></div>`;
+  $('#k-caseuse').addEventListener('click',()=>{ const st=K.get(); const f=st.subj.file; const avail=new Set(st.items.map(i=>i.c)); const codes=k.codes.filter(c=>avail.has(c)); let n=0; codes.forEach(c=>{ if(kItems.length<5 && !kItems.some(x=>x.f===f&&x.c===c)){ kItems.push({f,c}); n++; } }); renderKItems(); toast(n<codes.length?`已帶入 ${n} 條（上限 5 條，案例共 ${codes.length} 條）`:`已帶入 ${n} 條學習重點`); });
+}
+$('#k-case').addEventListener('change', renderKCaseBox);
 function renderKList(){
   const st = K.get(), q = $('#k-iq').value.trim().toLowerCase();
   const list = st.items.filter(it=>!q || (it.c+it.t+(it.g||'')).toLowerCase().includes(q)).slice(0,80);
@@ -860,6 +924,8 @@ function makeK(){
   const opt = [['班級人數',$('#k-size').value.trim()],['學生特質',$('#k-trait').value.trim()],['可用設備',$('#k-device').value.trim()]].filter(x=>x[1]);
   const comp = st.subj ? st.subj.comp : {};
   const ccs = [...new Set(items.flatMap(x=>x.it.cc||[]))];
+  const hcs = [...new Set(items.flatMap(x=>(x.it.hc||[]).map(h=>h[0])))].filter(c=>!ccs.includes(c));
+  const kc = curKCase();
   return `你是台灣的國中${st.subjectName}老師，熟悉十二年國教課綱與素養導向教學。請依下列條件設計一份教學活動。
 
 【年級】${$('#k-grade').value}
@@ -869,7 +935,7 @@ function makeK(){
 【教學法】${methods.length?methods.map(m=>`${m.n}：${m.d}`).join('\n　　　　'):'（請選擇最適合的教學法並說明理由）'}
 【學習重點】
 ${items.length?items.map(x=>`${x.it.c} ${x.it.t}`).join('\n'):'（請從本科國中學習重點中選擇合適的條目，並寫出原本的編碼與原文）'}
-${ccs.length?`【課綱呼應表所列核心素養】\n${ccs.map(c=>`${c} ${comp[c]||''}`).join('\n')}\n`:''}${opt.length?`【班級資訊】\n${opt.map(x=>x[0]+'：'+x[1]).join('\n')}\n`:''}
+${ccs.length?`【課綱呼應表所列核心素養】\n${ccs.map(c=>`${c} ${comp[c]||''}`).join('\n')}\n`:''}${hcs.length?`【課程手冊呼應說明所列核心素養】\n${hcs.map(c=>`${c} ${comp[c]||''}`).join('\n')}\n`:''}${kc?`【參考範例】\n請參考國家教育研究院課程手冊的教學單元案例「${kc.u}」（${kc.gl}）的設計方式與教案格式。\n・出處：${kc.src}\n・原檔：${kc.url}\n・該案例使用的學習重點：${kc.codes.join('、')}\n（若無法開啟連結，請參考其格式精神即可；我也可以另外上傳手冊頁面給你。）\n`:''}${opt.length?`【班級資訊】\n${opt.map(x=>x[0]+'：'+x[1]).join('\n')}\n`:''}
 【請寫出】
 1. 學習目標：可觀察、可評量，每項標出對應的學習重點編碼
 2. 對應學習重點：編碼＋原文，只能使用上面提供的，不可自創或改寫編碼
@@ -895,7 +961,7 @@ window.addEventListener('hashchange', showTab);
 function restore(p, key){ const s = store.get(key,null); if(s){ try{ p.set(s[0],s[1],s[2]); }catch(e){} } }
 restore(L,'l'); restore(A,'a'); restore(E,'e'); restore(K,'k');
 renderLookup(); renderGrid(); renderCompDetail(); renderE();
-renderMFilters(); renderCards(); renderKMethods(); renderKItems(); renderTray();
+renderMFilters(); renderCards(); renderKMethods(); renderKItems(); renderKCases(); renderTray();
 showTab();
 })();
 </script>
