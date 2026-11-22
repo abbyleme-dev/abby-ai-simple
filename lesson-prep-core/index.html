@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>備課的六大核心環節｜Abby 陪你簡單用 AI</title>
+<link rel="canonical" href="https://abbyaisimple.com/lesson-prep-core/">
+<meta name="description" content="與 AI 協作備課：備教材、備學生、定目標、備教法、備工具、備評量六大核心環節，每個環節老師要把關什麼、AI 可以處理什麼。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2064%2064%22%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Ccircle%20cx%3D%2226.5%22%20cy%3D%2210.5%22%20r%3D%226.2%22%20fill%3D%22%233B3486%22/%3E%3Cpath%20d%3D%22M27.5%2024L15%2055%22%20stroke%3D%22%233B3486%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2240.8%22%20cy%3D%2216.5%22%20r%3D%224.6%22%20fill%3D%22%23B9B3E3%22/%3E%3Cpath%20d%3D%22M39.9%2027.8L49.5%2055%22%20stroke%3D%22%23B9B3E3%22%20stroke-width%3D%227.4%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M20.4%2041.5H44.7%22%20stroke%3D%22%23F4B48C%22%20stroke-width%3D%225%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Lexend:wght@600;700&display=swap">
+<style>
+/* 版面：一頁簡報式網頁。上方小標＋大標＋提醒框 → 3×2 六張可點卡片（每張連到子頁面）→ 底部說明與品牌。手機改單欄 */
+:root{
+  --bg:#FFFFFF; --ink:#1C1F33; --muted:#5B5E73; --indigo:#3B3486; --on-indigo:#FFFFFF;
+  --lav-soft:#E6E3F7; --lav-hover:#D9D4F2; --apricot:#F4B48C; --apricot-soft:#FDE9DC; --apricot-hover:#FADBC6; --apricot-deep:#A4552A; --chip:#FFFFFF;
+  --f:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; --n:"Lexend","Noto Sans TC",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15172A; --ink:#ECEBF7; --muted:#AEB0C4; --indigo:#B9B3E3; --on-indigo:#15172A;
+  --lav-soft:#24254A; --lav-hover:#2E2F5C; --apricot-soft:#3A2A26; --apricot-hover:#463229; --apricot-deep:#F4B48C; --chip:#1C1F33; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15172A; --ink:#ECEBF7; --muted:#AEB0C4; --indigo:#B9B3E3; --on-indigo:#15172A;
+  --lav-soft:#24254A; --lav-hover:#2E2F5C; --apricot-soft:#3A2A26; --apricot-hover:#463229; --apricot-deep:#F4B48C; --chip:#1C1F33; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f)}
+.slide{max-width:1920px;min-height:100vh;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:clamp(24px,4vw,72px) clamp(20px,3vw,56px);display:flex;flex-direction:column;gap:clamp(20px,2.2vw,40px)}
+@media (min-width:900px){.slide{padding-left:max(5vw,env(safe-area-inset-left,0px));padding-right:max(5vw,env(safe-area-inset-right,0px))}}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px 40px;flex-wrap:wrap}
+.eyebrow{font-size:clamp(16px,1.5vw,28px);font-weight:700;color:var(--apricot-deep);letter-spacing:.04em}
+h1{margin:6px 0 0;font-size:clamp(32px,4vw,76px);font-weight:900;color:var(--indigo);line-height:1.2;text-wrap:balance}
+.key{background:var(--bg);border:2px solid var(--indigo);border-left:10px solid var(--apricot);border-radius:20px;padding:clamp(14px,1.2vw,22px) clamp(18px,1.6vw,30px);font-size:clamp(15px,1.55vw,30px);line-height:1.55;max-width:980px;font-weight:500}
+.key b{color:var(--indigo);font-weight:900}
+.nb{display:inline-block;white-space:nowrap}
+.grid{flex:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,1.5vw,28px)}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+a.card{background:var(--lav-soft);border-radius:clamp(18px,1.5vw,28px);padding:clamp(18px,1.6vw,32px) clamp(18px,1.8vw,34px);display:flex;flex-direction:column;gap:clamp(8px,.7vw,12px);color:var(--ink);text-decoration:none;position:relative;transition:background .15s, transform .15s;min-width:0}
+a.card:hover{background:var(--lav-hover);transform:translateY(-2px)}
+a.card:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
+a.card.alt{background:var(--apricot-soft)}
+a.card.alt:hover{background:var(--apricot-hover)}
+a.card.alt .num{color:var(--apricot-deep)}
+a.card.nolink{cursor:default}
+a.card.alt.nolink:hover{background:var(--apricot-soft)}
+a.card.nolink:hover{transform:none;background:var(--lav-soft)}
+.head{display:flex;align-items:baseline;gap:12px;padding-right:40px}
+.num{font-family:var(--n);font-weight:700;font-size:clamp(26px,2.1vw,40px);color:var(--indigo);line-height:1}
+.name{font-size:clamp(22px,1.75vw,34px);font-weight:900;line-height:1.3;text-wrap:balance}
+.name small{display:block;font-size:.62em;font-weight:700;color:var(--muted);margin-top:2px}
+.q{font-size:clamp(17px,1.5vw,28px);font-weight:700;color:var(--indigo)}
+.line{font-size:clamp(15px,1.3vw,25px);line-height:1.55}
+.line .chip{display:inline-block;font-size:.85em;font-weight:700;border-radius:999px;padding:1px 12px;margin-right:8px;vertical-align:1px}
+.ai .chip{background:var(--chip);color:var(--indigo)}
+.me .chip{background:var(--indigo);color:var(--on-indigo)}
+.go{position:absolute;top:clamp(18px,1.6vw,32px);right:clamp(18px,1.8vw,34px);width:clamp(28px,2vw,40px);height:clamp(28px,2vw,40px);border-radius:50%;background:var(--indigo);color:var(--on-indigo);display:grid;place-items:center;font-family:var(--n);font-weight:700;font-size:clamp(14px,1vw,20px)}
+.nolink .go{background:transparent;color:var(--muted);border:2px dashed var(--muted)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;font-size:clamp(14px,1.25vw,24px);color:var(--muted)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--indigo)}
+@media (prefers-reduced-motion:reduce){a.card{transition:none}}
+</style>
+
+<div class="slide" id="home">
+  <div class="top">
+    <div><div class="eyebrow">AI 協作備課</div><h1>備課的六大核心環節</h1></div>
+    <div class="key"><span class="nb">與 AI 協作備課：</span><span class="nb">AI 負責產出與整理，</span><span class="nb"><b>你負責判斷與把關</b>。</span><br><span class="nb">教學知識點、學生狀況、教室條件，</span><span class="nb">只有你最清楚。</span></div>
+  </div>
+
+  <nav class="grid" aria-label="六大核心環節" id="grid"></nav>
+
+  <div class="foot">
+    <div></div>
+    <div class="brand"><svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg>Abby 陪你簡單用 AI</div>
+  </div>
+</div>
+
+<div class="slide detail" id="detail" hidden></div>
+
+<style>
+[hidden]{display:none!important}
+.refs{display:flex;flex-direction:column;gap:12px}
+.refs h3{margin:0;font-size:clamp(16px,1.3vw,24px);color:var(--muted);font-weight:700}
+.refs .row{display:flex;flex-wrap:wrap;gap:12px}
+.refs a{display:inline-flex;align-items:center;gap:8px;font-size:clamp(16px,1.35vw,26px);font-weight:700;color:var(--on-indigo);background:var(--indigo);border-radius:999px;padding:10px 22px;text-decoration:none}
+.refs a:hover{opacity:.9}
+.refs a:focus-visible{outline:3px solid var(--apricot);outline-offset:2px}
+.detail{gap:clamp(18px,2vw,36px)}
+.back{align-self:flex-start;font:inherit;font-size:clamp(15px,1.2vw,22px);font-weight:700;color:var(--indigo);background:none;border:2px solid var(--indigo);border-radius:999px;padding:6px 18px;cursor:pointer;text-decoration:none}
+.back:focus-visible{outline:3px solid var(--apricot);outline-offset:2px}
+.d-head{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.d-num{font-family:var(--n);font-weight:700;font-size:clamp(44px,4.5vw,88px);color:var(--indigo);line-height:1}
+.detail.alt .d-num{color:var(--apricot-deep)}
+.d-title{margin:0;font-size:clamp(30px,3.6vw,68px);font-weight:900;line-height:1.25;text-wrap:balance}
+.d-title small{font-size:.55em;font-weight:700;color:var(--muted);margin-left:8px}
+.d-desc{margin:0;font-size:clamp(18px,1.8vw,34px);font-weight:700;color:var(--indigo);border-left:10px solid var(--apricot);padding-left:clamp(14px,1.2vw,22px)}
+.points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(12px,1.2vw,22px)}
+.points > li{background:var(--lav-soft);border-radius:clamp(16px,1.3vw,24px);padding:clamp(16px,1.5vw,28px) clamp(18px,1.8vw,34px);font-size:clamp(16px,1.45vw,28px);line-height:1.65}
+.detail.alt .points > li{background:var(--apricot-soft)}
+.points b{color:var(--indigo);font-weight:900}
+.points ul{margin:10px 0 0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+</style>
+
+<script>
+// 每張卡片點進去顯示該環節的說明（網址 #s1～#s6，可直接分享到某一頁）
+const STEPS = [
+  {name:"教材與課綱分析", tag:"備教材", q:"教什麼？為什麼教？", ai:"列迷思概念、整理知識結構", me:"貼課綱或課本原文",
+   desc:"確認「教什麼」以及「為什麼要教」。",
+   points:[["對齊課綱與核心素養","釐清本單元在整體學期進度中的位置，以及對應的學習表現與學習內容。"],
+           ["拆解知識結構","區分出核心概念（非懂不可的）、延伸知識（學有餘力可補充的）與先備知識（學生必須先會的舊經驗）。"],
+           ["抓出重難點","預判哪些觀念容易產生「迷思概念（Misconception）」，提前設計破解策略。"]]},
+  {name:"學習者分析", tag:"備學生", q:"對象是誰？卡在哪？", ai:"依程度調整活動深淺", me:"寫出真實的班級狀況",
+   desc:"確認「對象是誰」，決定教學的切入點與深淺度。",
+   points:[["起點行為評估","掌握學生目前的程度落差、先備知識是否穩固。"],
+           ["學習風格與動機","了解班級屬性（偏被動接收、喜歡動手做，還是容易分心），思考如何用生活情境或痛點引發好奇心。"],
+           ["差異化需求","針對學習落後生（扶弱）與超前生（拔尖）預留調整空間。"]]},
+  {name:"教學目標設定", tag:"定目標", q:"學會的樣子看得到嗎？", ai:"把「理解」改成可觀察的行為", me:"決定最重要的那一件事",
+   desc:"將抽象的課程內容轉化為「可觀察、可評量」的具體成果。",
+   points:[["SMART 原則","設定明確的行為目標（例如：學生能「自行列式並解出」二元一次聯立方程式，而不只是「理解」）。"],
+           ["層次劃分","涵蓋認知（懂了什麼）、技能（能做出什麼）與情意（態度或價值觀的轉變）三個維度。"]]},
+  {name:"教學策略與活動設計", tag:"備教法", q:"怎麼教？怎麼問？", ai:"排流程、寫分層提問、算時間", me:"你的教室做不做得到",
+   desc:"規劃「怎麼教」，把知識轉化為學生的學習體驗。",
+   points:[["教學流程（起承轉合）","",[["引起動機（破冰/Hook）","用提問、故事、數據或反直覺現象抓注意力。"],
+                                       ["發展活動（核心講解與鷹架）","決定講述法、探究式學習、小組討論或實作演練的比例與節奏。"],
+                                       ["綜合活動（總結與遷移）","收斂重點，並引導學生將所學應用到新情境。"]]],
+           ["提問設計","預先寫好引導思考的「關鍵問題（Essential Questions）」，避免整堂課都是「對不對？」、「懂不懂？」這類無效封閉式提問。"],
+           ["時間控管","為每個環節分配預估分鐘數，並設定「緩衝機制」（時間不夠時刪哪段、時間多出來時加哪段）。"]]},
+  {name:"教具、媒體與環境準備", tag:"備工具", q:"材料設備都到位了嗎？", ai:"做簡報、學習單、互動小網頁（Vibe Coding）、引導式學習（AI 助教）", me:"學生操作順暢度、教室設備是否支援",
+   desc:"確保教學載體能順暢運作，降低認知負荷。",
+   points:[["視覺與數位媒材","製作簡報、學習單、板書配置圖，或挑選合適的互動軟體、影片與模擬工具。"],
+           ["實體教具與場地","準備實驗器材、分組白板、計時器，並確認教室座位安排與硬體連線（如投影、觸控螢幕、網路）是否正常。"]]},
+  {name:"評量與回饋設計", tag:"備評量", q:"怎麼知道學生學會了？", ai:"設計檢核、對照目標回頭檢查", me:"這樣檢核得出來嗎",
+   desc:"確認「怎麼知道學生學會了」，確保教學與評量一致（逆向設計思維）。",
+   points:[["形成性評量（課中檢核）","設計隨堂小測驗、舉手投票、口頭抽問或小組發表，即時掌握理解度並動態調整步調。"],
+           ["總結性評量（課後驗收）","設計回家作業、單元測驗或實作任務，檢核是否達成最初設定的教學目標。"]]},
+];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const phr = t => esc(t).split("、").map(x=>`<span class="nb">${x}</span>`).join("、");
+document.getElementById("grid").innerHTML = STEPS.map((s,i) => `<a class="card ${i>=3?"alt":""}" href="#s${i+1}">
+    <span class="go" aria-hidden="true">→</span>
+    <div class="head"><span class="num">${i+1}</span><span class="name">${esc(s.name)}<small>（${esc(s.tag)}）</small></span></div>
+    <div class="q">${esc(s.q)}</div>
+    <div class="line me"><span class="chip">你把關</span>${phr(s.me)}</div>
+    <div class="line ai"><span class="chip">AI 處理</span>${phr(s.ai)}</div>
+  </a>`).join("");
+
+const REFS = [
+  ["幼兒園課綱活動對照","https://abbyaisimple.com/kindergarten-curriculum/"],
+  ["國小課綱教學對照","https://abbyaisimple.com/elementary-curriculum/"],
+  ["國中課綱教學對照","https://abbyaisimple.com/junior-high-curriculum/"],
+];
+const home = document.getElementById("home"), detail = document.getElementById("detail");
+function pt(p){
+  const sub = p[2] ? `<ul>${p[2].map(x=>`<li><b>${esc(x[0])}</b>：${esc(x[1])}</li>`).join("")}</ul>` : "";
+  return `<li><b>${esc(p[0])}</b>${p[1]?"："+esc(p[1]):"："}${sub}</li>`;
+}
+function route(){
+  const m = location.hash.match(/^#s([1-6])$/);
+  if(!m){ detail.hidden = true; home.hidden = false; return; }
+  const i = +m[1]-1, s = STEPS[i];
+  detail.className = "slide detail" + (i>=3 ? " alt" : "");
+  detail.innerHTML = `<a class="back" href="#">← 回到六大核心環節</a>
+    <div class="d-head"><span class="d-num">${i+1}</span><h2 class="d-title">${esc(s.name)}<small>（${esc(s.tag)}）</small></h2></div>
+    <p class="d-desc">${esc(s.desc)}</p>
+    <ul class="points">${s.points.map(pt).join("")}</ul>
+    ${i<3 ? `<div class="refs"><h3>課綱教學對照（三個學段）</h3><div class="row">${REFS.map(r=>`<a href="${r[1]}" target="_blank" rel="noopener">${esc(r[0])} ↗</a>`).join("")}</div></div>` : ""}`;
+  home.hidden = true; detail.hidden = false; window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", route); route();
+</script>
+
+</body>
+</html>
