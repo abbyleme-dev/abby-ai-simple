@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant-TW">
+<html lang="zh-Hant-TW" data-theme="light">
 <head>
 <meta charset="utf-8">
 <link rel="canonical" href="https://abbyaisimple.com/junior-high-curriculum/">
@@ -8,76 +8,91 @@
 <title>國中課綱教學對照</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="給國中老師用的 108 課綱學習重點查詢、核心素養對照、教案標注、素養導向評量與教學法提示詞工具。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2064%2064%22%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Ccircle%20cx%3D%2226.5%22%20cy%3D%2210.5%22%20r%3D%226.2%22%20fill%3D%22%233B3486%22/%3E%3Cpath%20d%3D%22M27.5%2024L15%2055%22%20stroke%3D%22%233B3486%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2240.8%22%20cy%3D%2216.5%22%20r%3D%224.6%22%20fill%3D%22%23B9B3E3%22/%3E%3Cpath%20d%3D%22M39.9%2027.8L49.5%2055%22%20stroke%3D%22%23B9B3E3%22%20stroke-width%3D%227.4%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M20.4%2041.5H44.7%22%20stroke%3D%22%23F4B48C%22%20stroke-width%3D%225%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Lexend:wght@400;600;700&display=swap">
 <style>
 /* 版面：頂部標題＋黏性分頁列；內容區最大寬 1180px；查詢頁兩欄、教學法頁左卡片右組合器 */
 :root{
-  --paper:#FFFBF5;      /* 米白：頁面底 */
-  --tea:#F7EFE5;        /* 奶茶：區塊底 */
-  --tea-line:#E9DCCB;   /* 奶茶加深：框線 */
-  --sage:#8DA99A;       /* 鼠尾草綠：選取、素養標籤 */
-  --sage-soft:#E3ECE6;
-  --sage-ink:#3F5A4C;
-  --peach:#F78C56;      /* 蜜桃橘：主要按鈕 */
-  --peach-soft:#FDE3D3;
-  --butter:#FFDC7D;     /* 鵝黃：反白、提醒 */
-  --butter-soft:#FFF4D6;
-  --ink:#2D3748;        /* 深石墨灰：文字 */
-  --ink-2:#5B6577;
+  /* Abby 陪你簡單用 AI 品牌 V2（2026-10-23）：白底約七成、靛紫主色、杏桃一畫面一處 */
+  --paper:#FFFFFF;      /* 白：頁面底 */
+  --alt:#FAFAFC;        /* 區塊交替底 */
+  --tea:#E6E3F7;        /* 淡薰衣草：區塊、卡片底 */
+  --tea-line:#E3E3EC;   /* 框線 */
+  --sage:#3B3486;       /* 靛紫：主色、選取狀態（配白字） */
+  --sage-h:#2E2870;
+  --sage-soft:#E6E3F7;
+  --sage-ink:#3B3486;
+  --lav:#B9B3E3;        /* 薰衣草 */
+  --peach:#3B3486;      /* 主要按鈕＝靛紫 */
+  --peach-soft:#FDE9DC; /* 淺杏 */
+  --apricot:#F4B48C;    /* 杏桃重點 */
+  --apricot-btn:#E39A6E;
+  --apricot-ink:#A4552A;
+  --butter:#FDE9DC;     /* 反白底＝淺杏 */
+  --butter-soft:#FDE9DC;
+  --ink:#1C1F33;        /* 墨藍：文字 */
+  --ink-2:#5B5E73;      /* 灰紫：次要文字 */
   --white:#FFFFFF;
-  --rose:#F9D9D6; --mint:#DCEBE2; --mist:#DCE7F2; --lav:#E6DEF2; --cream:#FFF2CC;
+  --rose:#E6E3F7; --mint:#FDE9DC; --mist:#FFFFFF; --lav-card:#FAFAFC; --cream:#FFFFFF;
   --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   --font-code:"Lexend","Noto Sans TC",ui-sans-serif,system-ui,sans-serif;
-  --r:14px;
+  --r:12px;
+  --shadow:0 1px 2px rgba(28,31,51,.06),0 2px 8px rgba(28,31,51,.05);
   color-scheme:light;
 }
+*{box-sizing:border-box}
 html{scroll-padding-top:120px}
-body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.75;-webkit-text-size-adjust:100%}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
 a{color:var(--sage-ink)}
 button,select,input,textarea{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--peach);outline-offset:2px}
+:focus-visible{outline:2px solid var(--sage);outline-offset:3px}
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 header.top{padding-block:28px 12px}
 .top-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
-h1{font-size:clamp(26px,4vw,36px);line-height:1.25;margin:0;letter-spacing:.02em;text-wrap:balance}
-h1 .ver{font-family:var(--font-code);font-weight:500;font-size:.45em;background:var(--butter);padding:2px 10px;border-radius:999px;vertical-align:middle;margin-left:8px;letter-spacing:.04em}
+h1{font-size:clamp(28px,4.4vw,40px);font-weight:900;line-height:1.25;margin:0;letter-spacing:.02em;text-wrap:balance}
+h1 .hlt{background:linear-gradient(transparent 62%,var(--peach-soft) 62%)}
+.brandline{display:inline-flex;align-items:center;gap:8px;color:var(--sage);font-weight:700;font-size:15px;margin-bottom:8px;text-decoration:none}
+h1 .ver{font-family:var(--font-body);font-weight:700;font-size:.4em;background:var(--tea);color:var(--sage);padding:2px 10px;border-radius:999px;vertical-align:middle;margin-left:8px;letter-spacing:.04em}
 .lede{margin:6px 0 0;color:var(--ink-2);max-width:62ch}
 .stats{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--ink-2)}
-.stats b{font-family:var(--font-code);font-size:20px;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;margin-right:4px}
-nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--tea-line)}
+.stats b{font-family:var(--font-code);font-size:22px;color:var(--sage);font-weight:700;font-variant-numeric:tabular-nums;margin-right:4px}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--tea-line);box-shadow:0 4px 10px -8px rgba(28,31,51,.25)}
 .tab-row{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
 .tab-row::-webkit-scrollbar{display:none}
 .tab{flex:0 0 auto;border:1px solid var(--tea-line);background:var(--white);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:500;font-size:15px;white-space:nowrap}
 .tab .n{font-family:var(--font-code);color:var(--ink-2);margin-right:6px;font-size:13px}
-.tab[aria-selected="true"]{background:var(--sage);border-color:var(--sage);color:var(--ink)}
-.tab[aria-selected="true"] .n{color:var(--ink)}
+.tab:hover{background:var(--tea)}
+.tab[aria-selected="true"]{background:var(--sage);border-color:var(--sage);color:var(--white);font-weight:700}
+.tab[aria-selected="true"] .n{color:var(--lav)}
 main{padding-block:22px 120px}
-section.panel>h2{font-size:22px;margin:0 0 4px}
+section.panel>h2{font-size:clamp(22px,3vw,28px);font-weight:900;margin:0 0 4px}
 .panel-intro{margin:0 0 16px;color:var(--ink-2);max-width:70ch}
-.box{background:var(--tea);border:1px solid var(--tea-line);border-radius:var(--r);padding:16px}
+.box{background:var(--white);border:1px solid var(--tea-line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
 .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 12px;align-items:end}
 label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2);font-weight:500;min-width:0}
-select,input[type=text],input[type=search],textarea{background:var(--white);border:1px solid var(--tea-line);border-radius:10px;padding:8px 10px;font-size:15px;min-width:0;width:100%}
+select,input[type=text],input[type=search],textarea{background:var(--white);border:1px solid var(--lav);border-radius:10px;padding:8px 10px;font-size:15px;min-width:0;width:100%}
 textarea{resize:vertical;line-height:1.6}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer;border:1px solid transparent;font-size:15px}
-.btn.primary{background:var(--peach);color:var(--ink)}
-.btn.primary:hover{background:#F57D41}
-.btn.ghost{background:var(--white);border-color:var(--tea-line)}
-.btn.ghost:hover{border-color:var(--sage)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:8px;padding:9px 16px;font-weight:700;cursor:pointer;border:1px solid transparent;font-size:15px}
+.btn.primary{background:var(--sage);color:var(--white)}
+.btn.primary:hover{background:var(--sage-h)}
+.btn.accent{background:var(--apricot-btn);color:var(--ink)}
+.btn.accent:hover{background:#DA8C5E}
+.btn.ghost{background:var(--white);border-color:var(--sage);color:var(--sage)}
+.btn.ghost:hover{background:var(--tea)}
 .btn.sm{padding:4px 10px;font-size:13px;font-weight:500;border-radius:8px}
 .btn[disabled]{opacity:.45;cursor:not-allowed}
 .btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.note{background:var(--butter-soft);border:1px solid #F3D88A;border-radius:10px;padding:8px 12px;font-size:14px}
+.note{background:var(--tea);border-left:4px solid var(--sage);border-radius:10px;padding:8px 12px;font-size:14px}
 .muted{color:var(--ink-2);font-size:14px}
-.chip{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-code);font-size:12.5px;padding:1px 8px;border-radius:999px;background:var(--sage-soft);color:var(--sage-ink);border:1px solid #CFDDD4;white-space:nowrap;cursor:pointer}
+.chip{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-code);font-size:12.5px;padding:1px 8px;border-radius:999px;background:var(--sage-soft);color:var(--sage-ink);border:1px solid var(--lav);white-space:nowrap;cursor:pointer}
 .chip.plain{cursor:default}
-.chip.grade{background:var(--butter-soft);border-color:#F3D88A;color:#6B5200}
+.chip.grade{background:var(--peach-soft);border-color:var(--apricot);color:var(--apricot-ink)}
 .chip.rel{background:var(--white);border-color:var(--tea-line);color:var(--ink-2)}
 .chip.none{background:transparent;border-style:dashed;color:var(--ink-2);font-family:var(--font-body);cursor:default}
-mark{background:var(--butter);color:inherit;border-radius:3px;padding:0 1px}
+mark{background:var(--peach-soft);box-shadow:inset 0 -2px 0 var(--apricot);color:inherit;border-radius:3px;padding:0 1px}
 /* 分頁 1 */
 .meta-strip{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:12px 0}
 .legend{font-size:13px;color:var(--ink-2)}
@@ -87,47 +102,48 @@ mark{background:var(--butter);color:inherit;border-radius:3px;padding:0 1px}
 .col-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:8px 4px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 56px);background:var(--paper);z-index:5}
 .col-head h3{margin:0;font-size:18px}
 .col-head .count{font-family:var(--font-code);font-size:13px;color:var(--ink-2)}
-.grp{margin-bottom:10px;border:1px solid var(--tea-line);border-radius:var(--r);background:var(--white);overflow:hidden}
-.grp>summary{list-style:none;cursor:pointer;padding:9px 14px;background:var(--tea);font-weight:700;font-size:15px;display:flex;justify-content:space-between;gap:8px}
+.grp{margin-bottom:10px;border:1px solid var(--tea-line);border-radius:var(--r);background:var(--white);overflow:hidden;box-shadow:var(--shadow)}
+.grp>summary{list-style:none;cursor:pointer;padding:9px 14px;background:var(--tea);color:var(--sage);font-weight:700;font-size:15px;display:flex;justify-content:space-between;gap:8px}
 .grp>summary::-webkit-details-marker{display:none}
 .grp>summary .gc{font-family:var(--font-code);font-weight:500;color:var(--ink-2);font-size:13px}
-.item{padding:10px 14px;border-top:1px solid #F1E8DC;display:grid;grid-template-columns:auto 1fr;gap:2px 12px}
+.item{padding:10px 14px;border-top:1px solid var(--tea-line);display:grid;grid-template-columns:auto 1fr;gap:2px 12px}
 .item:first-of-type{border-top:0}
-.code{font-family:var(--font-code);font-weight:600;font-size:14px;white-space:nowrap;padding-top:2px}
-.code .mk{color:var(--peach);margin-right:2px}
+.code{font-family:var(--font-code);font-weight:600;color:var(--sage);font-size:14px;white-space:nowrap;padding-top:2px}
+.code .mk{color:var(--apricot-ink);margin-right:2px}
 .txt{min-width:0;overflow-wrap:anywhere}
 .item .tags{grid-column:2;display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:4px}
 .item .acts{grid-column:2;display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
-.pin[aria-pressed="true"]{background:var(--peach-soft);border-color:var(--peach)}
+.pin[aria-pressed="true"]{background:var(--sage);color:var(--white)}
 .src-link{font-size:12.5px;color:var(--ink-2);text-decoration:none;border-bottom:1px dotted var(--ink-2)}
 .empty{padding:28px;text-align:center;color:var(--ink-2);background:var(--white);border:1px dashed var(--tea-line);border-radius:var(--r)}
 .empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
 /* 清單匣 */
-.tray{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--white);border-top:1px solid var(--tea-line);box-shadow:0 -6px 18px rgba(45,55,72,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tray{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--white);border-top:1px solid var(--tea-line);box-shadow:0 -6px 18px rgba(28,31,51,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
 .tray .wrap{display:flex;align-items:center;gap:10px;padding-block:10px;flex-wrap:wrap}
 .tray .label{font-weight:700;font-size:14px;white-space:nowrap}
 .tray .label span{font-family:var(--font-code)}
 .tray-items{display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:0}
-.tray-items .chip{background:var(--peach-soft);border-color:#F8C3A4;color:var(--ink)}
+.tray-items .chip{background:var(--tea);border-color:var(--lav);color:var(--ink)}
 .tray-items .chip button{border:0;background:none;padding:0 0 0 2px;cursor:pointer;font-size:14px;line-height:1}
 /* 分頁 2 */
 .nine{display:grid;grid-template-columns:110px repeat(3,1fr);gap:10px}
-.nine .dim{display:flex;flex-direction:column;justify-content:center;font-weight:700;background:var(--tea);border-radius:var(--r);padding:10px;font-size:15px}
+.nine .dim{display:flex;flex-direction:column;justify-content:center;font-weight:700;color:var(--sage);background:var(--tea);border-radius:var(--r);padding:10px;font-size:15px}
 .nine .dim small{font-family:var(--font-code);color:var(--ink-2);font-weight:500}
 .cell{border:1px solid var(--tea-line);background:var(--white);border-radius:var(--r);padding:12px 14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-width:0}
-.cell .cc{font-family:var(--font-code);font-weight:600;font-size:20px}
+.cell .cc{font-family:var(--font-code);font-weight:700;font-size:20px;color:var(--sage)}
 .cell .nm{font-weight:700;font-size:15px}
 .cell:hover{border-color:var(--sage)}
-.cell[aria-pressed="true"]{background:var(--sage);border-color:var(--sage)}
+.cell[aria-pressed="true"]{background:var(--sage);border-color:var(--sage);color:var(--white)}
+.cell[aria-pressed="true"] .cc{color:var(--white)}
 .comp-detail{margin-top:18px;display:grid;gap:14px}
 .comp-head{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .comp-head .box h4{margin:0 0 6px;font-size:14px;color:var(--ink-2);font-weight:700}
 .comp-head .box p{margin:0}
 .tbl-wrap{overflow-x:auto;border:1px solid var(--tea-line);border-radius:var(--r);background:var(--white)}
 table{border-collapse:collapse;width:100%;min-width:640px}
-th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid #F1E8DC;font-size:15px}
-th{background:var(--tea);font-size:13px;color:var(--ink-2);font-weight:700}
-td.cd{font-family:var(--font-code);font-weight:600;white-space:nowrap}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--tea-line);font-size:15px}
+th{background:var(--tea);font-size:13px;color:var(--sage);font-weight:700}
+td.cd{font-family:var(--font-code);font-weight:600;white-space:nowrap;color:var(--sage)}
 td .ex{margin-top:6px}
 td .ex summary{cursor:pointer;color:var(--sage-ink);font-size:13.5px}
 td .ex ul{margin:6px 0 0;padding-left:18px;font-size:14px}
@@ -136,7 +152,7 @@ td .ex ul{margin:6px 0 0;padding-left:18px;font-size:14px}
 .result-list{display:grid;gap:8px}
 .hit{background:var(--white);border:1px solid var(--tea-line);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:auto auto 1fr;gap:4px 10px;align-items:start}
 .hit .lv{font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;white-space:nowrap}
-.lv.h{background:var(--peach-soft);color:#8A3A12}.lv.m{background:var(--butter-soft);color:#6B5200}.lv.l{background:var(--tea);color:var(--ink-2)}
+.lv.h{background:var(--sage);color:var(--white)}.lv.m{background:var(--tea);color:var(--sage)}.lv.l{background:var(--alt);color:var(--ink-2);border:1px solid var(--tea-line)}
 .hit .txt{grid-column:3}
 .hit input{margin-top:5px}
 .prompt-out{min-height:260px;font-size:14px}
@@ -144,14 +160,14 @@ td .ex ul{margin:6px 0 0;padding-left:18px;font-size:14px}
 .ai-links a{font-size:14px;padding:6px 12px;border:1px solid var(--tea-line);border-radius:999px;background:var(--white);text-decoration:none;color:var(--ink)}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--white);padding:8px 16px;border-radius:999px;font-size:14px;z-index:40}
 .pick-list{max-height:280px;overflow:auto;border:1px solid var(--tea-line);border-radius:10px;background:var(--white)}
-.pick{display:grid;grid-template-columns:auto auto 1fr;gap:8px;padding:7px 10px;border-top:1px solid #F1E8DC;font-size:14px;cursor:pointer;align-items:start}
+.pick{display:grid;grid-template-columns:auto auto 1fr;gap:8px;padding:7px 10px;border-top:1px solid var(--tea-line);font-size:14px;cursor:pointer;align-items:start}
 .pick:first-child{border-top:0}
-.pick:hover{background:var(--paper)}
+.pick:hover{background:var(--alt)}
 .pick .code{font-size:13px}
 .seg{display:flex;flex-wrap:wrap;gap:6px}
 .seg label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--tea-line);background:var(--white);border-radius:999px;padding:5px 12px;font-size:14px;cursor:pointer}
-.seg input{accent-color:var(--peach)}
-.seg label:has(input:checked){background:var(--peach-soft);border-color:var(--peach)}
+.seg input{accent-color:var(--sage)}
+.seg label:has(input:checked){background:var(--tea);border-color:var(--sage);color:var(--sage);font-weight:700}
 fieldset{border:0;padding:0;margin:0;min-width:0}
 legend.f{font-size:13px;color:var(--ink-2);font-weight:500;margin-bottom:4px;padding:0}
 .stack{display:grid;gap:12px}
@@ -159,29 +175,40 @@ legend.f{font-size:13px;color:var(--ink-2);font-weight:500;margin-bottom:4px;pad
 .methods-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
 .filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .filters button{border:1px solid var(--tea-line);background:var(--white);border-radius:999px;padding:5px 12px;font-size:14px;cursor:pointer}
-.filters button[aria-pressed="true"]{border-color:var(--ink);font-weight:700}
+.filters button[aria-pressed="true"]{background:var(--sage);border-color:var(--sage);color:var(--white);font-weight:700}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-.mcard{border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(45,55,72,.08)}
-.mcard h4{margin:0;font-size:17px}
-.mcard .cat{font-size:12px;font-weight:700;color:var(--ink-2);letter-spacing:.04em}
+.mcard{border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--tea-line);box-shadow:var(--shadow)}
+.mcard h4{margin:0;font-size:18px;font-weight:700;color:var(--ink)}
+.mcard .cat{align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.04em;padding:1px 10px;border-radius:999px;background:var(--white);color:var(--sage);border:1px solid var(--lav)}
 .mcard p{margin:0;font-size:14.5px}
 .mcard ol{margin:0;padding-left:20px;font-size:14px}
 .mcard .fit{display:flex;flex-wrap:wrap;gap:4px}
-.mcard .fit span{font-size:12px;background:rgba(255,255,255,.7);border-radius:999px;padding:1px 8px}
+.mcard .fit span{font-size:12px;background:var(--white);border:1px solid var(--tea-line);border-radius:999px;padding:1px 8px;color:var(--ink-2)}
 .mcard .tip{font-size:13px;color:var(--ink-2)}
 .mcard .btn{align-self:flex-start;margin-top:auto}
-.mcard .btn[aria-pressed="true"]{background:var(--ink);color:var(--white)}
-.c-rose{background:var(--rose)}.c-mint{background:var(--mint)}.c-mist{background:var(--mist)}.c-lav{background:var(--lav)}.c-cream{background:var(--cream)}
+.mcard .btn[aria-pressed="true"]{background:var(--sage);color:var(--white)}
+/* 五類卡片：只用品牌色。淡薰衣草／淺杏／白底薰衣草框／淡灰紫／白底杏桃框 */
+.c-rose{background:var(--tea)}.c-mint{background:var(--peach-soft)}.c-mist{background:var(--white);border-color:var(--lav)!important}.c-lav{background:var(--alt)}.c-cream{background:var(--white);border-color:var(--apricot)!important}
+.filters button.c-mist,.filters button.c-cream{background:var(--white)}
 .composer{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);max-height:calc(100vh - 150px);overflow:auto}
 .sel-chips{display:flex;flex-wrap:wrap;gap:6px;min-height:28px}
 .sel-chips .chip{background:var(--white);color:var(--ink);font-family:var(--font-body)}
 .sel-chips .chip button{border:0;background:none;padding:0 0 0 2px;cursor:pointer}
-footer{border-top:1px solid var(--tea-line);background:var(--tea);padding-block:28px calc(110px + env(safe-area-inset-bottom,0px))}
+footer{border-top:1px solid var(--tea-line);background:var(--alt);padding-block:28px calc(110px + env(safe-area-inset-bottom,0px))}
 footer h3{margin:0 0 8px;font-size:16px}
-footer .disclaim{font-weight:700;background:var(--butter-soft);border:1px solid #F3D88A;border-radius:10px;padding:10px 14px;display:inline-block}
+footer .disclaim{font-weight:700;background:var(--peach-soft);border-radius:10px;padding:10px 14px;display:inline-block}
 .src-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:4px 18px;font-size:14px;margin:10px 0 18px;padding:0;list-style:none}
-.credit{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;margin-top:18px}
-.credit .fb{display:inline-flex;width:22px;height:22px;border-radius:50%;background:#1877F2;align-items:center;justify-content:center}
+.abby-signature{display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--white);border:1px solid var(--tea-line);border-radius:16px;padding:24px;margin-top:22px}
+.abby-signature .lk{display:flex;align-items:center;gap:12px}
+.abby-signature .lk svg{width:48px;height:48px;flex:none}
+.abby-signature .n1{font-weight:900;font-size:18px;line-height:1.25}
+.abby-signature .n2{font-size:14px;color:var(--ink-2)}
+.abby-signature .tagline{font-weight:700;color:var(--sage);font-size:15px}
+.abby-signature .side{display:flex;align-items:center;gap:6px}
+.abby-fb{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--sage)}
+.abby-fb:hover{background:var(--tea)}
+.abby-fb svg{width:24px;height:24px;fill:currentColor}
+@media (max-width:640px){.abby-signature{flex-direction:column;align-items:flex-start}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (max-width:860px){
   .cols,.two,.methods-layout,.comp-head{grid-template-columns:1fr}
@@ -203,8 +230,9 @@ footer .disclaim{font-weight:700;background:var(--butter-soft);border:1px solid 
   <div class="wrap">
     <div class="top-row">
       <div>
-        <h1>國中課綱教學對照<span class="ver">第四學習階段</span></h1>
-        <p class="lede">十二年國教課綱國中（七至九年級）學習重點，依領域、科目查詢，對照核心素養，並產生給 AI 的備課與評量提示詞。</p>
+        <a class="brandline" href="https://abbyaisimple.com/"><svg viewBox="0 0 64 64" width="28" height="28" role="img" aria-label="Abby 陪你簡單用 AI"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg>Abby 陪你簡單用 AI</a>
+        <h1><span class="hlt">國中課綱教學對照</span><span class="ver">第四學習階段</span></h1>
+        <p class="lede">十二年國教課綱國中（七至九年級）學習重點。挑教學法、組提示詞，再對照課綱與核心素養，備課與出題都用得上。</p>
       </div>
       <div class="stats" id="stats"></div>
     </div>
@@ -213,17 +241,63 @@ footer .disclaim{font-weight:700;background:var(--butter-soft);border:1px solid 
 
 <nav class="tabs" aria-label="功能分頁">
   <div class="wrap tab-row" role="tablist">
-    <button class="tab" role="tab" id="t-lookup" aria-controls="lookup" data-tab="lookup"><span class="n">1</span>查學習重點</button>
-    <button class="tab" role="tab" id="t-competency" aria-controls="competency" data-tab="competency"><span class="n">2</span>核心素養對照</button>
-    <button class="tab" role="tab" id="t-annotate" aria-controls="annotate" data-tab="annotate"><span class="n">3</span>教案標注課綱</button>
-    <button class="tab" role="tab" id="t-assess" aria-controls="assess" data-tab="assess"><span class="n">4</span>素養導向評量</button>
-    <button class="tab" role="tab" id="t-methods" aria-controls="methods" data-tab="methods"><span class="n">5</span>教學法靈感・提示詞</button>
+    <button class="tab" role="tab" id="t-methods" aria-controls="methods" data-tab="methods"><span class="n">1</span>教學法靈感・提示詞</button>
+    <button class="tab" role="tab" id="t-lookup" aria-controls="lookup" data-tab="lookup"><span class="n">2</span>查學習重點</button>
+    <button class="tab" role="tab" id="t-competency" aria-controls="competency" data-tab="competency"><span class="n">3</span>核心素養對照</button>
+    <button class="tab" role="tab" id="t-annotate" aria-controls="annotate" data-tab="annotate"><span class="n">4</span>教案標注課綱</button>
+    <button class="tab" role="tab" id="t-assess" aria-controls="assess" data-tab="assess"><span class="n">5</span>素養導向評量</button>
   </div>
 </nav>
 
 <main class="wrap">
+  <!-- 分頁 1：教學法 -->
+  <section class="panel" id="methods" role="tabpanel" aria-labelledby="t-methods">
+    <h2>教學法靈感・提示詞</h2>
+    <p class="panel-intro">左邊是教學法卡片，依類別分色；點「加入組合器」最多選 3 種。右邊填好年級、科目與單元，按「請設計提示詞」，再複製到 AI 工具。</p>
+    <div class="methods-layout">
+      <div>
+        <div class="filters" id="m-filters"></div>
+        <div class="cards" id="m-cards"></div>
+      </div>
+      <div class="box stack composer" id="composer">
+        <strong>提示詞組合器</strong>
+        <div class="controls">
+          <label class="f">年級<select id="k-grade"><option>七年級</option><option>八年級</option><option>九年級</option></select></label>
+          <label class="f">領域<select id="k-domain"></select></label>
+          <label class="f">科目<select id="k-subject"></select></label>
+          <label class="f" id="k-sub3-wrap" hidden><span>語別</span><select id="k-sub3"></select></label>
+        </div>
+        <label class="f">單元主題<input type="text" id="k-unit" placeholder="例如：一元一次方程式的應用"></label>
+        <fieldset><legend class="f">教學時間</legend><div class="seg" id="k-time"></div></fieldset>
+        <div>
+          <div class="f muted" style="font-size:13px;font-weight:500">教學法（最多 3 種）<span id="k-mcount"></span></div>
+          <div class="sel-chips" id="k-methods"></div>
+        </div>
+        <div class="stack">
+          <div class="f muted" style="font-size:13px;font-weight:500">學習重點（最多 5 條）<span id="k-icount"></span></div>
+          <div class="sel-chips" id="k-items"></div>
+          <input type="search" id="k-iq" placeholder="搜尋本科學習重點後點選加入" aria-label="搜尋學習重點">
+          <div class="pick-list" id="k-ilist" style="max-height:200px"></div>
+        </div>
+        <details>
+          <summary class="muted" style="cursor:pointer">選填：班級人數、學生特質、可用設備</summary>
+          <div class="stack" style="margin-top:8px">
+            <label class="f">班級人數<input type="text" id="k-size" placeholder="例如：28 人"></label>
+            <label class="f">學生特質<input type="text" id="k-trait" placeholder="例如：程度落差大、喜歡動手做"></label>
+            <label class="f">可用設備<input type="text" id="k-device" placeholder="例如：每組一台平板、投影機"></label>
+          </div>
+        </details>
+        <div class="btn-row">
+          <button class="btn accent" id="k-make">請設計提示詞</button>
+          <button class="btn ghost" id="k-copy">複製提示詞</button>
+        </div>
+        <textarea class="prompt-out" id="k-prompt" rows="14" aria-label="教學設計提示詞" placeholder="按「請設計提示詞」後會出現在這裡，可以再自行修改。"></textarea>
+        <div class="ai-links"><span class="muted">貼到：</span><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a><a href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a></div>
+      </div>
+    </div>
+  </section>
   <!-- 分頁 1 -->
-  <section class="panel" id="lookup" role="tabpanel" aria-labelledby="t-lookup">
+  <section class="panel" id="lookup" role="tabpanel" aria-labelledby="t-lookup" hidden>
     <h2>依領域・科目查學習重點</h2>
     <p class="panel-intro">選領域與科目，左欄是學習表現、右欄是學習內容。每條旁的綠色標籤是課綱附錄「呼應表參考示例」列出的領域核心素養；點「加入清單」可帶到評量與教學設計分頁使用。</p>
     <div class="box controls">
@@ -316,52 +390,6 @@ footer .disclaim{font-weight:700;background:var(--butter-soft);border:1px solid 
     </div>
   </section>
 
-  <!-- 分頁 5 -->
-  <section class="panel" id="methods" role="tabpanel" aria-labelledby="t-methods" hidden>
-    <h2>教學法靈感・提示詞</h2>
-    <p class="panel-intro">左邊是教學法卡片，依類別分色；點「加入組合器」最多選 3 種。右邊填好年級、科目與單元，按「請設計提示詞」，再複製到 AI 工具。</p>
-    <div class="methods-layout">
-      <div>
-        <div class="filters" id="m-filters"></div>
-        <div class="cards" id="m-cards"></div>
-      </div>
-      <div class="box stack composer" id="composer">
-        <strong>提示詞組合器</strong>
-        <div class="controls">
-          <label class="f">年級<select id="k-grade"><option>七年級</option><option>八年級</option><option>九年級</option></select></label>
-          <label class="f">領域<select id="k-domain"></select></label>
-          <label class="f">科目<select id="k-subject"></select></label>
-          <label class="f" id="k-sub3-wrap" hidden><span>語別</span><select id="k-sub3"></select></label>
-        </div>
-        <label class="f">單元主題<input type="text" id="k-unit" placeholder="例如：一元一次方程式的應用"></label>
-        <fieldset><legend class="f">教學時間</legend><div class="seg" id="k-time"></div></fieldset>
-        <div>
-          <div class="f muted" style="font-size:13px;font-weight:500">教學法（最多 3 種）<span id="k-mcount"></span></div>
-          <div class="sel-chips" id="k-methods"></div>
-        </div>
-        <div class="stack">
-          <div class="f muted" style="font-size:13px;font-weight:500">學習重點（最多 5 條）<span id="k-icount"></span></div>
-          <div class="sel-chips" id="k-items"></div>
-          <input type="search" id="k-iq" placeholder="搜尋本科學習重點後點選加入" aria-label="搜尋學習重點">
-          <div class="pick-list" id="k-ilist" style="max-height:200px"></div>
-        </div>
-        <details>
-          <summary class="muted" style="cursor:pointer">選填：班級人數、學生特質、可用設備</summary>
-          <div class="stack" style="margin-top:8px">
-            <label class="f">班級人數<input type="text" id="k-size" placeholder="例如：28 人"></label>
-            <label class="f">學生特質<input type="text" id="k-trait" placeholder="例如：程度落差大、喜歡動手做"></label>
-            <label class="f">可用設備<input type="text" id="k-device" placeholder="例如：每組一台平板、投影機"></label>
-          </div>
-        </details>
-        <div class="btn-row">
-          <button class="btn primary" id="k-make">請設計提示詞</button>
-          <button class="btn ghost" id="k-copy">複製提示詞</button>
-        </div>
-        <textarea class="prompt-out" id="k-prompt" rows="14" aria-label="教學設計提示詞" placeholder="按「請設計提示詞」後會出現在這裡，可以再自行修改。"></textarea>
-        <div class="ai-links"><span class="muted">貼到：</span><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a><a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a><a href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a></div>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer>
@@ -371,11 +399,10 @@ footer .disclaim{font-weight:700;background:var(--butter-soft);border:1px solid 
     <ul class="src-grid" id="src-list"></ul>
     <p class="disclaim">學習重點文字由課綱檔案整理，正式引用請以原檔為準。</p>
     <p class="muted">核心素養標籤只採用各領綱附錄一「學習重點與核心素養呼應表參考示例」所列對應；未列出者顯示「課綱未列對應」。數學含上標、根號的條目已依原檔畫面校正。資料整理日期：2026-11-21。</p>
-    <div class="credit">
-      <span>製作：Abby 陪你簡單用 AI｜@abby.ai.simple</span>
-      <a class="fb" href="https://www.facebook.com/abby.ai.simple" target="_blank" rel="noopener" aria-label="Abby 陪你簡單用 AI 的 Facebook">
-        <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path fill="#FFFFFF" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.9c0-.6.4-.9 1-.9z"/></svg>
-      </a>
+    <div class="abby-signature">
+      <div class="lk"><svg viewBox="0 0 64 64" width="48" height="48" aria-hidden="true"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg><div><div class="n1">Abby 陪你簡單用 AI</div><div class="n2">教師數位增能研習｜公部門 AI 培訓｜補習班數位教學陪跑</div></div></div>
+      <div class="side"><div class="tagline">一堂課，帶走明天就能用的 AI</div>
+        <a class="abby-fb" href="https://www.facebook.com/abby.ai.simple" target="_blank" rel="noopener" aria-label="前往 Abby 陪你簡單用 AI 的 Facebook 粉專"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.5-3.92 3.77-3.92 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V22c4.78-.79 8.45-4.94 8.45-9.94Z"/></svg></a></div>
     </div>
   </div>
 </footer>
@@ -579,7 +606,7 @@ function renderCompDetail(){
   $('#c-detail').innerHTML = `
     <div class="comp-head">
       <div class="box"><h4>${z.dim} ${esc(z.dimName)}｜${z.code} ${esc(z.name)}・總綱項目說明</h4><p>${esc(z.desc)}</p></div>
-      <div class="box" style="background:var(--sage-soft);border-color:#CFDDD4"><h4>國民中學教育 J-${z.code}</h4><p>${esc(z.j)}</p></div>
+      <div class="box" style="background:var(--sage-soft);border-color:var(--lav)"><h4>國民中學教育 J-${z.code}</h4><p>${esc(z.j)}</p></div>
     </div>
     <div class="tbl-wrap"><table><thead><tr><th style="width:120px">領域／科目</th><th style="width:110px">代碼</th><th>國中階段具體內涵</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
@@ -855,10 +882,10 @@ $('#k-make').addEventListener('click', ()=>{ $('#k-prompt').value = makeK(); toa
 $('#k-copy').addEventListener('click', ()=>{ if(!$('#k-prompt').value) $('#k-prompt').value = makeK(); copyText($('#k-prompt').value, $('#k-prompt')); });
 
 /* ---------- 分頁切換 ---------- */
-const TABS = ['lookup','competency','annotate','assess','methods'];
+const TABS = ['methods','lookup','competency','annotate','assess'];
 function showTab(){
   const h = location.hash.replace('#','');
-  const cur = TABS.includes(h) ? h : 'lookup';
+  const cur = TABS.includes(h) ? h : 'methods';
   TABS.forEach(t=>{ $('#'+t).hidden = t!==cur; $('#t-'+t).setAttribute('aria-selected', t===cur?'true':'false'); });
 }
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ location.hash = b.dataset.tab; window.scrollTo({top:0}); }));
