@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>備課技能設計攻略｜Abby 陪你簡單用 AI</title>
+<link rel="canonical" href="https://abbyaisimple.com/prep-skill/">
+<meta name="description" content="把重複的備課工作設計成 AI 技能：四個問題判斷值不值得做、五個零件、三個可直接複製的起手式與空白設計單。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2064%2064%22%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Ccircle%20cx%3D%2226.5%22%20cy%3D%2210.5%22%20r%3D%226.2%22%20fill%3D%22%233B3486%22/%3E%3Cpath%20d%3D%22M27.5%2024L15%2055%22%20stroke%3D%22%233B3486%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2240.8%22%20cy%3D%2216.5%22%20r%3D%224.6%22%20fill%3D%22%23B9B3E3%22/%3E%3Cpath%20d%3D%22M39.9%2027.8L49.5%2055%22%20stroke%3D%22%23B9B3E3%22%20stroke-width%3D%227.4%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M20.4%2041.5H44.7%22%20stroke%3D%22%23F4B48C%22%20stroke-width%3D%225%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Lexend:wght@400;600;700&display=swap">
+<style>
+/* 版面：單欄攻略頁。開頭痛點 → 四問自我檢核（可勾選）→ 五個零件 → 三個起手式（各附完整技能可複製）→ 設計單 → 建立方法 → 技能與專案 → 延伸閱讀 → 署名卡 */
+:root{
+  --indigo:#3B3486; --ink:#1C1F33; --apricot:#F4B48C; --apricot-deep:#A4552A;
+  --lav:#B9B3E3; --lav-soft:#E6E3F7; --apricot-soft:#FDE9DC; --muted:#5B5E73; --bg:#FFFFFF; --surface:#FFFFFF; --line:#DEDAEF; --code:#F6F5FB; --on-indigo:#FFFFFF;
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; --num:"Lexend","Noto Sans TC",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --indigo:#B9B3E3; --ink:#ECEAF5; --apricot-deep:#F4B48C; --muted:#B4B1C8; --bg:#16152A; --surface:#1F1D38; --line:#34315A; --code:#24223F; --lav-soft:#2A2750; --apricot-soft:#3A2A22; --on-indigo:#16152A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --indigo:#B9B3E3; --ink:#ECEAF5; --apricot-deep:#F4B48C; --muted:#B4B1C8; --bg:#16152A; --surface:#1F1D38; --line:#34315A; --code:#24223F; --lav-soft:#2A2750; --apricot-soft:#3A2A22; --on-indigo:#16152A; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.8}
+.wrap{max-width:880px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 64px;display:flex;flex-direction:column;gap:48px}
+header{display:flex;flex-direction:column;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;font-size:.9rem;color:var(--muted);font-weight:700;text-decoration:none}
+.eyebrow{font-size:.95rem;font-weight:700;color:var(--apricot-deep);letter-spacing:.04em}
+h1{margin:0;font-size:clamp(1.9rem,5.5vw,2.8rem);font-weight:900;color:var(--indigo);line-height:1.3;text-wrap:balance}
+.lead{margin:0;font-size:1.1rem;color:var(--muted);max-width:44em}
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:6px}
+@media (max-width:640px){.compare{grid-template-columns:1fr}}
+.compare div{border-radius:14px;padding:14px 18px;font-size:.98rem}
+.compare .before{background:var(--code);border:1px solid var(--line)}
+.compare .after{background:var(--lav-soft)}
+.compare b{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px}
+h2{margin:0 0 14px;font-size:1.5rem;font-weight:900;color:var(--indigo);display:flex;align-items:baseline;gap:12px;text-wrap:balance}
+h2 .n{font-family:var(--num);font-size:1rem;color:var(--apricot-deep);font-weight:700}
+h3{margin:0 0 6px;font-size:1.1rem;font-weight:900}
+p{margin:0 0 12px}
+.checks{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.checks label{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;cursor:pointer}
+.checks input{width:20px;height:20px;margin-top:5px;accent-color:var(--indigo);flex:none}
+.verdict{margin-top:12px;border-radius:12px;padding:12px 16px;font-weight:700;background:var(--code);color:var(--muted)}
+.verdict.go{background:var(--apricot-soft);color:var(--ink)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:560px;font-size:.96rem}
+th,td{padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--lav-soft);font-weight:700}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:900;white-space:nowrap;color:var(--indigo)}
+.note{background:var(--apricot-soft);border-radius:12px;padding:12px 16px;font-size:.97rem;margin-top:14px}
+.note strong{color:var(--apricot-deep)}
+.starters{display:flex;flex-direction:column;gap:18px}
+.starter{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.starter .top{padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.starter .use{font-size:.95rem;color:var(--muted)}
+.parts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:.95rem;margin-top:4px}
+@media (max-width:640px){.parts{grid-template-columns:1fr}}
+.parts span b{color:var(--indigo);margin-right:6px}
+details{border-top:1px solid var(--line)}
+summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--indigo);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"＋ "}
+details[open] summary::before{content:"－ "}
+.copybox{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--code)}
+details .copybox{border:0;border-top:1px solid var(--line);border-radius:0}
+.copybar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--surface)}
+.copybar span{font-size:.88rem;color:var(--muted);font-weight:700}
+pre{margin:0;padding:14px 18px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--font);font-size:.95rem;line-height:1.75}
+.btn{border:0;border-radius:999px;padding:6px 16px;font:inherit;font-size:.88rem;font-weight:700;cursor:pointer;background:var(--indigo);color:var(--on-indigo)}
+.btn:focus-visible,.checks input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--apricot);outline-offset:2px}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:10px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:32px minmax(0,1fr);gap:10px;align-items:start}
+ol.steps li::before{content:counter(s);font-family:var(--num);font-weight:700;width:28px;height:28px;border-radius:50%;background:var(--lav-soft);color:var(--indigo);display:grid;place-items:center;font-size:.9rem;margin-top:3px}
+b.ui{background:var(--lav-soft);color:var(--indigo);border-radius:6px;padding:0 6px;font-weight:700}
+.more{display:flex;flex-wrap:wrap;gap:10px}
+.more a{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--indigo);color:var(--indigo);border-radius:999px;padding:6px 16px;font-weight:700;text-decoration:none}
+.muted{color:var(--muted);font-size:.93rem}
+.sig{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;border-top:1px solid var(--line);padding-top:22px}
+.sig .lk{display:flex;align-items:center;gap:10px}
+.sig .n1{font-weight:900;color:var(--indigo)}
+.sig .n2{font-size:.82rem;color:var(--muted)}
+.sig .side{display:flex;align-items:center;gap:10px;font-weight:700}
+.sig a svg{width:22px;height:22px;fill:var(--indigo)}
+</style>
+
+<div class="wrap">
+  <header>
+    <a class="brand" href="https://abbyaisimple.com/">
+      <svg viewBox="0 0 64 64" width="28" height="28" role="img" aria-label="Abby 陪你簡單用 AI"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg>
+      Abby 陪你簡單用 AI
+    </a>
+    <div class="eyebrow">AI 協作備課</div>
+    <h1>備課技能設計攻略：把重複的備課工作，變成一叫就來的助手</h1>
+    <p class="lead">AI 很會產出，但每次交出來的格式、語氣、深淺都不太一樣，老師只好一次又一次重打同一段要求。把這段要求設計成「技能」存起來，下次只要打一句主題。</p>
+    <div class="compare">
+      <div class="before"><b>沒有技能</b>每次重打：「請用國小三年級的語言、表格呈現、記得加迷思概念、提問分三層、不要編課綱代碼……」</div>
+      <div class="after"><b>有了技能</b>只打一句：「主題：水的三態，國小三年級，40 分鐘。」其他要求，技能都記得。</div>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span>什麼事值得做成技能？</h2>
+    <p>勾勾看，<strong>符合兩項以上</strong>就值得做：</p>
+    <ul class="checks" id="checks">
+      <li><label for="q1"><input type="checkbox" id="q1">這件事每個單元、每次段考都會做一次。</label></li>
+      <li><label for="q2"><input type="checkbox" id="q2">我希望每次交出來的格式都一樣，可以直接貼進教案或學習單。</label></li>
+      <li><label for="q3"><input type="checkbox" id="q3">我希望同學年、同領域的夥伴也用同一套標準。</label></li>
+      <li><label for="q4"><input type="checkbox" id="q4">我願意用幾次之後再調整，讓它越用越順。</label></li>
+    </ul>
+    <div class="verdict" id="verdict" aria-live="polite">勾選上面的問題，看看這件事適不適合做成技能。</div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span>技能的五個零件</h2>
+    <p>寫技能不用會寫程式，只要回答五個問題。最重要的能力，是把「我到底要什麼樣的成品」說清楚。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>零件</th><th>要回答的問題</th><th>例子</th></tr></thead>
+      <tbody>
+        <tr><td>角色</td><td>你要它當誰？</td><td>一位熟悉台灣課綱、懂分層提問的備課夥伴</td></tr>
+        <tr><td>任務</td><td>每次要它做什麼事？</td><td>依我給的條件，設計一堂課的教學流程</td></tr>
+        <tr><td>情境</td><td>它要先知道什麼？</td><td>我教的學段、班級狀況、學校教案格式；缺的先問我</td></tr>
+        <tr><td>格式</td><td>交出來長什麼樣子？</td><td>表格：時間｜環節｜提問｜學生做什麼｜怎麼知道學會了</td></tr>
+        <tr><td>規則</td><td>有什麼一定不能做？</td><td>不編課綱代碼、沒給的寫「待老師確認」、不放學生個資</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><strong>「規則」是老師的把關：</strong>AI 負責產出與整理，判斷與把關還是老師。把你最在意的紅線寫進規則，每次都不用再提醒。</div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span>三個起手式：選一個先做</h2>
+    <p>不用一開始就做一套大系統。先挑一個你每週都會用到的，用三次，就知道值不值得。</p>
+    <div class="starters">
+      <article class="starter">
+        <div class="top">
+          <h3>① 備課夥伴</h3>
+          <p class="use">適合：每次設計一堂課，都想要一份完整的教學流程。</p>
+          <div class="parts"><span><b>角色</b>熟悉課綱的備課夥伴</span><span><b>任務</b>依條件排一堂課，並回頭檢查</span><span><b>情境</b>學段、班級狀況、教案格式</span><span><b>格式</b>教學流程表</span></div>
+        </div>
+        <details><summary>展開完整技能（可複製）</summary>
+          <div class="copybox"><div class="copybar"><span>備課夥伴</span><button class="btn" type="button" data-copy="s1">複製</button></div>
+<pre id="s1">【名稱】備課夥伴
+【什麼時候用】我要設計一堂課、需要一份教學流程時。
+
+【角色】
+你是一位熟悉台灣十二年國教課綱、懂分層提問的備課夥伴。我是【幼兒園／國小／國中】老師。
+
+【任務】
+每次我給你一個主題，幫我設計一堂課的教學流程，設計完自己回頭檢查一次。
+
+【情境】
+開始前先檢查我有沒有給齊這六項，缺的先問我，一次最多問 3 題：
+① 單元或主題、學習目標原文（我從課綱或課本抄的）
+② 學生狀況（人數、程度、需要協助的孩子）
+③ 這堂課最重要的一件事
+④ 上課時間、想要的活動方式
+⑤ 手邊材料和設備
+⑥ 想用的檢核方式
+
+【格式】
+用表格：時間｜環節（引起動機／發展活動／綜合活動）｜老師提問（分記得、理解、應用三層）｜學生做什麼｜怎麼知道學生學會了。
+另外列出：可能的迷思概念與破解方式、時間不夠先刪哪一段、回頭檢查時改了哪幾處。
+
+【規則】
+・用台灣繁體中文和台灣老師平常的說法；幼兒園用主題、團討、學習區的說法。
+・不要自己編課綱代碼或條文，我沒給就寫「請老師對照課綱原文」。
+・我沒給的條件寫「待老師確認」，不要猜。
+・不要放學生姓名、照片或任何個資。</pre></div>
+        </details>
+      </article>
+
+      <article class="starter">
+        <div class="top">
+          <h3>② 三版本任務設計師</h3>
+          <p class="use">適合：班上程度落差大，同一個目標想做出不同難度的任務。</p>
+          <div class="parts"><span><b>角色</b>擅長差異化的課程設計者</span><span><b>任務</b>同一目標做出三個程度的任務</span><span><b>情境</b>班上常見卡點、需要協助的孩子</span><span><b>格式</b>基礎／標準／挑戰三欄表格</span></div>
+        </div>
+        <details><summary>展開完整技能（可複製）</summary>
+          <div class="copybox"><div class="copybar"><span>三版本任務設計師</span><button class="btn" type="button" data-copy="s2">複製</button></div>
+<pre id="s2">【名稱】三版本任務設計師
+【什麼時候用】我想把同一個學習目標，做成三個不同程度的任務時。
+
+【角色】
+你是一位擅長差異化教學的課程設計者。我是【幼兒園／國小／國中】老師。
+
+【任務】
+依我給的學習目標，設計基礎、標準、挑戰三個版本的任務，三個版本都要練到同一個目標。
+
+【情境】
+開始前先確認：學習目標原文、年級、班上常見的卡點、需要較多協助的孩子人數。缺的先問我。
+可以調整的地方包括：指令長度、閱讀量、圖像提示、操作步驟、作答方式（說、畫、寫）。
+
+【格式】
+最上面寫「學習目標」與「適用對象」。
+接著用三欄表格：基礎｜標準｜挑戰，每欄包含任務說明、給學生的提示、完成標準。
+最後用一句話說明：三個版本怎麼確保練的是同一件事。
+
+【規則】
+・挑戰版是「想得更深」，不是「題目更多」。
+・不要自己編課綱代碼；我沒給的條件寫「待老師確認」。
+・不要放學生姓名或可辨識個人的資料。</pre></div>
+        </details>
+      </article>
+
+      <article class="starter">
+        <div class="top">
+          <h3>③ 迷思概念診斷題</h3>
+          <p class="use">適合：學生一錯再錯的觀念，想知道他們到底怎麼想。</p>
+          <div class="parts"><span><b>角色</b>擅長找出學生錯誤想法的評量專家</span><span><b>任務</b>出診斷題，錯誤選項附錯因與追問</span><span><b>情境</b>年級、核心概念、現場常見錯誤</span><span><b>格式</b>題目＋逐選項錯因＋追問句＋補救建議</span></div>
+        </div>
+        <details><summary>展開完整技能（可複製）</summary>
+          <div class="copybox"><div class="copybar"><span>迷思概念診斷題</span><button class="btn" type="button" data-copy="s3">複製</button></div>
+<pre id="s3">【名稱】迷思概念診斷題
+【什麼時候用】我想針對一個學生常錯的觀念，出幾題能看出錯誤想法的題目時。
+
+【角色】
+你是一位擅長找出學生迷思概念的教學評量專家。
+
+【任務】
+依我給的概念，設計 3 題選擇題。每個錯誤選項都要對應一種真實的錯誤想法。
+
+【情境】
+開始前先確認：年級、核心概念、我在課堂上看到的常見錯誤。缺的先問我。
+
+【格式】
+每題包含：題目｜四個選項｜每個錯誤選項代表的錯誤想法｜選這個選項的學生，老師可以怎麼追問｜補救教學建議。
+
+【規則】
+・錯誤選項要來自學生真的會有的想法，不要編看起來就很荒謬的選項。
+・題目用該年級學生看得懂的字。
+・不要自己編課綱代碼；我沒給的條件寫「待老師確認」。</pre></div>
+        </details>
+        <p class="muted" style="padding:0 18px 14px;margin:0">例：國小學生常把熱水上面的「白煙」當成水蒸氣。把這個想法設計成誘答選項，再附追問句「白白的東西摸起來是乾的還是濕的？」，答錯就變成補救教學的線索。</p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span>我的技能設計單</h2>
+    <p>挑一件你每週都在做的事，照這張填完，就是你自己的技能。</p>
+    <div class="copybox"><div class="copybar"><span>技能設計單（空白）</span><button class="btn" type="button" data-copy="sheet">複製</button></div>
+<pre id="sheet">【名稱】＿＿＿＿＿
+【什麼時候用】我在＿＿＿＿＿的時候
+【角色】請你當一位＿＿＿＿＿
+【任務】每次我給你＿＿＿，你幫我做出＿＿＿
+【情境】你要先知道＿＿＿＿＿；缺的先問我
+【格式】交出來要長這樣：＿＿＿＿＿
+【規則】不要＿＿＿＿＿；我沒給的寫「待老師確認」；不放學生個資</pre></div>
+    <div class="note"><strong>不想自己寫？</strong>先用白話跟 AI 說你想要什麼，再請它「整理成可以直接貼進技能的指令」。</div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span>把技能存起來</h2>
+    <ol class="steps">
+      <li><div>在你常用的 AI 工具裡，找到「技能」或「自訂」的設定頁，按「建立」。</div></li>
+      <li><div>「名稱」填技能名稱，「說明」填【什麼時候用】那一句，「指令」貼上整份內容。</div></li>
+      <li><div>開新對話叫出技能，只打一句主題，例如<b class="ui">主題：水的三態，國小三年級，40 分鐘</b>。</div></li>
+      <li><div>看結果哪裡不對，就回到技能補一句。用三次，技能就會越來越合你的意。</div></li>
+    </ol>
+    <div class="note"><strong>最快的做法：</strong>直接對 AI 說「請根據以下內容幫我建立一個技能」，再貼上內容。很多工具會自己幫你建好。</div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span>技能和專案，可以一起用</h2>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>技能</th><th>專案</th></tr></thead>
+      <tbody>
+        <tr><td>一句話</td><td>一套「做事的方法」</td><td>一個「備課資料夾」</td></tr>
+        <tr><td>適合</td><td>一直重複的做法：排教案、出學習單、寫家長通知</td><td>一直會用到的資料：課本、班級狀況、學校教案格式</td></tr>
+        <tr><td>怎麼用</td><td>在對話裡叫出技能，再打一句主題</td><td>進到專案裡開新對話</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted" style="margin-top:10px">最省力的做法：開一個單元專案，在裡面叫出備課技能。目前 Gemini 沒有「專案」的概念，只能用技能。</p>
+  </section>
+
+  <section>
+    <h2><span class="n">07</span>延伸閱讀</h2>
+    <div class="more">
+      <a href="https://abbyaisimple.com/lesson-prep-core/">備課的六大核心環節 →</a>
+      <a href="https://abbyaisimple.com/kindergarten-curriculum/">幼兒園課綱活動對照 →</a>
+      <a href="https://abbyaisimple.com/elementary-curriculum/">國小課綱教學對照 →</a>
+      <a href="https://abbyaisimple.com/junior-high-curriculum/">國中課綱教學對照 →</a>
+    </div>
+  </section>
+
+  <footer class="sig">
+    <div class="lk">
+      <svg viewBox="0 0 64 64" width="40" height="40" role="img" aria-label="Abby 陪你簡單用 AI"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg>
+      <div><div class="n1">Abby 陪你簡單用 AI</div><div class="n2">教師數位增能研習｜公部門 AI 培訓｜補習班數位教學陪跑</div></div>
+    </div>
+    <div class="side">一堂課，帶走明天就能用的 AI
+      <a href="https://www.facebook.com/abby.ai.simple" target="_blank" rel="noopener" aria-label="前往 Abby 陪你簡單用 AI 的 Facebook 粉專"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.5-3.92 3.77-3.92 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V22c4.78-.79 8.45-4.94 8.45-9.94Z"/></svg></a>
+    </div>
+  </footer>
+</div>
+
+<script>
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-copy]"); if(!b) return;
+  const el = document.getElementById(b.dataset.copy);
+  try{ await navigator.clipboard.writeText(el.textContent); b.textContent = "已複製"; }
+  catch(_){ const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "已選取，按 Ctrl+C"; }
+  setTimeout(()=>{ b.textContent = "複製"; }, 2000);
+});
+const v = document.getElementById("verdict");
+document.getElementById("checks").addEventListener("change", () => {
+  const n = document.querySelectorAll("#checks input:checked").length;
+  v.className = "verdict" + (n >= 2 ? " go" : "");
+  v.textContent = n === 0 ? "勾選上面的問題，看看這件事適不適合做成技能。"
+    : n >= 2 ? `符合 ${n} 項：很適合做成技能，往下挑一個起手式開始。`
+    : "目前符合 1 項：可以先用一般對話，等它變成固定工作再做成技能。";
+});
+</script>
+
+</body>
+</html>
