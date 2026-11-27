@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-Hant-TW" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>差異化教學 AI 工具箱｜Abby 陪你簡單用 AI</title>
+<meta name="description" content="AI 備課實戰第 2 堂學員帶走版：幼教／國小／國中三個差異化小幫手、五步驟精選提示詞、工具索引與使用紅線。">
+<link rel="canonical" href="https://abbyaisimple.com/differentiation-ai/toolbox/">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../assets/abby-app-icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* 學員帶走版：一頁捲動，總覽 → 三個機器人 → 五步驟精選提示詞 → 工具索引 → 紅線 → 署名卡 */
+:root{
+  --bg:#FFFFFF; --soft:#F6F5FC; --lav:#E6E3F7; --lav2:#B9B3E3; --indigo:#3B3486; --ink:#1C1F33; --ink2:#4A4E66;
+  --line:#E2E0EF; --apricot:#F4B48C; --apricot-d:#E39A6E; --card:#FFFFFF;
+  --f-zh:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; --f-num:"Lexend","Noto Sans TC",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15172A; --soft:#1D2036; --lav:#2A2B4D; --lav2:#6F68B8; --indigo:#C9C4F0; --ink:#ECEBF7; --ink2:#B3B5C9;
+  --line:#2F3250; --apricot:#F4B48C; --apricot-d:#E39A6E; --card:#1A1C31; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15172A; --soft:#1D2036; --lav:#2A2B4D; --lav2:#6F68B8; --indigo:#C9C4F0; --ink:#ECEBF7; --ink2:#B3B5C9;
+  --line:#2F3250; --apricot:#F4B48C; --apricot-d:#E39A6E; --card:#1A1C31; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-zh);font-size:16px;line-height:1.75;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:900px;margin:0 auto;padding-block:36px 60px;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-size:clamp(1.6rem,4.5vw,2.3rem);font-weight:900;color:var(--indigo);line-height:1.3}
+h2{font-size:1.35rem;font-weight:900;color:var(--indigo);margin-bottom:14px}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0}
+.eyebrow{font-size:.85rem;color:var(--ink2);letter-spacing:.06em}
+.lead{color:var(--ink2);max-width:62ch}
+header{display:flex;flex-direction:column;gap:12px}
+.brandrow{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--indigo)}
+.brandrow svg{width:34px;height:34px}
+.big{background:var(--lav);border-radius:16px;padding:20px 22px;display:flex;flex-direction:column;gap:10px}
+.big .core{font-size:1.25rem;font-weight:900;color:var(--indigo)}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:720px){.grid3,.grid4{grid-template-columns:1fr 1fr}}
+@media (max-width:460px){.grid3,.grid4{grid-template-columns:1fr}}
+.tile{background:var(--soft);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.tile b{color:var(--indigo)}
+.tile span{font-size:.92rem;color:var(--ink2)}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:560px){.tiers{grid-template-columns:1fr}}
+.tier{border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
+.tier b{display:block;color:var(--indigo)}
+.tier span{font-size:.92rem;color:var(--ink2)}
+.bots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:720px){.bots{grid-template-columns:1fr}}
+.bot{border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;min-width:0}
+.bot .qr{background:#FFFFFF;padding:8px;border-radius:8px;width:152px;height:152px;display:grid;place-items:center}
+.bot a{color:var(--indigo);font-weight:700;word-break:break-all}
+.bot .ask{font-size:.9rem;color:var(--ink2);text-align:left}
+.step{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:18px}
+.step .head{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.step .num{font-family:var(--f-num);font-weight:700;color:var(--indigo)}
+.step .tool{font-size:.85rem;background:var(--lav);color:var(--indigo);border-radius:999px;padding:2px 10px}
+.howto{margin:0;padding-left:1.2em;color:var(--ink2);font-size:.95rem}
+.prompt{position:relative;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 16px}
+.prompt pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--f-zh);font-size:.93rem;line-height:1.7;color:var(--ink)}
+.copy{position:absolute;top:10px;right:10px;font:inherit;font-size:.85rem;font-weight:700;background:var(--apricot-d);color:#1C1F33;border:0;border-radius:999px;padding:4px 14px;cursor:pointer}
+.copy:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+.prompt pre{padding-right:64px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{background:var(--soft);color:var(--ink2);font-size:.85rem}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;color:var(--indigo);white-space:nowrap}
+.red{border-left:4px solid var(--apricot);background:var(--soft);border-radius:0 12px 12px 0;padding:14px 18px}
+.red ul{margin:6px 0 0;padding-left:1.2em}
+.abby-signature{display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--lav);border-radius:16px;padding:24px;flex-wrap:wrap}
+.abby-signature .lk{display:flex;align-items:center;gap:12px}
+.abby-signature .lk svg{width:48px;height:48px;flex:none}
+.abby-signature .n1{font-weight:900;font-size:18px;line-height:1.25;color:var(--ink)}
+.abby-signature .n2{font-size:14px;color:var(--ink2)}
+.abby-signature .tagline{font-weight:700;color:var(--indigo);font-size:15px}
+.abby-signature .side{display:flex;align-items:center;gap:6px}
+.abby-fb{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--indigo)}
+.abby-fb svg{width:24px;height:24px;fill:currentColor}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-size:.9rem}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+
+<header>
+  <div class="brandrow"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg>Abby 陪你簡單用 AI</div>
+  <div class="eyebrow">AI 備課實戰｜第 2 堂　2026-11-29</div>
+  <h1>差異化教學 × AI 工具箱（學員帶走版）</h1>
+  <p class="lead">今天走過的路徑、三個免登入的差異化小幫手，和每一步一則可以直接複製的提示詞。〔 〕裡換成你自己的內容就能用。</p>
+</header>
+
+<section>
+  <h2>一張圖看懂</h2>
+  <div class="big">
+    <div class="core">目標不動，調到達方式</div>
+    <p>全班練同一個核心目標，差的是支持、路徑和展現方式。不是讓學生「少做一點」，進階也不是「多加幾題」。</p>
+  </div>
+  <h3 style="margin:18px 0 10px">先看學生：三個面向</h3>
+  <div class="grid3">
+    <div class="tile"><b>能力起點</b><span>距離目標還差多少先備，是會變動的狀態，不是標籤</span></div>
+    <div class="tile"><b>興趣</b><span>讓學生願意投入的題材、情境、真實問題</span></div>
+    <div class="tile"><b>學習需求</b><span>語言背景、特教需求、參與條件；給全班多元選擇，不貼「視覺型／聽覺型」標籤</span></div>
+  </div>
+  <h3 style="margin:18px 0 10px">老師可以調：四個面向</h3>
+  <div class="grid4">
+    <div class="tile"><b>內容</b><span>學什麼材料：難度、閱讀量、圖像提示</span></div>
+    <div class="tile"><b>過程</b><span>怎麼學：鷹架、指令長度、操作步驟、分組</span></div>
+    <div class="tile"><b>成果</b><span>怎麼展現：說、畫、寫、做（回答方式）</span></div>
+    <div class="tile"><b>環境</b><span>在什麼條件下學：座位、動線、安心感</span></div>
+  </div>
+  <h3 style="margin:18px 0 10px">三層任務的名稱</h3>
+  <div class="tiers">
+    <div class="tier"><b>基礎鷹架</b><span>多給支持，目標不降</span></div>
+    <div class="tier"><b>核心達標</b><span>大多數學生的主任務</span></div>
+    <div class="tier"><b>進階延伸</b><span>加深思考，不是加題數</span></div>
+  </div>
+  <p style="margin-top:10px;color:var(--ink2);font-size:.93rem">給學生看的任務卡用中性名稱，例如太陽組、月亮組、星星組，或任務 A、B、C。</p>
+</section>
+
+<section>
+  <h2>三個差異化小幫手（免登入）</h2>
+  <p style="margin-bottom:14px;color:var(--ink2)">不知道該調哪個面向、不會寫提示詞都沒關係。描述你的班級，聊 2～3 則，就會拿到差異化設計藍圖、工具建議和三則可以直接貼給 AI 的提示詞。</p>
+  <div class="bots">
+    <div class="bot"><h3>幼教版</h3><div class="qr" id="qr-y"></div><a href="https://app.edcafe.ai/join/ERdzv5JuX1q6ooaNRmffG5yx5Jl7WAmn-dxhcoImgZpHpgd2f8lnLTxXfDD9F8y7" target="_blank" rel="noopener">開啟幼教版</a><p class="ask">可以這樣問：「大班要做故事排序，有的孩子排三張就很吃力，有的已經會自己編故事。」</p></div>
+    <div class="bot"><h3>國小版</h3><div class="qr" id="qr-e"></div><a href="https://app.edcafe.ai/join/0abwbZhFUPijSb7ifGfCe9rpGisDFtob9xwc87rdhflHpgd2f8lnLTxXfDD9F8y7" target="_blank" rel="noopener">開啟國小版</a><p class="ask">可以這樣問：「四年級國語要教一篇說明文，班上閱讀程度落差很大。」</p></div>
+    <div class="bot"><h3>國中版</h3><div class="qr" id="qr-j"></div><a href="https://app.edcafe.ai/join/zF5lBbgitv3mmEcGs--AyOuppaMiRemSIfhNuH8UQw1Hpgd2f8lnLTxXfDD9F8y7" target="_blank" rel="noopener">開啟國中版</a><p class="ask">可以這樣問：「八年級要做資料判讀，有人看到表格就放棄，有人很快看完。」</p></div>
+  </div>
+  <p style="margin-top:10px;color:var(--ink2);font-size:.9rem">請不要輸入學生姓名、成績、照片或特教資料，用代號就好。</p>
+</section>
+
+<section>
+  <h2>今天的路徑與精選提示詞</h2>
+
+  <div class="step">
+    <div class="head"><span class="num">1</span><h3>內容＋鷹架：同一篇文章，三種難度</h3><span class="tool">Diffit</span></div>
+    <ol class="howto">
+      <li>貼上文章或輸入主題，語言選繁體中文，選年級程度。</li>
+      <li>產生分級短文，連同詞彙表、提問、延伸問題一起出來。</li>
+      <li>換年級再產生一次，就有不同難度的版本；免費版可下載 PDF、列印、分享，紀錄保留 90 天。</li>
+      <li>一定要核對：台灣用語、事實與答案。</li>
+    </ol>
+  </div>
+
+  <div class="step">
+    <div class="head"><span class="num">2</span><h3>過程：有引導問題版 vs 自主分析版</h3><span class="tool">Gemini／ChatGPT</span></div>
+    <div class="prompt"><button class="copy" type="button">複製</button><pre>我是〔年級〕〔科目〕老師，以下是一份〔資料表或文本〕，請幫我做成兩個版本的任務單。
+
+共同核心目標：〔例如：學生能從表格讀出數據、比較差異，並用資料支持一個說法〕
+
+版本一「有引導問題版」：用 5～6 個由淺到深的引導問題，帶學生一步一步完成，每題留作答空間。
+版本二「自主分析版」：不給步驟，只給任務與一份簡短的自我檢查清單。
+另外給我：兩版共用的評分規準（3 個向度、各 3 級，用看得到的表現描述）和教師參考答案。
+給學生看的版本名稱用「任務 A／任務 B」，不要寫「基礎」「進階」。
+請用繁體中文、台灣用語，數字請自己驗算。
+
+〔貼上資料〕</pre></div>
+  </div>
+
+  <div class="step">
+    <div class="head"><span class="num">3</span><h3>幼教：故事排序三個版本</h3><span class="tool">Gemini＋Canva</span></div>
+    <div class="prompt"><button class="copy" type="button">複製</button><pre>我是幼兒園〔班別〕老師，要做「故事排序」活動。請幫我寫一個原創小故事〈〔故事名稱〕〉，分成 4 個場景。
+
+請給我三個版本：
+1. 三張圖卡版：開頭、中間、結尾三張，每張一句老師引導語，並寫出全班「一起說」的句型。
+2. 四張圖卡版：四個場景各一句引導語，孩子排好後用「先……然後……接著……最後……」說一次。
+3. 口說接龍版：排完四張後，輪流接一句新的結局；寫出「○○說」的輪流提示，讓不敢說的孩子可以先指圖或跟著說。
+
+每個場景再給一段生圖用的畫面描述（風格一致、畫面乾淨、不要文字）。
+請用台灣幼兒園用語。給孩子的組別用中性名稱（例如太陽組、月亮組、星星組）。</pre></div>
+    <p style="font-size:.92rem;color:var(--ink2)">生好的圖放進 Canva 排成圖卡，可以再用 Canva 修改顏色、加框、調整大小。孩子不直接使用生成式 AI，由老師準備好教材。</p>
+  </div>
+
+  <div class="step">
+    <div class="head"><span class="num">4</span><h3>形成性評量：測完抓弱點，回調下一節</h3><span class="tool">Edcafe 測驗＋Gemini</span></div>
+    <div class="prompt"><button class="copy" type="button">複製</button><pre>以下是〔年級〕〔單元〕形成性評量的去識別化結果（代號、各題答對率、常見錯誤選項）：
+〔貼上結果〕
+
+請幫我：
+1. 找出全班 2～3 個共同弱點，說明錯在哪裡、可能的迷思。
+2. 依弱點重調下一節課：基礎鷹架要補什麼支持、核心達標的任務怎麼改、進階延伸給答對率高的學生什麼新挑戰（不能只是加題數）。
+3. 給我下一節課開頭 5 分鐘的暖身檢核題 1 題。
+只根據作答資料，不要推測學生的家庭或能力原因。</pre></div>
+    <p style="font-size:.92rem;color:var(--ink2)">幼教不考測驗：把代號觀察簡記貼給 AI，請它整理共同缺口、調整下週學習區的圖卡與引導語，只根據紀錄、不推測、不診斷。</p>
+  </div>
+
+  <div class="step">
+    <div class="head"><span class="num">5</span><h3>最後把關：有沒有對齊同一個核心目標</h3><span class="tool">同一個對話框</span></div>
+    <div class="prompt"><button class="copy" type="button">複製</button><pre>請你當我的差異化教學審查夥伴，檢查你上面做的版本。
+核心目標：〔貼上核心目標〕
+
+請用表格逐項回答：
+1. 每個版本是否都練到同一個核心目標？哪一句可以證明？
+2. 基礎鷹架有沒有偷偷降低目標？還是只是多給支持？
+3. 進階延伸是不是只加題數或篇幅？有沒有真的加深思考（比較、推理、說明理由、應用）？
+4. 每個版本用了哪一種課程調整（例如活動簡化、素材調整、隱性支持、提示卡、分段提問、成果形式選擇）？
+5. 有沒有不像台灣用語、可能有錯的事實、數字或課綱代碼？
+最後給我需要修改的地方（最多 3 點），不要重寫整份。</pre></div>
+    <p style="font-size:.92rem;color:var(--ink2)">AI 把關之後，最後一關還是你：核對台灣用語、答案、課綱代碼與安全。</p>
+  </div>
+</section>
+
+<section>
+  <h2>工具索引</h2>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>工具</th><th>今天用在哪裡</th><th>費用與帳號</th><th>注意</th></tr></thead>
+    <tbody>
+      <tr><td>Edcafe 小幫手</td><td>先梳理班級狀況，拿到藍圖與提示詞</td><td>學員免登入</td><td>不輸入個資；建議與事實要核對</td></tr>
+      <tr><td>Diffit</td><td>同一篇文本做分級版本、詞彙、提問</td><td>老師註冊；免費版可下載 PDF、列印、分享，保留 90 天</td><td>學生不需登入；匯出 Google／Canva 為學校方案</td></tr>
+      <tr><td>Gemini／ChatGPT</td><td>兩版任務單、分組建議、回調、最後把關</td><td>老師帳號</td><td>學生自行使用前，確認各服務年齡規定與學校帳號設定</td></tr>
+      <tr><td>NotebookLM</td><td>同一篇文本轉成語音摘要，換一種形式接觸內容</td><td>老師帳號</td><td>只放可以分享的教材，不上傳整本教科書</td></tr>
+      <tr><td>Canva</td><td>把 AI 生的圖排成三張、四張圖卡</td><td>免費版可用；部分 AI 功能有次數限制</td><td>確認圖片使用權</td></tr>
+      <tr><td>Edcafe 測驗</td><td>貼文章快速出形成性評量</td><td>老師帳號</td><td>存檔時改成私人；題目與答案要核對</td></tr>
+      <tr><td>小白板／Plickers</td><td>沒有學生裝置時的課堂檢核</td><td>Plickers 免費版有題數限制，以官網為準</td><td>老師用一支手機掃學生紙卡</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <div class="red">
+    <h3>四條紅線</h3>
+    <ul>
+      <li>學生姓名、成績、IEP、照片、正式段考卷，不放進公用 AI。</li>
+      <li>幼兒不直接使用生成式 AI，由老師準備好再帶到活動。</li>
+      <li>幼教不做讀寫算的精熟學習單，用操作、遊戲和生活經驗。</li>
+      <li>教科書不整本上傳；AI 產出的事實、答案、課綱代碼一律由老師核對。</li>
+    </ul>
+  </div>
+</section>
+
+<div class="abby-signature">
+  <div class="lk"><svg viewBox="0 0 64 64" width="48" height="48" aria-hidden="true"><circle cx="26.5" cy="10.5" r="6.2" fill="#3B3486"/><path d="M27.5 24L15 55" stroke="#3B3486" stroke-width="9" stroke-linecap="round"/><circle cx="40.8" cy="16.5" r="4.6" fill="#B9B3E3"/><path d="M39.9 27.8L49.5 55" stroke="#B9B3E3" stroke-width="7.4" stroke-linecap="round"/><path d="M20.4 41.5H44.7" stroke="#F4B48C" stroke-width="5" stroke-linecap="round"/></svg><div><div class="n1">Abby 陪你簡單用 AI</div><div class="n2">教師數位增能研習｜公部門 AI 培訓｜補習班數位教學陪跑</div></div></div>
+  <div class="side"><div class="tagline">一堂課，帶走明天就能用的 AI</div><a class="abby-fb" href="https://www.facebook.com/abby.ai.simple" target="_blank" rel="noopener" aria-label="前往 Abby 陪你簡單用 AI 的 Facebook 粉專"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.5-3.92 3.77-3.92 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V22c4.78-.79 8.45-4.94 8.45-9.94Z"/></svg></a></div>
+</div>
+
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  var links={"qr-y":"https://app.edcafe.ai/join/ERdzv5JuX1q6ooaNRmffG5yx5Jl7WAmn-dxhcoImgZpHpgd2f8lnLTxXfDD9F8y7","qr-e":"https://app.edcafe.ai/join/0abwbZhFUPijSb7ifGfCe9rpGisDFtob9xwc87rdhflHpgd2f8lnLTxXfDD9F8y7","qr-j":"https://app.edcafe.ai/join/zF5lBbgitv3mmEcGs--AyOuppaMiRemSIfhNuH8UQw1Hpgd2f8lnLTxXfDD9F8y7"};
+  Object.keys(links).forEach(function(id){
+    try{ new QRCode(document.getElementById(id),{text:links[id],width:136,height:136,colorDark:"#1C1F33",colorLight:"#FFFFFF",correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
+  });
+  var toast=document.getElementById('toast');
+  function show(msg){toast.textContent=msg;toast.hidden=false;clearTimeout(show.t);show.t=setTimeout(function(){toast.hidden=true;},1600);}
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var text=btn.parentElement.querySelector('pre').innerText;
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){show('已複製');},function(){selectText(btn);});
+      } else { selectText(btn); }
+    });
+  });
+  function selectText(btn){var pre=btn.parentElement.querySelector('pre');var r=document.createRange();r.selectNodeContents(pre);var s=getSelection();s.removeAllRanges();s.addRange(r);show('已選取，請按複製');}
+})();
+</script>
+
+</body>
+</html>
